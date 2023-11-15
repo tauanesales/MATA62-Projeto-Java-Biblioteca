@@ -7,10 +7,10 @@ endif
 default: clean compile run
 
 run:
-	java -cp ./out/ Programa
+	java -cp ./out/ Console/Programa
 
 compile:
-	javac -cp ./src/ ./src/*.java -d "./out"
+	javac -cp ./src/ ./src/Console/*.java -d "./out"
 
 clean:
 	$(RM)

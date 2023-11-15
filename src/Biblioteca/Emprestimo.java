@@ -1,6 +1,10 @@
-package TrabalhoEngSoft;
+package Biblioteca;
 
-class Emprestimo {
+import java.util.Date;
+
+import Usuarios.Usuario;
+
+public class Emprestimo {
     private Livro livro;
     private Usuario usuario;
     private Date dataSolicitacao;
@@ -50,4 +54,3 @@ class Emprestimo {
                 '}';
     }
 }
-

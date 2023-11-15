@@ -1,4 +1,11 @@
-package TrabalhoEngSoft;
+package Console;
+
+import Biblioteca.Biblioteca;
+import Biblioteca.Livro;
+import Usuarios.Aluno;
+import Usuarios.AlunoGraduacao;
+import Usuarios.AlunoPosGraduacao;
+import Usuarios.Professor;
 
 public class Programa {
     public static void main(String[] args) {
