@@ -1,9 +1,13 @@
-package TrabalhoEngSoft;
+package Biblioteca;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-class Biblioteca {
+import Usuarios.Usuario;
+
+public class Biblioteca {
     private List<Usuario> usuarios;
     private List<Livro> livros;
     private List<Emprestimo> emprestimos;

@@ -1,18 +1,18 @@
-package TrabalhoEngSoft;
+package Biblioteca;
 
-class Livro {
-    private int codigo;
+public class Livro implements ILivro {
+    private int codigo_identificador;
     private String titulo;
     private boolean disponivel;
 
-    public Livro(int codigo, String titulo) {
-        this.codigo = codigo;
+    public Livro(int codigo_identificador, String titulo) {
+        this.codigo_identificador = codigo_identificador;
         this.titulo = titulo;
         this.disponivel = true;
     }
 
     public int getCodigo() {
-        return codigo;
+        return codigo_identificador;
     }
 
     public String getTitulo() {
