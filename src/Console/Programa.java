@@ -1,35 +1,9 @@
 package Console;
 
-import Biblioteca.Biblioteca;
-import Biblioteca.Livro;
-import Usuarios.Aluno;
-import Usuarios.AlunoGraduacao;
-import Usuarios.AlunoPosGraduacao;
-import Usuarios.Professor;
+import Testes.Testes;
 
 public class Programa {
     public static void main(String[] args) {
-        Biblioteca biblioteca = new Biblioteca();
-
-        Aluno aluno = new Aluno(1, "João");
-        AlunoGraduacao alunoGrad = new AlunoGraduacao(2, "Maria");
-        AlunoPosGraduacao alunoPosGrad = new AlunoPosGraduacao(3, "Carlos");
-        Professor professor = new Professor(4, "Ana");
-
-        Livro livro1 = new Livro(101, "Teste 1");
-        Livro livro2 = new Livro(102, "Teste 2");
-
-        biblioteca.adicionarUsuario(aluno);
-        biblioteca.adicionarUsuario(alunoGrad);
-        biblioteca.adicionarUsuario(alunoPosGrad);
-        biblioteca.adicionarUsuario(professor);
-
-        biblioteca.adicionarLivro(livro1);
-        biblioteca.adicionarLivro(livro2);
-
-        biblioteca.realizarEmprestimo(1, 101);
-        biblioteca.realizarEmprestimo(2, 101);
-        biblioteca.realizarEmprestimo(3, 102);
-        biblioteca.realizarEmprestimo(4, 102);
+        Testes.TesteBasico();
     }
 }
