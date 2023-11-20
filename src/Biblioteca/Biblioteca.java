@@ -5,45 +5,46 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import BancoDeDados.IBancoDeDados;
 import Usuarios.Usuario;
 
 public class Biblioteca {
-    private List<Usuario> usuarios;
-    private List<Livro> livros;
-    private List<Emprestimo> emprestimos;
+    IBancoDeDados bancoDeDados;
 
-    public Biblioteca() {
-        this.usuarios = new ArrayList<Usuario>();
-        this.livros = new ArrayList<Livro>();
-        this.emprestimos = new ArrayList<Emprestimo>();
+    public Biblioteca(IBancoDeDados bancoDeDados) {
+        this.bancoDeDados = bancoDeDados;
     }
 
-    public void adicionarUsuario(Usuario usuario) {
-        usuarios.add(usuario);
-    }
-
-    public void adicionarLivro(Livro livro) {
-        livros.add(livro);
+    public void adicionar(IEntidadeBiblioteca object) {
+        this.bancoDeDados.add(object);
     }
 
     public void realizarEmprestimo(int codigoUsuario, int codigoLivro) {
         Usuario usuario = encontrarUsuario(codigoUsuario);
-        Livro livro = encontrarLivro(codigoLivro);
+        if (usuario == null) {
+            System.out.println("Usuário não encontrado.");
+            return;
+        }
+        Exemplar exemplar = (Exemplar) bancoDeDados.getFirtById(Exemplar.class, codigoLivro);
+        if (exemplar == null) {
+            System.out.println("Livro não encontrado.");
+            return;
+        }
 
-        if (usuario != null && livro != null && livro.isDisponivel() && !temAtraso(usuario)) {
+        if (usuario != null && exemplar != null && exemplar.isDisponivel() && !temAtraso(usuario)) {
             Date dataSolicitacao = new Date();
             Date dataDevolucao = calcularDataDevolucao();
 
-            Emprestimo emprestimo = new Emprestimo(livro, usuario, dataSolicitacao, dataDevolucao);
-            emprestimos.add(emprestimo);
-            livro.setDisponivel(false);
+            Emprestimo emprestimo = new Emprestimo(exemplar, usuario, dataSolicitacao, dataDevolucao);
+            this.bancoDeDados.add(emprestimo);
+            exemplar.setDisponivel(false);
             System.out.println("Empréstimo realizado com sucesso para " + usuario.getNome() +
-                    " - Livro: " + livro.getTitulo() +
+                    " - Livro: " + exemplar.getTitulo() +
                     " - Devolução até: " + formatarData(dataDevolucao));
         } else {
             System.out.println("Não foi possível realizar o empréstimo para " + usuario.getNome() +
-                    " - Livro: " + livro.getTitulo() +
-                    (livro.isDisponivel() ? " Livro indisponível." : "") +
+                    " - Livro: " + exemplar.getTitulo() +
+                    (exemplar.isDisponivel() ? " Livro indisponível." : "") +
                     (temAtraso(usuario) ? " Usuário com atraso em devolução." : ""));
         }
     }
@@ -63,9 +64,10 @@ public class Biblioteca {
 
     private List<Emprestimo> obterEmprestimosPorUsuario(Usuario usuario) {
         List<Emprestimo> emprestimosUsuario = new ArrayList<>();
-        for (Emprestimo emprestimo : emprestimos) {
-            if (emprestimo.getUsuario().equals(usuario)) {
-                emprestimosUsuario.add(emprestimo);
+        List<? extends IEntidadeBiblioteca> entidades = bancoDeDados.getAll(Emprestimo.class);
+        for (IEntidadeBiblioteca entidade : entidades) {
+            if (entidade instanceof Emprestimo && ((Emprestimo) entidade).getUsuario().equals(usuario)) {
+                emprestimosUsuario.add((Emprestimo) entidade);
             }
         }
         return emprestimosUsuario;
@@ -84,20 +86,10 @@ public class Biblioteca {
     }
 
     private Usuario encontrarUsuario(int codigoUsuario) {
-        for (Usuario usuario : usuarios) {
-            if (usuario.getCodigo() == codigoUsuario) {
-                return usuario;
-            }
-        }
-        return null;
+        return (Usuario) bancoDeDados.getFirtById(Usuario.class, codigoUsuario);
     }
 
-    private Livro encontrarLivro(int codigoLivro) {
-        for (Livro livro : livros) {
-            if (livro.getCodigo() == codigoLivro) {
-                return livro;
-            }
-        }
-        return null;
+    private Exemplar encontrarExemplar(int codigoExemplar) {
+        return (Exemplar) bancoDeDados.getExemplar(codigoExemplar);
     }
 }
