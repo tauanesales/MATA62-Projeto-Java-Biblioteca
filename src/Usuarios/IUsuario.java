@@ -1,7 +1,7 @@
 package Usuarios;
 
-public interface IUsuario {
-    public int getCodigo();
+import Biblioteca.IEntidadeBiblioteca;
 
+public interface IUsuario extends IEntidadeBiblioteca {
     public String getNome();
 }

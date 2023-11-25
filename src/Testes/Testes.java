@@ -2,6 +2,7 @@ package Testes;
 
 import java.util.List;
 
+import BancoDeDados.BancoDeDados;
 import Biblioteca.Biblioteca;
 import Biblioteca.Exemplar;
 import Biblioteca.Livro;
@@ -12,23 +13,23 @@ import Usuarios.Professor;
 
 public class Testes {
         public static void TesteBasico() {
-                Biblioteca biblioteca = new Biblioteca();
+                Biblioteca biblioteca = new Biblioteca(new BancoDeDados());
 
                 Aluno aluno = new Aluno(1, "João");
                 AlunoGraduacao alunoGrad = new AlunoGraduacao(2, "Maria");
                 AlunoPosGraduacao alunoPosGrad = new AlunoPosGraduacao(3, "Carlos");
                 Professor professor = new Professor(4, "Ana");
 
-                Livro livro1 = new Livro(101, "Teste 1", "Editora 1", "Autor 1", "1ª", "2001");
-                Livro livro2 = new Livro(102, "Teste 2", "Editora 2", "Autor 2", "2ª", "2002");
+                Exemplar livro1 = new Exemplar(101, 1, "Teste 1", "Editora 1", "Autor 1", "1ª", "2001");
+                Exemplar livro2 = new Exemplar(102, 2, "Teste 2", "Editora 2", "Autor 2", "2ª", "2002");
 
-                biblioteca.adicionarUsuario(aluno);
-                biblioteca.adicionarUsuario(alunoGrad);
-                biblioteca.adicionarUsuario(alunoPosGrad);
-                biblioteca.adicionarUsuario(professor);
+                biblioteca.adicionar(aluno);
+                biblioteca.adicionar(alunoGrad);
+                biblioteca.adicionar(alunoPosGrad);
+                biblioteca.adicionar(professor);
 
-                biblioteca.adicionarLivro(livro1);
-                biblioteca.adicionarLivro(livro2);
+                biblioteca.adicionar(livro1);
+                biblioteca.adicionar(livro2);
 
                 biblioteca.realizarEmprestimo(1, 101);
                 biblioteca.realizarEmprestimo(2, 101);
@@ -37,7 +38,7 @@ public class Testes {
         }
 
         public static void TesteDoPDF() {
-                Biblioteca biblioteca = new Biblioteca();
+                Biblioteca biblioteca = new Biblioteca(new BancoDeDados());
 
                 List<Aluno> alunos = List.of(
                                 new AlunoGraduacao(123, "João da Silva"),
@@ -53,7 +54,8 @@ public class Testes {
                                 new Exemplar(101, 3, "UML - Guia do Usuário", "Campus",
                                                 "Grady Booch, James Rumbaugh, Ivar Jacobson", "7ª",
                                                 "2000"),
-                                new Exemplar(200, 4, "Code Complete", "Microsoft Press", "Steve McConnell", "2ª", "2014"),
+                                new Exemplar(200, 4, "Code Complete", "Microsoft Press", "Steve McConnell", "2ª",
+                                                "2014"),
                                 new Exemplar(201, 5, "Agile Software Development, Principles, Patterns and Practices",
                                                 "Prentice Hall",
                                                 "Robert Martin", "1ª", "2002"),
@@ -78,12 +80,12 @@ public class Testes {
                                                 "Addison-Wesley Professional", "Martin Fowler", "3ª", "2003"));
 
                 for (Aluno aluno : alunos) {
-                        biblioteca.adicionarUsuario(aluno);
+                        biblioteca.adicionar(aluno);
                 }
-                biblioteca.adicionarUsuario(professor);
+                biblioteca.adicionar(professor);
 
                 for (Livro livro : livros) {
-                        biblioteca.adicionarLivro(livro);
+                        biblioteca.adicionar(livro);
                 }
 
                 // biblioteca.realizarEmprestimo(1, 101);
