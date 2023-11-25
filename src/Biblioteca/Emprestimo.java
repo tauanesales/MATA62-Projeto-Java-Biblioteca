@@ -4,12 +4,13 @@ import java.util.Date;
 
 import Usuarios.Usuario;
 
-public class Emprestimo {
+public class Emprestimo implements IEntidadeBiblioteca {
     private Livro livro;
     private Usuario usuario;
     private Date dataSolicitacao;
     private Date dataDevolucao;
     private boolean devolvido;
+    private int codigo;
 
     public Emprestimo(Livro livro, Usuario usuario, Date dataSolicitacao, Date dataDevolucao) {
         this.livro = livro;
@@ -52,5 +53,9 @@ public class Emprestimo {
                 ", dataDevolucao=" + dataDevolucao +
                 ", devolvido=" + devolvido +
                 '}';
+    }
+
+    public int getCodigo() {
+        return codigo;
     }
 }

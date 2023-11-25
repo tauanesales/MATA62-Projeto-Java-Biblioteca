@@ -1,8 +1,6 @@
 package Biblioteca;
 
-public interface ILivro {
-    public int getCodigo();
-
+public interface ILivro extends IEntidadeBiblioteca {
     public String getTitulo();
 
     public String getEditora();
@@ -12,8 +10,4 @@ public interface ILivro {
     public String getEdicao();
 
     public String getAnoPublicacao();
-
-    public boolean isDisponivel();
-
-    public void setDisponivel(boolean disponivel);
 }
