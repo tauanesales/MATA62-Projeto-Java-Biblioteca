@@ -19,7 +19,6 @@ import TRABALHO.Usuarios.Professor;
 import TRABALHO.Usuarios.Usuario;
 
 public class MyORMTest {
-
         private static SistemaBiblioteca biblioteca;
 
         private static Aluno aluno;
@@ -90,7 +89,6 @@ public class MyORMTest {
                                 .forEach(dado -> MyORM.add(dado));
 
                 livros.stream().forEach(livro -> MyORM.add(livro));
-
         }
 
         @Test
@@ -159,6 +157,5 @@ public class MyORMTest {
                         Assert.assertEquals(livro.getEdicao(), response.getEdicao());
                         Assert.assertEquals(livro.getAnoPublicacao(), response.getAnoPublicacao());
                 }
-
         }
 }
