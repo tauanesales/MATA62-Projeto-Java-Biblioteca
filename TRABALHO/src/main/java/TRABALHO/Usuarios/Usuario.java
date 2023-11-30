@@ -1,12 +1,12 @@
-package Usuarios;
+package TRABALHO.Usuarios;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import BancoDeDados.MyORM;
-import SistemaBiblioteca.Emprestimo;
-import SistemaBiblioteca.IEntidadeBiblioteca;
+import TRABALHO.BancoDeDados.MyORM;
+import TRABALHO.SistemaBiblioteca.Emprestimo;
+import TRABALHO.SistemaBiblioteca.IEntidadeBiblioteca;
 
 public class Usuario implements IUsuario {
     private int codigo_identificador;
@@ -62,6 +62,10 @@ public class Usuario implements IUsuario {
 
     public boolean atingiuLimiteMaximoDeEmprestimos() {
         return this.emprestimosAbertos() >= this.maxEmprestimos();
+    }
+
+    public long tempoDeEmprestimoMaximo() {
+        return 0;
     }
 
 }

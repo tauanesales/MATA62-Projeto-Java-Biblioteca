@@ -1,9 +1,9 @@
-package Usuarios;
+package TRABALHO.Usuarios;
 
 import java.util.List;
 
-import SistemaBiblioteca.Emprestimo;
-import SistemaBiblioteca.IEntidadeBiblioteca;
+import TRABALHO.SistemaBiblioteca.Emprestimo;
+import TRABALHO.SistemaBiblioteca.IEntidadeBiblioteca;
 
 public interface IUsuario extends IEntidadeBiblioteca {
     public String getNome();
@@ -17,4 +17,6 @@ public interface IUsuario extends IEntidadeBiblioteca {
     public int maxEmprestimos();
 
     public boolean atingiuLimiteMaximoDeEmprestimos();
+
+    public long tempoDeEmprestimoMaximo();
 }

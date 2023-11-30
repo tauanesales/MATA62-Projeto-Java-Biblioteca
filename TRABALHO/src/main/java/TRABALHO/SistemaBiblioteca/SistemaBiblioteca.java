@@ -1,11 +1,11 @@
-package SistemaBiblioteca;
+package TRABALHO.SistemaBiblioteca;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import BancoDeDados.MyORM;
-import Console.Mensagens;
-import Usuarios.Usuario;
+import TRABALHO.BancoDeDados.MyORM;
+import TRABALHO.Console.Mensagens;
+import TRABALHO.Usuarios.Usuario;
 
 public class SistemaBiblioteca {
     public void realizarEmprestimo(int codigoUsuario, int codigoLivro) {
@@ -41,21 +41,11 @@ public class SistemaBiblioteca {
             return;
         }
 
-        Date dataSolicitacao = new Date();
-        Date dataDevolucao = calcularDataDevolucao();
-
-        Emprestimo emprestimo = new Emprestimo(exemplar, usuario, dataSolicitacao, dataDevolucao);
+        Emprestimo emprestimo = new Emprestimo(exemplar, usuario);
         MyORM.add(emprestimo);
-        exemplar.setDisponivel(false);
-        System.out.println(prefixoSucesso + " Devolução até: " + formatarData(dataDevolucao));
 
-    }
+        System.out.println(prefixoSucesso + " Devolução até: " + formatarData(emprestimo.getDataDevolucao()));
 
-    private Date calcularDataDevolucao() {
-        // Adiciona 7 dias à data atual para obter a data de devolução
-        long milissegundosPorDia = 24 * 60 * 60 * 1000;
-        Date dataAtual = new Date();
-        return new Date(dataAtual.getTime() + 7 * milissegundosPorDia);
     }
 
     private String formatarData(Date data) {

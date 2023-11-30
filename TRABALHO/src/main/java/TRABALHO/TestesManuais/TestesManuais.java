@@ -1,18 +1,17 @@
-package Testes;
+package TRABALHO.TestesManuais;
 
 import java.util.List;
 
-import BancoDeDados.MyORM;
-import SistemaBiblioteca.SistemaBiblioteca;
-import SistemaBiblioteca.Exemplar;
-import SistemaBiblioteca.IEntidadeBiblioteca;
-import SistemaBiblioteca.Livro;
-import Usuarios.Aluno;
-import Usuarios.AlunoGraduacao;
-import Usuarios.AlunoPosGraduacao;
-import Usuarios.Professor;
+import TRABALHO.BancoDeDados.MyORM;
+import TRABALHO.SistemaBiblioteca.SistemaBiblioteca;
+import TRABALHO.SistemaBiblioteca.Exemplar;
+import TRABALHO.SistemaBiblioteca.Livro;
+import TRABALHO.Usuarios.Aluno;
+import TRABALHO.Usuarios.AlunoGraduacao;
+import TRABALHO.Usuarios.AlunoPosGraduacao;
+import TRABALHO.Usuarios.Professor;
 
-public class Testes {
+public class TestesManuais {
         public static void TesteBasico() {
                 SistemaBiblioteca biblioteca = new SistemaBiblioteca();
 
@@ -27,15 +26,6 @@ public class Testes {
                 List.of(aluno, alunoGrad, alunoPosGrad, professor, livro1, livro2)
                                 .stream()
                                 .forEach(dado -> MyORM.add(dado));
-
-                biblioteca.realizarEmprestimo(0, 1001);
-                biblioteca.realizarEmprestimo(1, 1);
-                biblioteca.realizarEmprestimo(1, 1001);
-                biblioteca.realizarEmprestimo(2, 1001);
-                biblioteca.realizarEmprestimo(2, 1001);
-                biblioteca.realizarEmprestimo(3, 1001);
-                biblioteca.realizarEmprestimo(3, 1002);
-                biblioteca.realizarEmprestimo(4, 1002);
 
                 List<Livro> livros = List.of(
                                 new Exemplar(100, 1, "Engenharia de Software", "AddisonWesley", "Ian Sommerville", "6ª",
@@ -70,6 +60,16 @@ public class Testes {
                                                 "UML Distilled: A Brief Guide to the Standard Object Modeling Language",
                                                 "Addison-Wesley Professional", "Martin Fowler", "3ª", "2003"));
                 livros.stream().forEach(livro -> MyORM.add(livro));
+
+                biblioteca.realizarEmprestimo(0, 1001);
+                biblioteca.realizarEmprestimo(1, 1);
+                biblioteca.realizarEmprestimo(1, 1001);
+                biblioteca.realizarEmprestimo(2, 1001);
+                biblioteca.realizarEmprestimo(2, 1001);
+                biblioteca.realizarEmprestimo(3, 1001);
+                biblioteca.realizarEmprestimo(3, 1002);
+                biblioteca.realizarEmprestimo(4, 1002);
+                biblioteca.realizarEmprestimo(4, 101);
 
                 biblioteca.realizarEmprestimo(3, 100);
                 biblioteca.realizarEmprestimo(3, 100);

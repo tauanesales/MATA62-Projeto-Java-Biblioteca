@@ -1,4 +1,4 @@
-package Usuarios;
+package TRABALHO.Usuarios;
 
 public class AlunoGraduacao extends Aluno {
     public AlunoGraduacao(int codigo_identificador, String nome) {
@@ -7,5 +7,9 @@ public class AlunoGraduacao extends Aluno {
 
     public int maxEmprestimos() {
         return 3;
+    }
+
+    public long tempoDeEmprestimoMaximo() {
+        return 3 * 24 * 60 * 60 * 1000; // 3 dias em milissegundos;
     }
 }

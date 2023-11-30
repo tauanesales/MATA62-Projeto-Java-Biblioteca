@@ -1,7 +1,7 @@
-package Console;
+package TRABALHO.Console;
 
-import SistemaBiblioteca.ILivro;
-import Usuarios.IUsuario;
+import TRABALHO.SistemaBiblioteca.ILivro;
+import TRABALHO.Usuarios.IUsuario;
 
 public class Mensagens {
     private static String delimiter = " | ";

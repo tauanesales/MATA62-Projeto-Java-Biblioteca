@@ -1,25 +1,25 @@
-package SistemaBiblioteca;
+package TRABALHO.SistemaBiblioteca;
 
 public class Livro implements ILivro {
-    private int codigo_identificador;
+    private int codigoLivro;
     private String titulo;
     private String editora;
     private String autores;
     private String edicao;
-    private String ano_da_publicacao;
+    private String anoDaPublicacao;
 
-    public Livro(int codigo_identificador, String titulo, String editora, String autores, String edicao,
-            String ano_da_publicacao) {
-        this.codigo_identificador = codigo_identificador;
+    public Livro(int codigoLivro, String titulo, String editora, String autores, String edicao,
+            String anoDaPublicacao) {
+        this.codigoLivro = codigoLivro;
         this.titulo = titulo;
         this.editora = editora;
         this.autores = autores;
         this.edicao = edicao;
-        this.ano_da_publicacao = ano_da_publicacao;
+        this.anoDaPublicacao = anoDaPublicacao;
     }
 
     public int getCodigo() {
-        return codigo_identificador;
+        return codigoLivro;
     }
 
     public String getTitulo() {
@@ -39,6 +39,6 @@ public class Livro implements ILivro {
     }
 
     public String getAnoPublicacao() {
-        return ano_da_publicacao;
+        return anoDaPublicacao;
     }
 }

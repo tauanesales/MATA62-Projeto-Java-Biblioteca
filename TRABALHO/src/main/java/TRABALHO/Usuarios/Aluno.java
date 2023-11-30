@@ -1,4 +1,4 @@
-package Usuarios;
+package TRABALHO.Usuarios;
 
 public class Aluno extends Usuario {
     public Aluno(int codigo_identificador, String nome) {

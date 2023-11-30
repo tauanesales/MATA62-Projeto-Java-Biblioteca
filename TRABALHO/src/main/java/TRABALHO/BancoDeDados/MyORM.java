@@ -1,14 +1,14 @@
-package BancoDeDados;
+package TRABALHO.BancoDeDados;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import SistemaBiblioteca.Exemplar;
-import SistemaBiblioteca.IEntidadeBiblioteca;
-import SistemaBiblioteca.Livro;
-import Usuarios.Usuario;
+import TRABALHO.SistemaBiblioteca.Exemplar;
+import TRABALHO.SistemaBiblioteca.IEntidadeBiblioteca;
+import TRABALHO.SistemaBiblioteca.Livro;
+import TRABALHO.Usuarios.Usuario;
 
 public class MyORM implements IBancoDeDados {
   // private HashMap<Class<? extends IEntidadeBiblioteca>, List<? extends
@@ -66,9 +66,9 @@ public class MyORM implements IBancoDeDados {
     return MyORM.getFirtById(Livro.class, codigoLivro);
   }
 
-  public static Exemplar getExemplar(int codigoExemplar) {
+  public static Exemplar getExemplar(int codigoExemplar, int codigoLivro) {
     return getAll(Exemplar.class).stream()
-        .filter(exemplar -> exemplar.getCodigo() == codigoExemplar)
+        .filter(exemplar -> exemplar.getCodigoExemplar() == codigoExemplar && exemplar.getCodigo() == codigoLivro)
         .findFirst()
         .orElse(null);
   }
