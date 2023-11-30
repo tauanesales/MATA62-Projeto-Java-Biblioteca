@@ -6,14 +6,28 @@ import SistemaBiblioteca.Exemplar;
 import SistemaBiblioteca.IEntidadeBiblioteca;
 
 public interface IBancoDeDados {
-    public boolean add(IEntidadeBiblioteca object);
+    public static boolean add(IEntidadeBiblioteca object) {
+        // Add implementation here
+        return false; // Placeholder return statement
+    }
 
-    public List<? extends IEntidadeBiblioteca> getAll(Class<? extends IEntidadeBiblioteca> tabela);
+    public static List<? extends IEntidadeBiblioteca> getAll(Class<? extends IEntidadeBiblioteca> tabela) {
+        // Add implementation here
+        return null; // Placeholder return statement
+    }
 
-    public IEntidadeBiblioteca getFirtById(Class<? extends IEntidadeBiblioteca> tabela, int id);
+    public static IEntidadeBiblioteca getFirtById(Class<? extends IEntidadeBiblioteca> tabela, int id) {
+        // Add implementation here
+        return null; // Placeholder return statement
+    }
 
-    public IEntidadeBiblioteca[] getAllById(Class<? extends IEntidadeBiblioteca> tabela, int id);
+    public static IEntidadeBiblioteca[] getAllById(Class<? extends IEntidadeBiblioteca> tabela, int id) {
+        // Add implementation here
+        return null; // Placeholder return statement
+    }
 
-    public Exemplar getExemplar(int codigoExemplar);
-
+    public static Exemplar getExemplar(int codigoExemplar) {
+        // Add implementation here
+        return null; // Placeholder return statement
+    }
 }

@@ -9,58 +9,53 @@ import SistemaBiblioteca.IEntidadeBiblioteca;
 
 public class BancoDeDados implements IBancoDeDados {
   // private HashMap<Class<? extends IEntidadeBiblioteca>, List<? extends
-  // IEntidadeBiblioteca>> dados;
+  // IEntidadeBiblioteca>> bancoDeDados;
 
-  // public BancoDeDados() {
-  // this.dados = new HashMap<Class<? extends IEntidadeBiblioteca>, List<? extends
+  // public static BancoDeDados() {
+  // this.bancoDeDados = new HashMap<Class<? extends IEntidadeBiblioteca>, List<? extends
   // IEntidadeBiblioteca>>();
   // }
+  private static HashMap<Class<? extends IEntidadeBiblioteca>, List<IEntidadeBiblioteca>> bancoDeDados = new HashMap<Class<? extends IEntidadeBiblioteca>, List<IEntidadeBiblioteca>>();
 
-  private HashMap<Class<? extends IEntidadeBiblioteca>, List<IEntidadeBiblioteca>> dados;
-
-  public BancoDeDados() {
-    this.dados = new HashMap<Class<? extends IEntidadeBiblioteca>, List<IEntidadeBiblioteca>>();
-  }
-
-  public boolean add(IEntidadeBiblioteca object) {
-    if (!dados.containsKey(object.getClass())) {
-      dados.put(object.getClass(), new ArrayList<IEntidadeBiblioteca>());
+  public static boolean add(IEntidadeBiblioteca object) {
+    if (!bancoDeDados.containsKey(object.getClass())) {
+      bancoDeDados.put(object.getClass(), new ArrayList<IEntidadeBiblioteca>());
     }
-    return dados.get(object.getClass()).add(object);
+    return bancoDeDados.get(object.getClass()).add(object);
   }
 
-  public void printDados() {
-    for (Class<? extends IEntidadeBiblioteca> key : dados.keySet()) {
-      List<IEntidadeBiblioteca> values = dados.get(key);
+  public static void printDados() {
+    for (Class<? extends IEntidadeBiblioteca> key : bancoDeDados.keySet()) {
+      List<IEntidadeBiblioteca> values = bancoDeDados.get(key);
       System.out.println("Key: " + key.getSimpleName());
       System.out.println("Values: " + values);
     }
   }
 
-  public List<? extends IEntidadeBiblioteca> getAll(Class<? extends IEntidadeBiblioteca> T) {
+  public static List<? extends IEntidadeBiblioteca> getAll(Class<? extends IEntidadeBiblioteca> T) {
     List<IEntidadeBiblioteca> result = new ArrayList<>();
-    for (Class<? extends IEntidadeBiblioteca> key : dados.keySet()) {
+    for (Class<? extends IEntidadeBiblioteca> key : bancoDeDados.keySet()) {
       if (T.isAssignableFrom(key)) {
-        result.addAll(dados.get(key));
+        result.addAll(bancoDeDados.get(key));
       }
     }
     return result;
   }
 
-  public IEntidadeBiblioteca getFirtById(Class<? extends IEntidadeBiblioteca> tabela, int id) {
-    return this.getAll(tabela).stream()
+  public static IEntidadeBiblioteca getFirtById(Class<? extends IEntidadeBiblioteca> tabela, int id) {
+    return BancoDeDados.getAll(tabela).stream()
         .filter(entidade -> entidade.getCodigo() == id)
         .findFirst()
         .orElse(null);
   }
 
-  public IEntidadeBiblioteca[] getAllById(Class<? extends IEntidadeBiblioteca> tabela, int id) {
-    return this.getAll(tabela).stream()
+  public static IEntidadeBiblioteca[] getAllById(Class<? extends IEntidadeBiblioteca> tabela, int id) {
+    return BancoDeDados.getAll(tabela).stream()
         .filter(entidade -> entidade.getCodigo() == id)
         .toArray(IEntidadeBiblioteca[]::new);
   }
 
-  public Exemplar getExemplar(int codigoExemplar) {
+  public static Exemplar getExemplar(int codigoExemplar) {
     return (Exemplar) getAll(Exemplar.class).stream()
         .filter(exemplar -> exemplar.getCodigo() == codigoExemplar)
         .findFirst()

@@ -13,7 +13,7 @@ import Usuarios.Professor;
 
 public class Testes {
         public static void TesteBasico() {
-                SistemaBiblioteca biblioteca = new SistemaBiblioteca(new BancoDeDados());
+                SistemaBiblioteca biblioteca = new SistemaBiblioteca();
 
                 Aluno aluno = new Aluno(1, "João");
                 AlunoGraduacao alunoGrad = new AlunoGraduacao(2, "Maria");
@@ -40,7 +40,7 @@ public class Testes {
         }
 
         public static void TesteDoPDF() {
-                SistemaBiblioteca biblioteca = new SistemaBiblioteca(new BancoDeDados());
+                SistemaBiblioteca biblioteca = new SistemaBiblioteca();
 
                 List<Aluno> alunos = List.of(
                                 new AlunoGraduacao(123, "João da Silva"),
