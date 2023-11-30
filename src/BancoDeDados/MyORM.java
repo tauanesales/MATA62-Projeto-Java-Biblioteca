@@ -3,6 +3,7 @@ package BancoDeDados;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import SistemaBiblioteca.Exemplar;
 import SistemaBiblioteca.IEntidadeBiblioteca;
@@ -39,7 +40,9 @@ public class MyORM implements IBancoDeDados {
     List<T> result = new ArrayList<>();
     for (Class<? extends IEntidadeBiblioteca> key : bancoDeDados.keySet()) {
       if (entityType.isAssignableFrom(key)) {
-        result.addAll((List<T>) bancoDeDados.get(key));
+        List<? extends IEntidadeBiblioteca> entities = bancoDeDados.get(key);
+        result.addAll(entities.stream().map(entityType::cast).collect(Collectors.toList()));
+
       }
     }
     return result;
