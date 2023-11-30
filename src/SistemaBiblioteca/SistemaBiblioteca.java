@@ -1,4 +1,4 @@
-package Biblioteca;
+package SistemaBiblioteca;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -6,14 +6,15 @@ import java.util.Date;
 import java.util.List;
 
 import BancoDeDados.IBancoDeDados;
+import Usuarios.Aluno;
 import Usuarios.AlunoGraduacao;
 import Usuarios.AlunoPosGraduacao;
 import Usuarios.Usuario;
 
-public class Biblioteca {
+public class SistemaBiblioteca {
     IBancoDeDados bancoDeDados;
 
-    public Biblioteca(IBancoDeDados bancoDeDados) {
+    public SistemaBiblioteca(IBancoDeDados bancoDeDados) {
         this.bancoDeDados = bancoDeDados;
     }
 
@@ -33,8 +34,8 @@ public class Biblioteca {
             return;
         }
 
-        string prefixoSucesso = "Empréstimo realizado com sucesso para " + usuario.getNome() + " - Livro: " + exemplar.getTitulo();
-        string prefixoErro = "Não foi possível realizar o empréstimo para " + usuario.getNome() + " - Livro: " + exemplar.getTitulo();
+        String prefixoSucesso = "Empréstimo realizado com sucesso para " + usuario.getNome() + " - Livro: " + exemplar.getTitulo();
+        String prefixoErro = "Não foi possível realizar o empréstimo para " + usuario.getNome() + " - Livro: " + exemplar.getTitulo();
 
         boolean atrasado = temAtraso(usuario);
 

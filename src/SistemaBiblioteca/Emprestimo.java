@@ -1,4 +1,4 @@
-package Biblioteca;
+package SistemaBiblioteca;
 
 import java.util.Date;
 
