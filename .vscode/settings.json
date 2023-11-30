@@ -3,8 +3,7 @@
     "./lib/*.jar"
   ],
   "java.project.sourcePaths": [
-    "src",
-    "test"
+    "TRABALHO"
   ],
-  "java.project.outputPath": "out"
+  "java.project.outputPath": "TRABALHO\\target\\classes\\TRABALHO"
 }

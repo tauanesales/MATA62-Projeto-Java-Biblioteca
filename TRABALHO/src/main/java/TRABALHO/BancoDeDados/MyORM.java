@@ -42,7 +42,6 @@ public class MyORM implements IBancoDeDados {
       if (entityType.isAssignableFrom(key)) {
         List<? extends IEntidadeBiblioteca> entities = bancoDeDados.get(key);
         result.addAll(entities.stream().map(entityType::cast).collect(Collectors.toList()));
-
       }
     }
     return result;

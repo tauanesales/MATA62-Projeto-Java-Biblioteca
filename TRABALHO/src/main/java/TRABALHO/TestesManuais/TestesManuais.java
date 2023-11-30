@@ -83,7 +83,7 @@ public class TestesManuais {
         }
 
         public static void TesteDoPDF() {
-                SistemaBiblioteca biblioteca = new SistemaBiblioteca();
+                // SistemaBiblioteca biblioteca = new SistemaBiblioteca();
 
                 List<Aluno> alunos = List.of(
                                 new AlunoGraduacao(123, "João da Silva"),
