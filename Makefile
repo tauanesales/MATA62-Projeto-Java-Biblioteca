@@ -1,19 +1,27 @@
 ifeq ($(OS),Windows_NT)
-	RM := if exist ".\out" (rmdir /s /q ".\out")
+	RM := if exist "TRABALHO\target\classes\TRABALHO" (rmdir /s /q "TRABALHO\target\classes\TRABALHO")
 else
-	RM := rm -rf '.\out'
+	RM := rm -rf 'TRABALHO\target\classes\TRABALHO'
 endif
 
-default: clean compile run
+default: test
 
-run:
-	java -cp ./out/ Console/Programa
+run: compile
+	java -cp ./TRABALHO/target/classes/ TRABALHO/App
 
-compile:
-	javac -cp ./src/ ./src/Console/*.java -d "./out"
+compile: clean
+	javac -cp ./TRABALHO/src/main/java/ ./TRABALHO/src/main/java/TRABALHO/App.java -d "./TRABALHO/target/classes"
 
 clean:
 	$(RM)
 
+test: clean
+	mvn -f TRABALHO\pom.xml test
+
+# Might be needed before running make test.
+install-maven-dependencies:
+	mvn -f TRABALHO\pom.xml clean install
+
 install-java-windows:
-	choco install -y openjdk
+	choco install -y openjdk --version=11.0.1 --allow-downgrade
+	choco install -y maven --version=3.9.5 --allow-downgrade

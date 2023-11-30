@@ -1,30 +1,37 @@
-package SistemaBiblioteca;
+package TRABALHO.SistemaBiblioteca;
 
 import java.util.Date;
 
-import Usuarios.Usuario;
+import TRABALHO.Usuarios.IUsuario;
 
 public class Emprestimo implements IEntidadeBiblioteca {
-    private Livro livro;
-    private Usuario usuario;
+    private Exemplar exemplar;
+    private IUsuario usuario;
     private Date dataSolicitacao;
     private Date dataDevolucao;
     private boolean devolvido;
     private int codigo;
 
-    public Emprestimo(Livro livro, Usuario usuario, Date dataSolicitacao, Date dataDevolucao) {
-        this.livro = livro;
+    public Emprestimo(Exemplar exemplar, IUsuario usuario) {
+        this.exemplar = exemplar;
         this.usuario = usuario;
-        this.dataSolicitacao = dataSolicitacao;
-        this.dataDevolucao = dataDevolucao;
         this.devolvido = false;
+
+        this.dataSolicitacao = new Date();
+        this.dataDevolucao = this.calcularDataDevolucao();
+
+        exemplar.setDisponivel(devolvido);
     }
 
-    public Livro getLivro() {
-        return livro;
+    private Date calcularDataDevolucao() {
+        return new Date(this.dataSolicitacao.getTime() + usuario.tempoDeEmprestimoMaximo());
     }
 
-    public Usuario getUsuario() {
+    public Exemplar getExemplar() {
+        return exemplar;
+    }
+
+    public IUsuario getUsuario() {
         return usuario;
     }
 
@@ -42,12 +49,13 @@ public class Emprestimo implements IEntidadeBiblioteca {
 
     public void setDevolvido(boolean devolvido) {
         this.devolvido = devolvido;
+        exemplar.setDisponivel(devolvido);
     }
 
     @Override
     public String toString() {
         return "Emprestimo{" +
-                "livro=" + livro +
+                "exemplar=" + exemplar +
                 ", usuario=" + usuario +
                 ", dataSolicitacao=" + dataSolicitacao +
                 ", dataDevolucao=" + dataDevolucao +
