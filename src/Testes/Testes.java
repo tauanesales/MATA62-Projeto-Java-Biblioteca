@@ -33,6 +33,8 @@ public class Testes {
 
                 biblioteca.realizarEmprestimo(1, 101);
                 biblioteca.realizarEmprestimo(2, 101);
+                biblioteca.realizarEmprestimo(2, 101);
+                biblioteca.realizarEmprestimo(3, 101);
                 biblioteca.realizarEmprestimo(3, 102);
                 biblioteca.realizarEmprestimo(4, 102);
         }
