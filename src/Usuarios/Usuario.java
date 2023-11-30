@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import BancoDeDados.BancoDeDados;
+import BancoDeDados.MyORM;
 import SistemaBiblioteca.Emprestimo;
 import SistemaBiblioteca.IEntidadeBiblioteca;
 
@@ -25,7 +25,6 @@ public class Usuario implements IUsuario {
         return nome;
     }
 
-    
     public boolean temAtraso() {
         List<Emprestimo> emprestimosUsuario = this.obterEmprestimos(true);
         Date dataAtual = new Date();
@@ -39,14 +38,13 @@ public class Usuario implements IUsuario {
         return false; // Usuário não tem empréstimos em atraso
     }
 
-    
     public List<Emprestimo> obterEmprestimos(boolean apenasEmAberto) {
         List<Emprestimo> emprestimosUsuario = new ArrayList<>();
-        List<? extends IEntidadeBiblioteca> entidades = BancoDeDados.getAll(Emprestimo.class);
+        List<? extends IEntidadeBiblioteca> entidades = MyORM.getAll(Emprestimo.class);
         for (IEntidadeBiblioteca entidade : entidades) {
             if (entidade instanceof Emprestimo) {
                 Emprestimo emprestimo = (Emprestimo) entidade;
-                if (emprestimo.getUsuario().equals(this) && (!apenasEmAberto || !emprestimo.isDevolvido())) {   
+                if (emprestimo.getUsuario().equals(this) && (!apenasEmAberto || !emprestimo.isDevolvido())) {
                     emprestimosUsuario.add(emprestimo);
                 }
             }
@@ -57,4 +55,13 @@ public class Usuario implements IUsuario {
     public int emprestimosAbertos() {
         return this.obterEmprestimos(true).size();
     }
+
+    public int maxEmprestimos() {
+        return 0;
+    }
+
+    public boolean atingiuLimiteMaximoDeEmprestimos() {
+        return this.emprestimosAbertos() >= this.maxEmprestimos();
+    }
+
 }
