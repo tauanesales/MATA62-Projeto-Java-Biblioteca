@@ -49,6 +49,7 @@ public class SistemaBiblioteca {
 
                 if (numEmprestimos >= maxEmprestimos) {
                     System.out.println(prefixoErro + " Usuário não pode ter mais que " + maxEmprestimos + " empréstimos em aberto simultaneamente.");
+                    return;
                 }
             }
 
