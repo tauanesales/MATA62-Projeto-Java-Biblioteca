@@ -3,9 +3,9 @@ package Testes;
 import java.util.List;
 
 import BancoDeDados.BancoDeDados;
-import Biblioteca.Biblioteca;
-import Biblioteca.Exemplar;
-import Biblioteca.Livro;
+import SistemaBiblioteca.SistemaBiblioteca;
+import SistemaBiblioteca.Exemplar;
+import SistemaBiblioteca.Livro;
 import Usuarios.Aluno;
 import Usuarios.AlunoGraduacao;
 import Usuarios.AlunoPosGraduacao;
@@ -13,7 +13,7 @@ import Usuarios.Professor;
 
 public class Testes {
         public static void TesteBasico() {
-                Biblioteca biblioteca = new Biblioteca(new BancoDeDados());
+                SistemaBiblioteca biblioteca = new SistemaBiblioteca(new BancoDeDados());
 
                 Aluno aluno = new Aluno(1, "João");
                 AlunoGraduacao alunoGrad = new AlunoGraduacao(2, "Maria");
@@ -38,7 +38,7 @@ public class Testes {
         }
 
         public static void TesteDoPDF() {
-                Biblioteca biblioteca = new Biblioteca(new BancoDeDados());
+                SistemaBiblioteca biblioteca = new SistemaBiblioteca(new BancoDeDados());
 
                 List<Aluno> alunos = List.of(
                                 new AlunoGraduacao(123, "João da Silva"),

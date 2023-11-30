@@ -2,8 +2,8 @@ package BancoDeDados;
 
 import java.util.List;
 
-import Biblioteca.Exemplar;
-import Biblioteca.IEntidadeBiblioteca;
+import SistemaBiblioteca.Exemplar;
+import SistemaBiblioteca.IEntidadeBiblioteca;
 
 public interface IBancoDeDados {
     public boolean add(IEntidadeBiblioteca object);

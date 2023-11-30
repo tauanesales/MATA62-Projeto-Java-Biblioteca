@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import Biblioteca.Exemplar;
-import Biblioteca.IEntidadeBiblioteca;
+import SistemaBiblioteca.Exemplar;
+import SistemaBiblioteca.IEntidadeBiblioteca;
 
 public class BancoDeDados implements IBancoDeDados {
   // private HashMap<Class<? extends IEntidadeBiblioteca>, List<? extends

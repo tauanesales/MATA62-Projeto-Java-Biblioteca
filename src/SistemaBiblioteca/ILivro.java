@@ -1,4 +1,4 @@
-package Biblioteca;
+package SistemaBiblioteca;
 
 public interface ILivro extends IEntidadeBiblioteca {
     public String getTitulo();
