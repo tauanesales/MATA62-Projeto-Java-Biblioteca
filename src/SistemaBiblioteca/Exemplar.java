@@ -1,4 +1,4 @@
-package Biblioteca;
+package SistemaBiblioteca;
 
 public class Exemplar extends Livro {
     private int codigo_identificador_exemplar;
