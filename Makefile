@@ -7,7 +7,7 @@ endif
 default: test
 
 run: compile
-	java -cp ./TRABALHO/target/classes/ TRABALHO/App
+	java -Dfile.encoding=UTF-8 -cp ./TRABALHO/target/classes/ TRABALHO/App
 
 compile: clean
 	javac -cp ./TRABALHO/src/main/java/ ./TRABALHO/src/main/java/TRABALHO/App.java -d "./TRABALHO/target/classes"
@@ -18,7 +18,6 @@ clean:
 test: clean
 	mvn -f TRABALHO\pom.xml test
 
-# Pode ser necessário antes de rodar make test.
 install-maven-dependencies:
 	mvn -f TRABALHO\pom.xml clean install
 

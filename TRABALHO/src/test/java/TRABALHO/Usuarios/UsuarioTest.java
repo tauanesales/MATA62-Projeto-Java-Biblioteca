@@ -2,9 +2,12 @@ package TRABALHO.Usuarios;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import TRABALHO.BaseTest;
+
 import org.junit.Before;
 
-public class UsuarioTest {
+public class UsuarioTest extends BaseTest{
     private static Usuario usuario;
 
     @Before
