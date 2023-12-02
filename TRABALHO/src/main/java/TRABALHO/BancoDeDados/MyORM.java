@@ -7,108 +7,107 @@ import TRABALHO.Usuarios.Usuario;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MyORM implements IBancoDeDados {
-  // private HashMap<Class<? extends IEntidadeBiblioteca>, List<? extends
-  // IEntidadeBiblioteca>> bancoDeDados;
+    private static HashMap<Class<? extends IEntidadeBiblioteca>, List<IEntidadeBiblioteca>> bancoDeDados = new HashMap<Class<? extends IEntidadeBiblioteca>, List<IEntidadeBiblioteca>>();
 
-  // public static BancoDeDados() {
-  // this.bancoDeDados = new HashMap<Class<? extends IEntidadeBiblioteca>,
-  // List<? extends IEntidadeBiblioteca>>();
-  // }
-  private static HashMap<Class<? extends IEntidadeBiblioteca>,
-                         List<IEntidadeBiblioteca>> bancoDeDados =
-      new HashMap<Class<? extends IEntidadeBiblioteca>,
-                  List<IEntidadeBiblioteca>>();
-
-  public static boolean add(IEntidadeBiblioteca object) {
-    if (!bancoDeDados.containsKey(object.getClass())) {
-      bancoDeDados.put(object.getClass(), new ArrayList<IEntidadeBiblioteca>());
+    public static void init() {
+        clearDatabase();
+        System.gc();
+        initializeDatabase();
     }
-    return bancoDeDados.get(object.getClass()).add(object);
-  }
 
-  public static void printDados() {
-    for (Class<? extends IEntidadeBiblioteca> key : bancoDeDados.keySet()) {
-      List<IEntidadeBiblioteca> values = bancoDeDados.get(key);
-      System.out.println("Key: " + key.getSimpleName());
-      System.out.println("Values: " + values);
+    private static void clearDatabase() {
+        bancoDeDados = null;
     }
-  }
 
-  public static <T extends IEntidadeBiblioteca> List<T>
-  getAll(Class<T> entityType) {
-    List<T> result = new ArrayList<>();
+    private static void initializeDatabase() {
+        bancoDeDados = new HashMap<Class<? extends IEntidadeBiblioteca>, List<IEntidadeBiblioteca>>();
+    }
 
-    bancoDeDados.keySet()
-        .stream()
-        .filter(key -> entityType.isAssignableFrom(key))
-        .map(bancoDeDados::get)
-        .flatMap(List::stream)
-        .map(entityType::cast)
-        .forEach(result::add);
+    public static boolean add(IEntidadeBiblioteca object) {
+        return bancoDeDados
+                .computeIfAbsent(object.getClass(), key -> new ArrayList<>())
+                .add(object);
+    }
 
-    return result;
-  }
+    public static void printDados() {
+        for (Class<? extends IEntidadeBiblioteca> key : bancoDeDados.keySet()) {
+            List<IEntidadeBiblioteca> values = bancoDeDados.get(key);
+            System.out.println("Key: " + key.getSimpleName());
+            System.out.println("Values: " + values);
+        }
+    }
 
-  public static <T extends IEntidadeBiblioteca> T getFirtById(Class<T> tabela,
-                                                              int id) {
-    return MyORM.getAll(tabela)
-        .stream()
-        .filter(entidade -> entidade.getCodigo() == id)
-        .map(tabela::cast) // Cast the result to the specific type
-        .findFirst()
-        .orElse(null);
-  }
+    public static <T extends IEntidadeBiblioteca> List<T> getAll(Class<T> entityType) {
+        List<T> result = new ArrayList<>();
 
-  public static IEntidadeBiblioteca[]
-  getAllById(Class<? extends IEntidadeBiblioteca> tabela, int id) {
-    return MyORM.getAll(tabela)
-        .stream()
-        .filter(entidade -> entidade.getCodigo() == id)
-        .toArray(IEntidadeBiblioteca[] ::new);
-  }
+        bancoDeDados.keySet()
+                .stream()
+                .filter(key -> entityType.isAssignableFrom(key))
+                .map(bancoDeDados::get)
+                .flatMap(List::stream)
+                .map(entityType::cast)
+                .forEach(result::add);
 
-  public static Livro getLivro(int codigoLivro) {
-    return MyORM.getFirtById(Livro.class, codigoLivro);
-  }
+        return result;
+    }
 
-  public static Exemplar getExemplar(int codigoExemplar, int codigoLivro) {
-    return getAll(Exemplar.class)
-        .stream()
-        .filter(exemplar -> exemplar.getCodigo() == codigoLivro)
-        .filter(exemplar -> exemplar.getCodigoExemplar() == codigoExemplar)
-        .findFirst()
-        .orElse(null);
-  }
+    public static <T extends IEntidadeBiblioteca> T getFirtById(Class<T> tabela,
+            int id) {
+        return MyORM.getAll(tabela)
+                .stream()
+                .filter(entidade -> entidade.getCodigo() == id)
+                .map(tabela::cast) // Cast the result to the specific type
+                .findFirst()
+                .orElse(null);
+    }
 
-  public static Exemplar getExemplarDisponivelPorCodigoLivro(int codigoLivro) {
-    return getAll(Exemplar.class)
-        .stream()
-        .filter(exemplar -> exemplar.getCodigo() == codigoLivro)
-        .filter(exemplar -> exemplar.isDisponivel())
-        .findFirst()
-        .orElse(null);
-  }
+    public static IEntidadeBiblioteca[] getAllById(Class<? extends IEntidadeBiblioteca> tabela, int id) {
+        return MyORM.getAll(tabela)
+                .stream()
+                .filter(entidade -> entidade.getCodigo() == id)
+                .toArray(IEntidadeBiblioteca[]::new);
+    }
 
-  public static boolean temExemplarDisponivel(int codigoLivro) {
-    return getAll(Exemplar.class)
-        .stream()
-        .anyMatch(exemplar
-                  -> exemplar.getCodigo() == codigoLivro &&
-                         exemplar.isDisponivel());
-  }
+    public static Livro getLivro(int codigoLivro) {
+        return MyORM.getFirtById(Livro.class, codigoLivro);
+    }
 
-  public static boolean livroExiste(int codigoLivro) {
-    return getAll(Livro.class)
-        .stream()
-        .filter(livro -> livro.getCodigo() == codigoLivro)
-        .findFirst()
-        .isPresent();
-  }
+    public static Exemplar getExemplar(int codigoExemplar, int codigoLivro) {
+        return getAll(Exemplar.class)
+                .stream()
+                .filter(exemplar -> exemplar.getCodigo() == codigoLivro)
+                .filter(exemplar -> exemplar.getCodigoExemplar() == codigoExemplar)
+                .findFirst()
+                .orElse(null);
+    }
 
-  public static Usuario getUsuario(int codigoUsuario) {
-    return MyORM.getFirtById(Usuario.class, codigoUsuario);
-  }
+    public static Exemplar getExemplarDisponivelPorCodigoLivro(int codigoLivro) {
+        return getAll(Exemplar.class)
+                .stream()
+                .filter(exemplar -> exemplar.getCodigo() == codigoLivro)
+                .filter(exemplar -> exemplar.isDisponivel())
+                .findFirst()
+                .orElse(null);
+    }
+
+    public static boolean temExemplarDisponivel(int codigoLivro) {
+        return getAll(Exemplar.class)
+                .stream()
+                .anyMatch(exemplar -> exemplar.getCodigo() == codigoLivro &&
+                        exemplar.isDisponivel());
+    }
+
+    public static boolean livroExiste(int codigoLivro) {
+        return getAll(Livro.class)
+                .stream()
+                .filter(livro -> livro.getCodigo() == codigoLivro)
+                .findFirst()
+                .isPresent();
+    }
+
+    public static Usuario getUsuario(int codigoUsuario) {
+        return MyORM.getFirtById(Usuario.class, codigoUsuario);
+    }
 }
