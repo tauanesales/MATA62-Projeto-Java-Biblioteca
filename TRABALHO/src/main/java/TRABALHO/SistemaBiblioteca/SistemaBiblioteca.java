@@ -1,11 +1,10 @@
 package TRABALHO.SistemaBiblioteca;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import TRABALHO.BancoDeDados.MyORM;
 import TRABALHO.Console.Mensagens;
 import TRABALHO.Usuarios.Usuario;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class SistemaBiblioteca {
     public void realizarEmprestimo(int codigoUsuario, int codigoLivro) {
@@ -16,36 +15,48 @@ public class SistemaBiblioteca {
         }
 
         if (!MyORM.livroExiste(codigoLivro)) {
-            Mensagens.MensagemDeErroEmprestimo("Livro não encontrado.", usuario, null);
+            Mensagens.MensagemDeErroEmprestimo("Livro não encontrado.", usuario,
+                    null);
             return;
         }
 
-        Exemplar exemplar = MyORM.getExemplarDisponivelPorCodigoLivro(codigoLivro);
-        if (exemplar == null) {
-            Mensagens.MensagemDeErroEmprestimo("Não há exemplares disponíveis desse livro.", usuario,
+        if (!MyORM.temExemplarDisponivel(codigoLivro)) {
+            Mensagens.MensagemDeErroEmprestimo(
+                    "Não há exemplares disponíveis desse livro.", usuario,
                     MyORM.getLivro(codigoLivro));
             return;
         }
-
-        String prefixoSucesso = "Empréstimo realizado com sucesso para " + usuario.getNome() + " - Livro: "
-                + exemplar.getTitulo();
+        Exemplar exemplar = MyORM.getExemplarDisponivelPorCodigoLivro(codigoLivro);
 
         if (usuario.temAtraso()) {
-            Mensagens.MensagemDeErroEmprestimo("Usuário com atraso.", usuario, exemplar);
+            Mensagens.MensagemDeErroEmprestimo("Usuário com atraso.", usuario,
+                    exemplar);
             return;
         }
 
         if (usuario.atingiuLimiteMaximoDeEmprestimos()) {
-            Mensagens.MensagemDeErroEmprestimo("Usuário não pode ter mais que " + usuario.maxEmprestimos()
-                    + " empréstimos em aberto simultaneamente.", usuario, exemplar);
+            Mensagens.MensagemDeErroEmprestimo(
+                    "Usuário não pode ter mais que " + usuario.maxEmprestimos() +
+                            " empréstimos em aberto simultaneamente.",
+                    usuario, exemplar);
+            return;
+        }
+
+        if (usuario.jaTemEmprestimoDoLivro(codigoLivro)) {
+            Mensagens.MensagemDeErroEmprestimo(
+                    "Usuário já possui um exemplar desse livro emprestado.", usuario,
+                    exemplar);
             return;
         }
 
         Emprestimo emprestimo = new Emprestimo(exemplar, usuario);
         MyORM.add(emprestimo);
 
-        System.out.println(prefixoSucesso + " Devolução até: " + formatarData(emprestimo.getDataDevolucao()));
-
+        String prefixoSucesso = "Empréstimo realizado com sucesso para " +
+                usuario.getNome() +
+                " - Livro: " + exemplar.getTitulo();
+        System.out.println(prefixoSucesso + " Devolução até: " +
+                formatarData(emprestimo.getDataDevolucao()));
     }
 
     private String formatarData(Date data) {

@@ -1,11 +1,10 @@
 package TRABALHO.Usuarios;
 
+import TRABALHO.BancoDeDados.MyORM;
+import TRABALHO.SistemaBiblioteca.Emprestimo;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import TRABALHO.BancoDeDados.MyORM;
-import TRABALHO.SistemaBiblioteca.Emprestimo;
 
 public class Usuario implements IUsuario {
     private int codigo_identificador;
@@ -26,15 +25,16 @@ public class Usuario implements IUsuario {
 
     public boolean temAtraso() {
         List<Emprestimo> emprestimosUsuario = this.obterEmprestimos(true);
-        return emprestimosUsuario.stream()
-                .anyMatch(emprestimo -> !emprestimo.isDevolvido() && emprestimo.getDataDevolucao().before(new Date()));
+        return emprestimosUsuario.stream().anyMatch(
+                emprestimo -> !emprestimo.isDevolvido() &&
+                        emprestimo.getDataDevolucao().before(new Date()));
     }
 
     public List<Emprestimo> obterEmprestimos(boolean apenasEmAberto) {
         return MyORM.getAll(Emprestimo.class)
                 .stream()
-                .filter(emprestimo -> emprestimo.getUsuario().equals(this)
-                        && (!apenasEmAberto || !emprestimo.isDevolvido()))
+                .filter(emprestimo -> emprestimo.getUsuario().getCodigo() == this.getCodigo())
+                .filter(emprestimo -> !apenasEmAberto || !emprestimo.isDevolvido())
                 .collect(Collectors.toList());
     }
 
@@ -54,4 +54,8 @@ public class Usuario implements IUsuario {
         return 0;
     }
 
+    public boolean jaTemEmprestimoDoLivro(int codigoLivro) {
+        return this.obterEmprestimos(true).stream().anyMatch(
+                emprestimo -> emprestimo.getExemplar().getCodigo() == codigoLivro);
+    }
 }
