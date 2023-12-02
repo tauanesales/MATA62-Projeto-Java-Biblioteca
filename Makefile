@@ -7,7 +7,7 @@ endif
 default: test
 
 run: compile
-	java -Dfile.encoding=UTF-8 -cp ./TRABALHO/target/classes/ TRABALHO/App
+	java -cp ./TRABALHO/target/classes/ TRABALHO/App
 
 compile: clean
 	javac -cp ./TRABALHO/src/main/java/ ./TRABALHO/src/main/java/TRABALHO/App.java -d "./TRABALHO/target/classes"
