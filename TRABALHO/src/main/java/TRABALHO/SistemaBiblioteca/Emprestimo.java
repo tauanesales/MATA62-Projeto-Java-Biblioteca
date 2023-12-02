@@ -20,7 +20,7 @@ public class Emprestimo implements IEntidadeBiblioteca {
         this.dataSolicitacao = new Date();
         this.dataDevolucao = this.calcularDataDevolucao();
 
-        exemplar.setDisponivel(devolvido);
+        exemplar.setDisponivel(this.devolvido);
     }
 
     private Date calcularDataDevolucao() {

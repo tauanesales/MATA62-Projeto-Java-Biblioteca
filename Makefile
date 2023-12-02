@@ -18,7 +18,6 @@ clean:
 test: clean
 	mvn -f TRABALHO\pom.xml test
 
-# Pode ser necessário antes de rodar make test.
 install-maven-dependencies:
 	mvn -f TRABALHO\pom.xml clean install
 
