@@ -10,7 +10,7 @@ public class Mensagens {
         String alert = String.join(delimiter,
                 "Não foi possível realizar o empréstimo.",
                 "Motivo: " + mensagem,
-                "Usuário: " + usuario.getNome(),
+                "Usuário: " + (usuario != null ? usuario.getNome() : "N/A"),
                 "Livro: " + (livro != null ? livro.getTitulo() : "N/A"));
         System.out.println(alert);
     }
