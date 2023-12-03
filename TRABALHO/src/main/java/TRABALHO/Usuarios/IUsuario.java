@@ -12,11 +12,13 @@ public interface IUsuario extends IEntidadeBiblioteca {
 
     public List<Emprestimo> obterEmprestimos(boolean apenasEmAberto);
 
-    public int emprestimosAbertos();
+    public int quantidadeDeEmprestimosEmAberto();
 
     public int maxEmprestimos();
 
     public boolean atingiuLimiteMaximoDeEmprestimos();
 
     public long tempoDeEmprestimoMaximo();
+
+    public boolean jaTemEmprestimoDoLivro(int codigoLivro);
 }

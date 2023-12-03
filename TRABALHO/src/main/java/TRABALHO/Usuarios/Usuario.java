@@ -38,7 +38,7 @@ public class Usuario implements IUsuario {
                 .collect(Collectors.toList());
     }
 
-    public int emprestimosAbertos() {
+    public int quantidadeDeEmprestimosEmAberto() {
         return this.obterEmprestimos(true).size();
     }
 
@@ -47,7 +47,7 @@ public class Usuario implements IUsuario {
     }
 
     public boolean atingiuLimiteMaximoDeEmprestimos() {
-        return this.emprestimosAbertos() >= this.maxEmprestimos();
+        return this.quantidadeDeEmprestimosEmAberto() >= this.maxEmprestimos();
     }
 
     public long tempoDeEmprestimoMaximo() {
