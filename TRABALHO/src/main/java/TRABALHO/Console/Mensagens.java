@@ -1,6 +1,6 @@
 package TRABALHO.Console;
 
-import TRABALHO.SistemaBiblioteca.ILivro;
+import TRABALHO.Livros.ILivro;
 import TRABALHO.Usuarios.IUsuario;
 
 public class Mensagens {

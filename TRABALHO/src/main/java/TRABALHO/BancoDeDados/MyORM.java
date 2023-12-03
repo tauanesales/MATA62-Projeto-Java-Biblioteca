@@ -1,8 +1,8 @@
 package TRABALHO.BancoDeDados;
 
-import TRABALHO.SistemaBiblioteca.Exemplar;
+import TRABALHO.Livros.Exemplar;
+import TRABALHO.Livros.Livro;
 import TRABALHO.SistemaBiblioteca.IEntidadeBiblioteca;
-import TRABALHO.SistemaBiblioteca.Livro;
 import TRABALHO.Usuarios.Usuario;
 import java.util.ArrayList;
 import java.util.HashMap;

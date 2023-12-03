@@ -1,4 +1,6 @@
-package TRABALHO.SistemaBiblioteca;
+package TRABALHO.Livros;
+
+import TRABALHO.SistemaBiblioteca.IEntidadeBiblioteca;
 
 public interface ILivro extends IEntidadeBiblioteca {
     public String getTitulo();

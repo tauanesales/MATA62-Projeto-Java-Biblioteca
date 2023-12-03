@@ -2,6 +2,8 @@ package TRABALHO.SistemaBiblioteca;
 
 import TRABALHO.BancoDeDados.MyORM;
 import TRABALHO.Console.Mensagens;
+import TRABALHO.Emprestimo.Emprestimo;
+import TRABALHO.Livros.Exemplar;
 import TRABALHO.Usuarios.Usuario;
 import java.text.SimpleDateFormat;
 import java.util.Date;
