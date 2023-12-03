@@ -1,7 +1,8 @@
 package TRABALHO.Usuarios;
 
 import TRABALHO.BancoDeDados.MyORM;
-import TRABALHO.SistemaBiblioteca.Emprestimo;
+import TRABALHO.Emprestimo.Emprestimo;
+
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;

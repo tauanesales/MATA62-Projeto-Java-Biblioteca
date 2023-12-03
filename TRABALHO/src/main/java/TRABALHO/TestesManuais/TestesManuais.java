@@ -3,9 +3,9 @@ package TRABALHO.TestesManuais;
 import java.util.List;
 
 import TRABALHO.BancoDeDados.MyORM;
+import TRABALHO.Livros.Exemplar;
+import TRABALHO.Livros.Livro;
 import TRABALHO.SistemaBiblioteca.SistemaBiblioteca;
-import TRABALHO.SistemaBiblioteca.Exemplar;
-import TRABALHO.SistemaBiblioteca.Livro;
 import TRABALHO.Usuarios.Aluno;
 import TRABALHO.Usuarios.AlunoGraduacao;
 import TRABALHO.Usuarios.AlunoPosGraduacao;

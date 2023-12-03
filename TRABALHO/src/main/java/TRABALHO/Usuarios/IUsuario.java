@@ -2,7 +2,7 @@ package TRABALHO.Usuarios;
 
 import java.util.List;
 
-import TRABALHO.SistemaBiblioteca.Emprestimo;
+import TRABALHO.Emprestimo.Emprestimo;
 import TRABALHO.SistemaBiblioteca.IEntidadeBiblioteca;
 
 public interface IUsuario extends IEntidadeBiblioteca {

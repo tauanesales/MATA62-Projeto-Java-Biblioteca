@@ -2,7 +2,7 @@ package TRABALHO.Usuarios;
 
 import TRABALHO.BaseTest;
 import TRABALHO.BancoDeDados.MyORM;
-import TRABALHO.SistemaBiblioteca.Emprestimo;
+import TRABALHO.Emprestimo.Emprestimo;
 
 import org.junit.Assert;
 import org.junit.Test;

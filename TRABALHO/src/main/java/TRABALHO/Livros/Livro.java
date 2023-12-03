@@ -1,4 +1,4 @@
-package TRABALHO.SistemaBiblioteca;
+package TRABALHO.Livros;
 
 public class Livro implements ILivro {
     private int codigoLivro;

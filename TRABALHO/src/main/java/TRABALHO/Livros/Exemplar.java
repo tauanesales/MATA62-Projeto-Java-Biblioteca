@@ -1,4 +1,4 @@
-package TRABALHO.SistemaBiblioteca;
+package TRABALHO.Livros;
 
 public class Exemplar extends Livro {
     private int codigoExemplar;
