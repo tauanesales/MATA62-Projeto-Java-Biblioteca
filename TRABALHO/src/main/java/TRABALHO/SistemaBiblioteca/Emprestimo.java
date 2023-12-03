@@ -13,11 +13,15 @@ public class Emprestimo implements IEntidadeBiblioteca {
     private int codigo;
 
     public Emprestimo(Exemplar exemplar, IUsuario usuario) {
+        this(exemplar, usuario, new Date());
+    }
+
+    public Emprestimo(Exemplar exemplar, IUsuario usuario, Date dataSolicitacao) {
         this.exemplar = exemplar;
         this.usuario = usuario;
         this.devolvido = false;
 
-        this.dataSolicitacao = new Date();
+        this.dataSolicitacao = dataSolicitacao != null ? dataSolicitacao : new Date();
         this.dataDevolucao = this.calcularDataDevolucao();
 
         exemplar.setDisponivel(this.devolvido);

@@ -18,7 +18,7 @@ public class AlunoPosGraduacaoTest extends BaseTest {
 
     @Test
     public void atingiuLimiteMaximoDeEmprestimosTest() {
-        Assert.assertEquals(0, alunoPosGrad.emprestimosAbertos());
+        Assert.assertEquals(0, alunoPosGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertEquals(false, alunoPosGrad.atingiuLimiteMaximoDeEmprestimos());
 
         // Usuário inválido;
@@ -35,7 +35,7 @@ public class AlunoPosGraduacaoTest extends BaseTest {
         biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar1.getCodigo());
         Assert.assertFalse(exemplar1.isDisponivel());
 
-        Assert.assertEquals(1, alunoGrad.emprestimosAbertos());
+        Assert.assertEquals(1, alunoGrad.quantidadeDeEmprestimosEmAberto());
         // Exemplar indisponível;
         biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar1.getCodigo());
         Assert.assertFalse(exemplar1.isDisponivel());
@@ -48,12 +48,12 @@ public class AlunoPosGraduacaoTest extends BaseTest {
         // Emprestimo bem sucedido;
         biblioteca.realizarEmprestimo(professor.getCodigo(), 101);
 
-        Assert.assertEquals(0, alunoPosGrad.emprestimosAbertos());
+        Assert.assertEquals(0, alunoPosGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertEquals(false, alunoPosGrad.atingiuLimiteMaximoDeEmprestimos());
 
         // Primeiro empréstimo bem sucedido do aluno de pós-graduação;
         biblioteca.realizarEmprestimo(alunoPosGrad.getCodigo(), 100);
-        Assert.assertEquals(1, alunoPosGrad.emprestimosAbertos());
+        Assert.assertEquals(1, alunoPosGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertEquals(false, alunoPosGrad.atingiuLimiteMaximoDeEmprestimos());
 
         // Exemplar indisponível;
@@ -61,27 +61,27 @@ public class AlunoPosGraduacaoTest extends BaseTest {
         biblioteca.realizarEmprestimo(alunoPosGrad.getCodigo(), exemplar1.getCodigo());
         biblioteca.realizarEmprestimo(alunoPosGrad.getCodigo(), exemplar1.getCodigo());
         biblioteca.realizarEmprestimo(alunoPosGrad.getCodigo(), exemplar1.getCodigo());
-        Assert.assertEquals(1, alunoPosGrad.emprestimosAbertos());
+        Assert.assertEquals(1, alunoPosGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertEquals(false, alunoPosGrad.atingiuLimiteMaximoDeEmprestimos());
 
         // Exemplar indisponível;
         biblioteca.realizarEmprestimo(alunoPosGrad.getCodigo(), exemplar1.getCodigo());
-        Assert.assertEquals(1, alunoPosGrad.emprestimosAbertos());
+        Assert.assertEquals(1, alunoPosGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertEquals(false, alunoPosGrad.atingiuLimiteMaximoDeEmprestimos());
 
         // Já pegou esse livro emprestado, portanto não pode pegar novamente;
         biblioteca.realizarEmprestimo(alunoPosGrad.getCodigo(), 100);
-        Assert.assertEquals(1, alunoPosGrad.emprestimosAbertos());
+        Assert.assertEquals(1, alunoPosGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertEquals(false, alunoPosGrad.atingiuLimiteMaximoDeEmprestimos());
 
         // Já pegou esse livro emprestado, portanto não pode pegar novamente;
         biblioteca.realizarEmprestimo(alunoPosGrad.getCodigo(), 100);
-        Assert.assertEquals(1, alunoPosGrad.emprestimosAbertos());
+        Assert.assertEquals(1, alunoPosGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertEquals(false, alunoPosGrad.atingiuLimiteMaximoDeEmprestimos());
 
         // Já pegou esse livro emprestado, portanto não pode pegar novamente;
         biblioteca.realizarEmprestimo(alunoPosGrad.getCodigo(), 100);
-        Assert.assertEquals(1, alunoPosGrad.emprestimosAbertos());
+        Assert.assertEquals(1, alunoPosGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertEquals(false, alunoPosGrad.atingiuLimiteMaximoDeEmprestimos());
 
         // Já pegou esse livro emprestado, portanto não pode pegar novamente;
@@ -90,48 +90,48 @@ public class AlunoPosGraduacaoTest extends BaseTest {
         // Exemplar indisponível;
         biblioteca.realizarEmprestimo(alunoPosGrad.getCodigo(), exemplar2.getCodigo());
 
-        Assert.assertEquals(1, alunoPosGrad.emprestimosAbertos());
+        Assert.assertEquals(1, alunoPosGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertEquals(false, alunoPosGrad.atingiuLimiteMaximoDeEmprestimos());
 
         // Segundo emprestimo bem sucedido do aluno de pós-graduação;
         biblioteca.realizarEmprestimo(alunoPosGrad.getCodigo(), 300);
-        Assert.assertEquals(2, alunoPosGrad.emprestimosAbertos());
+        Assert.assertEquals(2, alunoPosGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertEquals(false, alunoPosGrad.atingiuLimiteMaximoDeEmprestimos());
 
         // Esse livro não tem exemplares disponíveis;
         biblioteca.realizarEmprestimo(alunoPosGrad.getCodigo(), 301);
-        Assert.assertEquals(2, alunoPosGrad.emprestimosAbertos());
+        Assert.assertEquals(2, alunoPosGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertEquals(false, alunoPosGrad.atingiuLimiteMaximoDeEmprestimos());
 
         // Terceiro emprestimo bem sucedido do aluno de pós-graduação;
         biblioteca.realizarEmprestimo(alunoPosGrad.getCodigo(), 400);
-        Assert.assertEquals(3, alunoPosGrad.emprestimosAbertos());
+        Assert.assertEquals(3, alunoPosGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertEquals(false, alunoPosGrad.atingiuLimiteMaximoDeEmprestimos());
 
         // Esse livro não tem exemplares disponíveis;
         biblioteca.realizarEmprestimo(alunoPosGrad.getCodigo(), 401);
-        Assert.assertEquals(3, alunoPosGrad.emprestimosAbertos());
+        Assert.assertEquals(3, alunoPosGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertEquals(false, alunoPosGrad.atingiuLimiteMaximoDeEmprestimos());
 
         // Já pegou esse livro emprestado, portanto não pode pegar novamente;
         biblioteca.realizarEmprestimo(alunoPosGrad.getCodigo(), 400);
-        Assert.assertEquals(3, alunoPosGrad.emprestimosAbertos());
+        Assert.assertEquals(3, alunoPosGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertEquals(false, alunoPosGrad.atingiuLimiteMaximoDeEmprestimos());
 
         // Quarto emprestimo bem sucedido do aluno de pós-graduação;
         // Chegou ao limite maximo de emprestimos do aluno de graduaçao (Limite
         // Pós Graduação = 4);
         biblioteca.realizarEmprestimo(alunoPosGrad.getCodigo(), 500);
-        Assert.assertEquals(4, alunoPosGrad.emprestimosAbertos());
+        Assert.assertEquals(4, alunoPosGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertEquals(true, alunoPosGrad.atingiuLimiteMaximoDeEmprestimos());
 
         // A partir daqui, o aluno de pós-graduação não pode mais fazer empréstimos;
         biblioteca.realizarEmprestimo(alunoPosGrad.getCodigo(), 501);
-        Assert.assertEquals(4, alunoPosGrad.emprestimosAbertos());
+        Assert.assertEquals(4, alunoPosGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertEquals(true, alunoPosGrad.atingiuLimiteMaximoDeEmprestimos());
 
         biblioteca.realizarEmprestimo(alunoPosGrad.getCodigo(), 600);
-        Assert.assertEquals(4, alunoPosGrad.emprestimosAbertos());
+        Assert.assertEquals(4, alunoPosGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertEquals(true, alunoPosGrad.atingiuLimiteMaximoDeEmprestimos());
 
         biblioteca.realizarEmprestimo(alunoPosGrad.getCodigo(), 100);
@@ -139,7 +139,7 @@ public class AlunoPosGraduacaoTest extends BaseTest {
         biblioteca.realizarEmprestimo(alunoPosGrad.getCodigo(), 100);
         biblioteca.realizarEmprestimo(alunoPosGrad.getCodigo(), 100);
 
-        Assert.assertEquals(4, alunoPosGrad.emprestimosAbertos());
+        Assert.assertEquals(4, alunoPosGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertEquals(true, alunoPosGrad.atingiuLimiteMaximoDeEmprestimos());
     }
 }
