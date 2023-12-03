@@ -7,8 +7,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import TRABALHO.BaseTest;
-import TRABALHO.SistemaBiblioteca.Exemplar;
-import TRABALHO.SistemaBiblioteca.Livro;
+import TRABALHO.Livros.Exemplar;
+import TRABALHO.Livros.Livro;
 import TRABALHO.Usuarios.Usuario;
 
 public class MyORMTest extends BaseTest {

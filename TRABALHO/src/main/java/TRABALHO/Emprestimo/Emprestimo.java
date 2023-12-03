@@ -1,7 +1,9 @@
-package TRABALHO.SistemaBiblioteca;
+package TRABALHO.Emprestimo;
 
 import java.util.Date;
 
+import TRABALHO.Livros.Exemplar;
+import TRABALHO.SistemaBiblioteca.IEntidadeBiblioteca;
 import TRABALHO.Usuarios.IUsuario;
 
 public class Emprestimo implements IEntidadeBiblioteca {
