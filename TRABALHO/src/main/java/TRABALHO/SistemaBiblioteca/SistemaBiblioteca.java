@@ -7,47 +7,18 @@ import TRABALHO.Livros.Exemplar;
 import TRABALHO.Usuarios.Usuario;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoEmprestimo;
 
 public class SistemaBiblioteca {
     public void realizarEmprestimo(int codigoUsuario, int codigoLivro) {
         Usuario usuario = MyORM.getUsuario(codigoUsuario);
-        if (usuario == null) {
-            System.out.println("Usuário não encontrado.");
-            return;
-        }
-
-        if (!MyORM.livroExiste(codigoLivro)) {
-            Mensagens.MensagemDeErroEmprestimo("Livro não encontrado.", usuario,
-                    null);
-            return;
-        }
-
-        if (!MyORM.temExemplarDisponivel(codigoLivro)) {
-            Mensagens.MensagemDeErroEmprestimo(
-                    "Não há exemplares disponíveis desse livro.", usuario,
-                    MyORM.getLivro(codigoLivro));
-            return;
-        }
         Exemplar exemplar = MyORM.getExemplarDisponivelPorCodigoLivro(codigoLivro);
 
-        if (usuario.temAtraso()) {
-            Mensagens.MensagemDeErroEmprestimo("Usuário com atraso.", usuario,
-                    exemplar);
-            return;
-        }
-
-        if (usuario.atingiuLimiteMaximoDeEmprestimos()) {
-            Mensagens.MensagemDeErroEmprestimo(
-                    "Usuário não pode ter mais que " + usuario.maxEmprestimos() +
-                            " empréstimos em aberto simultaneamente.",
-                    usuario, exemplar);
-            return;
-        }
-
-        if (usuario.jaTemEmprestimoDoLivro(codigoLivro)) {
-            Mensagens.MensagemDeErroEmprestimo(
-                    "Usuário já possui um exemplar desse livro emprestado.", usuario,
-                    exemplar);
+        try {
+            ValidacaoEmprestimo.validacaoPodeEmprestarExemplarParaUsuario(
+                    codigoUsuario, codigoLivro, usuario, exemplar);
+        } catch (ValidacaoEmprestimo.EmprestimoException e) {
+            Mensagens.MensagemDeErroEmprestimo(e.getMessage(), usuario, exemplar);
             return;
         }
 
