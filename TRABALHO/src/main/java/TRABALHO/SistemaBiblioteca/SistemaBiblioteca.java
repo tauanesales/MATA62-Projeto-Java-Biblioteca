@@ -1,39 +1,49 @@
 package TRABALHO.SistemaBiblioteca;
 
-import TRABALHO.BancoDeDados.MyORM;
+import TRABALHO.BancoDeDados.BancoDeDados;
 import TRABALHO.Console.Mensagens;
 import TRABALHO.Emprestimo.Emprestimo;
 import TRABALHO.Livros.Exemplar;
-import TRABALHO.Usuarios.Usuario;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import TRABALHO.Usuarios.IUsuario;
+
+import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoBase;
+import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoDevolucao;
 import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoEmprestimo;
 
 public class SistemaBiblioteca {
     public void realizarEmprestimo(int codigoUsuario, int codigoLivro) {
-        Usuario usuario = MyORM.getUsuario(codigoUsuario);
-        Exemplar exemplar = MyORM.getExemplarDisponivelPorCodigoLivro(codigoLivro);
+        IUsuario usuario = BancoDeDados.getUsuario(codigoUsuario);
+        Exemplar exemplar = BancoDeDados.getExemplarDisponivelPorCodigoLivro(codigoLivro);
 
         try {
-            ValidacaoEmprestimo.validacaoPodeEmprestarExemplarParaUsuario(
-                    codigoUsuario, codigoLivro, usuario, exemplar);
-        } catch (ValidacaoEmprestimo.EmprestimoException e) {
-            Mensagens.MensagemDeErroEmprestimo(e.getMessage(), usuario, exemplar);
+            ValidacaoEmprestimo.validarPodeEmprestarExemplarParaUsuario(codigoUsuario, codigoLivro);
+        } catch (ValidacaoBase.SistemaBibliotecaException e) {
+            Mensagens.MensagemDeErro("Não foi possível realizar o empréstimo", e.getMessage(), usuario, exemplar);
             return;
         }
 
         Emprestimo emprestimo = new Emprestimo(exemplar, usuario);
-        MyORM.add(emprestimo);
+        BancoDeDados.add(emprestimo);
 
-        String prefixoSucesso = "Empréstimo realizado com sucesso para " +
-                usuario.getNome() +
-                " - Livro: " + exemplar.getTitulo();
-        System.out.println(prefixoSucesso + " Devolução até: " +
-                formatarData(emprestimo.getDataDevolucao()));
+        Mensagens.MensagemSucessoEmprestimoDevolucao("Empréstimo realizado com sucesso", usuario, exemplar, emprestimo);
     }
 
-    private String formatarData(Date data) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        return sdf.format(data);
+    public void realizarDevolucao(int codigoUsuario, int codigoLivro) {
+        try {
+            ValidacaoDevolucao.validarPodeDevolverExemplar(codigoUsuario, codigoLivro);
+        } catch (ValidacaoBase.SistemaBibliotecaException e) {
+            Mensagens.MensagemDeErro("Não foi possível realizar a devolução.", e.getMessage(),
+                    BancoDeDados.getUsuario(codigoUsuario), BancoDeDados.getLivro(codigoLivro));
+            return;
+        }
+
+        IUsuario usuario = BancoDeDados.getUsuario(codigoUsuario);
+        Emprestimo emprestimo = usuario.obterEmprestimoEmAbertoPorCodigoDoLivro(codigoLivro);
+        Exemplar exemplar = emprestimo.getExemplar();
+
+        emprestimo.setDevolvido(true);
+
+        Mensagens.MensagemSucessoEmprestimoDevolucao("Devolução realizada com sucesso", usuario, exemplar, emprestimo);
+
     }
 }

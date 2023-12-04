@@ -3,12 +3,12 @@ package TRABALHO.BancoDeDados;
 import TRABALHO.Livros.Exemplar;
 import TRABALHO.Livros.Livro;
 import TRABALHO.SistemaBiblioteca.IEntidadeBiblioteca;
-import TRABALHO.Usuarios.Usuario;
+import TRABALHO.Usuarios.IUsuario;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MyORM implements IBancoDeDados {
+public class BancoDeDados implements IBancoDeDados {
     private static HashMap<Class<? extends IEntidadeBiblioteca>, List<IEntidadeBiblioteca>> bancoDeDados = new HashMap<Class<? extends IEntidadeBiblioteca>, List<IEntidadeBiblioteca>>();
 
     public static void init() {
@@ -55,7 +55,7 @@ public class MyORM implements IBancoDeDados {
 
     public static <T extends IEntidadeBiblioteca> T getFirtById(Class<T> tabela,
             int id) {
-        return MyORM.getAll(tabela)
+        return BancoDeDados.getAll(tabela)
                 .stream()
                 .filter(entidade -> entidade.getCodigo() == id)
                 .map(tabela::cast) // Cast the result to the specific type
@@ -64,14 +64,14 @@ public class MyORM implements IBancoDeDados {
     }
 
     public static IEntidadeBiblioteca[] getAllById(Class<? extends IEntidadeBiblioteca> tabela, int id) {
-        return MyORM.getAll(tabela)
+        return BancoDeDados.getAll(tabela)
                 .stream()
                 .filter(entidade -> entidade.getCodigo() == id)
                 .toArray(IEntidadeBiblioteca[]::new);
     }
 
     public static Livro getLivro(int codigoLivro) {
-        return MyORM.getFirtById(Livro.class, codigoLivro);
+        return BancoDeDados.getFirtById(Livro.class, codigoLivro);
     }
 
     public static Exemplar getExemplar(int codigoExemplar, int codigoLivro) {
@@ -107,7 +107,7 @@ public class MyORM implements IBancoDeDados {
                 .isPresent();
     }
 
-    public static Usuario getUsuario(int codigoUsuario) {
-        return MyORM.getFirtById(Usuario.class, codigoUsuario);
+    public static IUsuario getUsuario(int codigoUsuario) {
+        return BancoDeDados.getFirtById(IUsuario.class, codigoUsuario);
     }
 }

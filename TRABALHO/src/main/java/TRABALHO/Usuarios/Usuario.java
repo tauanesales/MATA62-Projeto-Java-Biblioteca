@@ -1,6 +1,6 @@
 package TRABALHO.Usuarios;
 
-import TRABALHO.BancoDeDados.MyORM;
+import TRABALHO.BancoDeDados.BancoDeDados;
 import TRABALHO.Emprestimo.Emprestimo;
 
 import java.util.Date;
@@ -32,13 +32,18 @@ public class Usuario implements IUsuario {
     }
 
     public List<Emprestimo> obterEmprestimos(boolean apenasEmAberto) {
-        return MyORM.getAll(Emprestimo.class)
+        return BancoDeDados.getAll(Emprestimo.class)
                 .stream()
                 .filter(emprestimo -> emprestimo.getUsuario().getCodigo() == this.getCodigo())
                 .filter(emprestimo -> !apenasEmAberto || !emprestimo.isDevolvido())
                 .collect(Collectors.toList());
     }
 
+    public Emprestimo obterEmprestimoEmAbertoPorCodigoDoLivro(int codigoLivro) {
+        return this.obterEmprestimos(true).stream().filter(
+                emprestimo -> emprestimo.getExemplar().getCodigo() == codigoLivro).findFirst().orElse(null);
+    }
+    
     public int quantidadeDeEmprestimosEmAberto() {
         return this.obterEmprestimos(true).size();
     }
@@ -55,7 +60,7 @@ public class Usuario implements IUsuario {
         return 0;
     }
 
-    public boolean jaTemEmprestimoDoLivro(int codigoLivro) {
+    public boolean jaTemEmprestimoDoLivroEmAberto(int codigoLivro) {
         return this.obterEmprestimos(true).stream().anyMatch(
                 emprestimo -> emprestimo.getExemplar().getCodigo() == codigoLivro);
     }
