@@ -32,6 +32,20 @@ public class UsuarioTest extends BaseTest {
     }
 
     @Test
+    public void obterEmprestimoEmAbertoPorCodigoDoLivroTest() {
+        Assert.assertNull(usuario.obterEmprestimoEmAbertoPorCodigoDoLivro(exemplar1.getCodigo()));
+        Assert.assertNull(usuario.obterEmprestimoEmAbertoPorCodigoDoLivro(exemplar2.getCodigo()));
+
+        biblioteca.realizarEmprestimo(usuario.getCodigo(), exemplar1.getCodigo());
+        Assert.assertNull(usuario.obterEmprestimoEmAbertoPorCodigoDoLivro(exemplar1.getCodigo()));
+        Assert.assertNull(usuario.obterEmprestimoEmAbertoPorCodigoDoLivro(exemplar2.getCodigo()));
+
+        biblioteca.realizarEmprestimo(usuario.getCodigo(), exemplar2.getCodigo());
+        Assert.assertNull(usuario.obterEmprestimoEmAbertoPorCodigoDoLivro(exemplar1.getCodigo()));
+        Assert.assertNull(usuario.obterEmprestimoEmAbertoPorCodigoDoLivro(exemplar2.getCodigo()));
+    }
+
+    @Test
     public void quantidadeDeEmprestimosEmAbertoTest() {
         Assert.assertEquals(0, usuario.quantidadeDeEmprestimosEmAberto());
 

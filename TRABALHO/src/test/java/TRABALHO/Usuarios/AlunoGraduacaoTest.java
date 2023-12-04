@@ -90,6 +90,65 @@ public class AlunoGraduacaoTest extends BaseTest {
     }
 
     @Test
+    public void obterEmprestimosRetornaListaComOsExemplaresEmprestadosQuandoApenasAlgunsEmprestimosEstaoEmAbertoDevolucaoPeloSistemaTest() {
+        biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar1.getCodigo());
+        biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar2.getCodigo());
+        biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), 100);
+        biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), 500);
+
+        biblioteca.realizarDevolucao(alunoGrad.getCodigo(), exemplar1.getCodigo());
+        Assert.assertEquals(2, alunoGrad.obterEmprestimos(true).size());
+        Assert.assertEquals(3, alunoGrad.obterEmprestimos(false).size());
+
+        biblioteca.realizarDevolucao(alunoGrad.getCodigo(), exemplar2.getCodigo());
+        Assert.assertEquals(1, alunoGrad.obterEmprestimos(true).size());
+        Assert.assertEquals(3, alunoGrad.obterEmprestimos(false).size());
+
+        biblioteca.realizarDevolucao(alunoGrad.getCodigo(), 100);
+        Assert.assertEquals(0, alunoGrad.obterEmprestimos(true).size());
+        Assert.assertEquals(3, alunoGrad.obterEmprestimos(false).size());
+
+        Assert.assertEquals(exemplar1, alunoGrad.obterEmprestimos(false).get(0).getExemplar());
+        Assert.assertEquals(exemplar2, alunoGrad.obterEmprestimos(false).get(1).getExemplar());
+        Assert.assertEquals(100, alunoGrad.obterEmprestimos(false).get(2).getExemplar().getCodigo());
+    }
+
+    @Test
+    public void obterEmprestimoEmAbertoPorCodigoDoLivroTest() {
+        Assert.assertNull(alunoGrad.obterEmprestimoEmAbertoPorCodigoDoLivro(exemplar1.getCodigo()));
+        Assert.assertNull(alunoGrad.obterEmprestimoEmAbertoPorCodigoDoLivro(exemplar2.getCodigo()));
+
+        biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar1.getCodigo());
+        Assert.assertEquals(exemplar1, alunoGrad.obterEmprestimoEmAbertoPorCodigoDoLivro(exemplar1.getCodigo()).getExemplar());
+        Assert.assertNull(alunoGrad.obterEmprestimoEmAbertoPorCodigoDoLivro(exemplar2.getCodigo()));
+
+        biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar2.getCodigo());
+        Assert.assertEquals(exemplar1, alunoGrad.obterEmprestimoEmAbertoPorCodigoDoLivro(exemplar1.getCodigo()).getExemplar());
+        Assert.assertEquals(exemplar2, alunoGrad.obterEmprestimoEmAbertoPorCodigoDoLivro(exemplar2.getCodigo()).getExemplar());
+
+        biblioteca.realizarDevolucao(alunoGrad.getCodigo(), exemplar1.getCodigo());
+        Assert.assertNull(alunoGrad.obterEmprestimoEmAbertoPorCodigoDoLivro(exemplar1.getCodigo()));
+        Assert.assertEquals(exemplar2, alunoGrad.obterEmprestimoEmAbertoPorCodigoDoLivro(exemplar2.getCodigo()).getExemplar());
+
+        biblioteca.realizarDevolucao(alunoGrad.getCodigo(), exemplar2.getCodigo());
+        Assert.assertNull(alunoGrad.obterEmprestimoEmAbertoPorCodigoDoLivro(exemplar1.getCodigo()));
+        Assert.assertNull(alunoGrad.obterEmprestimoEmAbertoPorCodigoDoLivro(exemplar2.getCodigo()));
+
+        biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar1.getCodigo());
+        biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar2.getCodigo());
+        Assert.assertEquals(exemplar1, alunoGrad.obterEmprestimoEmAbertoPorCodigoDoLivro(exemplar1.getCodigo()).getExemplar());
+        Assert.assertEquals(exemplar2, alunoGrad.obterEmprestimoEmAbertoPorCodigoDoLivro(exemplar2.getCodigo()).getExemplar());
+
+        biblioteca.realizarDevolucao(alunoGrad.getCodigo(), exemplar1.getCodigo());
+        Assert.assertNull(alunoGrad.obterEmprestimoEmAbertoPorCodigoDoLivro(exemplar1.getCodigo()));
+        Assert.assertEquals(exemplar2, alunoGrad.obterEmprestimoEmAbertoPorCodigoDoLivro(exemplar2.getCodigo()).getExemplar());
+
+        biblioteca.realizarDevolucao(alunoGrad.getCodigo(), exemplar2.getCodigo());
+        Assert.assertNull(alunoGrad.obterEmprestimoEmAbertoPorCodigoDoLivro(exemplar1.getCodigo()));
+        Assert.assertNull(alunoGrad.obterEmprestimoEmAbertoPorCodigoDoLivro(exemplar2.getCodigo()));
+    }
+
+    @Test
     public void quantidadeDeEmprestimosEmAbertoComecaZeradaTest() {
         Assert.assertEquals(0, alunoGrad.quantidadeDeEmprestimosEmAberto());
     }
@@ -194,6 +253,29 @@ public class AlunoGraduacaoTest extends BaseTest {
     }
 
     @Test
+    public void quantidadeDeEmprestimosEmAbertoDiminuiAoDevolverPeloSistemaTest() {
+        biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar1.getCodigo());
+        biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar2.getCodigo());
+        biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), 200);
+
+        Assert.assertEquals(3, alunoGrad.quantidadeDeEmprestimosEmAberto());
+        Assert.assertEquals(alunoGrad.maxEmprestimos(), alunoGrad.quantidadeDeEmprestimosEmAberto());
+        Assert.assertTrue(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
+
+        biblioteca.realizarDevolucao(alunoGrad.getCodigo(), exemplar1.getCodigo());
+        Assert.assertEquals(2, alunoGrad.quantidadeDeEmprestimosEmAberto());
+        Assert.assertFalse(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
+
+        biblioteca.realizarDevolucao(alunoGrad.getCodigo(), exemplar2.getCodigo());
+        Assert.assertEquals(1, alunoGrad.quantidadeDeEmprestimosEmAberto());
+        Assert.assertFalse(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
+
+        biblioteca.realizarDevolucao(alunoGrad.getCodigo(), 200);
+        Assert.assertEquals(0, alunoGrad.quantidadeDeEmprestimosEmAberto());
+        Assert.assertFalse(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
+    }
+
+    @Test
     public void quantidadeDeEmprestimosEmAbertoAumentaAoRealizarNovosEmprestimosAposDevolverExemplaresTest() {
         biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar1.getCodigo());
         biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar2.getCodigo());
@@ -230,6 +312,51 @@ public class AlunoGraduacaoTest extends BaseTest {
         Assert.assertTrue(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
 
         alunoGrad.obterEmprestimos(true).forEach(emprestimo -> emprestimo.setDevolvido(true));
+
+        Assert.assertEquals(0, alunoGrad.quantidadeDeEmprestimosEmAberto());
+        Assert.assertFalse(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
+    }
+
+    @Test
+    public void quantidadeDeEmprestimosEmAbertoAumentaAoRealizarNovosEmprestimosAposDevolverExemplaresPeloSistemaTest() {
+        biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar1.getCodigo());
+        biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar2.getCodigo());
+        biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), 200);
+
+        Assert.assertEquals(3, alunoGrad.quantidadeDeEmprestimosEmAberto());
+        Assert.assertEquals(alunoGrad.maxEmprestimos(), alunoGrad.quantidadeDeEmprestimosEmAberto());
+        Assert.assertTrue(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
+
+        alunoGrad.obterEmprestimos(true).forEach(emprestimo -> biblioteca.realizarDevolucao(alunoGrad.getCodigo(),
+                emprestimo.getExemplar().getCodigo()));
+
+        Assert.assertEquals(0, alunoGrad.quantidadeDeEmprestimosEmAberto());
+        Assert.assertFalse(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
+
+        biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar1.getCodigo());
+        biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar2.getCodigo());
+        biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), 200);
+
+        Assert.assertEquals(3, alunoGrad.quantidadeDeEmprestimosEmAberto());
+        Assert.assertEquals(alunoGrad.maxEmprestimos(), alunoGrad.quantidadeDeEmprestimosEmAberto());
+        Assert.assertTrue(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
+
+        alunoGrad.obterEmprestimos(true).forEach(emprestimo -> biblioteca.realizarDevolucao(alunoGrad.getCodigo(),
+                emprestimo.getExemplar().getCodigo()));
+
+        Assert.assertEquals(0, alunoGrad.quantidadeDeEmprestimosEmAberto());
+        Assert.assertFalse(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
+
+        biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), 500);
+        biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), 600);
+        biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), 100);
+
+        Assert.assertEquals(3, alunoGrad.quantidadeDeEmprestimosEmAberto());
+        Assert.assertEquals(alunoGrad.maxEmprestimos(), alunoGrad.quantidadeDeEmprestimosEmAberto());
+        Assert.assertTrue(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
+
+        alunoGrad.obterEmprestimos(true).forEach(emprestimo -> biblioteca.realizarDevolucao(alunoGrad.getCodigo(),
+                emprestimo.getExemplar().getCodigo()));
 
         Assert.assertEquals(0, alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertFalse(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
