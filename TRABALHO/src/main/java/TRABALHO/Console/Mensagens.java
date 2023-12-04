@@ -10,6 +10,17 @@ import TRABALHO.Usuarios.IUsuario;
 public class Mensagens {
     private static String delimiter = " | ";
 
+    public static void MensagemAjuda() {
+        String alert = String.join("\n",
+                "------------------------------------------------------------",
+                "Comandos disponíveis:",
+                "emp <codigoUsuario> <codigoLivro> - Realiza um empréstimo",
+                "dev <codigoUsuario> <codigoLivro> - Realiza uma devolução",
+                "sair - Encerra o programa",
+                "------------------------------------------------------------");
+        System.out.println(alert);
+    }
+
     public static void MensagemDeErro(String mensagem, String motivo, IUsuario usuario, ILivro livro) {
         String alert = String.join(delimiter,
                 mensagem,
@@ -19,7 +30,8 @@ public class Mensagens {
         System.out.println(alert);
     }
 
-    public static void MensagemSucessoEmprestimoDevolucao(String mensagem, IUsuario usuario, ILivro livro, Emprestimo emprestimo) {
+    public static void MensagemSucessoEmprestimoDevolucao(String mensagem, IUsuario usuario, ILivro livro,
+            Emprestimo emprestimo) {
         String alert = String.join(delimiter,
                 mensagem,
                 "Usuário: " + (usuario != null ? usuario.getNome() : "N/A"),

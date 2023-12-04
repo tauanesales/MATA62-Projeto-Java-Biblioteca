@@ -13,8 +13,7 @@ public class App {
         System.setProperty("file.encoding", "UTF-8");
         Locale.setDefault(new Locale("pt", "BR"));
         System.out.println("*********************INICIANDO TESTES*********************");
-        TestesManuais.TesteBasico();
-        // TesteManual.TesteBasico();
+        TestesManuais.TesteBasico2();
         System.out.println("********************TESTES FINALIZADOS********************");
     }
 }
