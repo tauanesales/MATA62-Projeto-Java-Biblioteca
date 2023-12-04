@@ -1,17 +1,35 @@
 package TRABALHO.Console;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import TRABALHO.Emprestimo.Emprestimo;
 import TRABALHO.Livros.ILivro;
 import TRABALHO.Usuarios.IUsuario;
 
 public class Mensagens {
     private static String delimiter = " | ";
 
-    public static void MensagemDeErroEmprestimo(String mensagem, IUsuario usuario, ILivro livro) {
+    public static void MensagemDeErro(String mensagem, String motivo, IUsuario usuario, ILivro livro) {
         String alert = String.join(delimiter,
-                "Não foi possível realizar o empréstimo.",
-                "Motivo: " + mensagem,
+                mensagem,
+                "Motivo: " + motivo,
                 "Usuário: " + (usuario != null ? usuario.getNome() : "N/A"),
                 "Livro: " + (livro != null ? livro.getTitulo() : "N/A"));
         System.out.println(alert);
     }
+
+    public static void MensagemSucessoEmprestimoDevolucao(String mensagem, IUsuario usuario, ILivro livro, Emprestimo emprestimo) {
+        String alert = String.join(delimiter,
+                mensagem,
+                "Usuário: " + (usuario != null ? usuario.getNome() : "N/A"),
+                "Livro: " + (livro != null ? livro.getTitulo() : "N/A"),
+                "Devolução até: " + (new SimpleDateFormat("dd/MM/yyyy")).format(emprestimo.getDataDevolucao()));
+
+        if (emprestimo.isDevolvido()) {
+            alert += delimiter + "Devolvido em: " + (new SimpleDateFormat("dd/MM/yyyy")).format(new Date());
+        }
+        System.out.println(alert);
+    }
+
 }

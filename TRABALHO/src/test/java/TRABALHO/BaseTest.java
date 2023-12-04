@@ -1,6 +1,6 @@
 package TRABALHO;
 
-import TRABALHO.BancoDeDados.MyORM;
+import TRABALHO.BancoDeDados.BancoDeDados;
 import TRABALHO.Livros.Exemplar;
 import TRABALHO.Livros.Livro;
 import TRABALHO.SistemaBiblioteca.SistemaBiblioteca;
@@ -30,7 +30,7 @@ public class BaseTest {
 
     @Before
     public void init() {
-        MyORM.init();
+        BancoDeDados.init();
         usuario = new Usuario(0, "Usuário");
         biblioteca = new SistemaBiblioteca();
         aluno = new Aluno(1, "João");
@@ -97,9 +97,9 @@ public class BaseTest {
 
         List.of(usuario, aluno, alunoGrad, alunoPosGrad, professor, professor2, exemplar1, exemplar2)
                 .stream()
-                .forEach(dado -> MyORM.add(dado));
+                .forEach(dado -> BancoDeDados.add(dado));
 
-        livros.stream().forEach(livro -> MyORM.add(livro));
-        alunos.stream().forEach(aluno -> MyORM.add(aluno));
+        livros.stream().forEach(livro -> BancoDeDados.add(livro));
+        alunos.stream().forEach(aluno -> BancoDeDados.add(aluno));
     }
 }

@@ -11,6 +11,8 @@ public interface IUsuario extends IEntidadeBiblioteca {
     public boolean temAtraso();
 
     public List<Emprestimo> obterEmprestimos(boolean apenasEmAberto);
+    
+    public Emprestimo obterEmprestimoEmAbertoPorCodigoDoLivro(int codigoLivro);
 
     public int quantidadeDeEmprestimosEmAberto();
 
@@ -20,5 +22,5 @@ public interface IUsuario extends IEntidadeBiblioteca {
 
     public long tempoDeEmprestimoMaximo();
 
-    public boolean jaTemEmprestimoDoLivro(int codigoLivro);
+    public boolean jaTemEmprestimoDoLivroEmAberto(int codigoLivro);
 }

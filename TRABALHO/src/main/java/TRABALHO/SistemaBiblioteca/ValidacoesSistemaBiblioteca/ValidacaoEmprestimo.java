@@ -1,38 +1,29 @@
 package TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca;
 
-import TRABALHO.BancoDeDados.MyORM;
-import TRABALHO.Livros.ILivro;
+import TRABALHO.BancoDeDados.BancoDeDados;
 import TRABALHO.Usuarios.IUsuario;
 
-public class ValidacaoEmprestimo {
-    public static class EmprestimoException extends Exception {
+public class ValidacaoEmprestimo extends ValidacaoBase {
+    public static class EmprestimoException extends SistemaBibliotecaException {
         public EmprestimoException(String message) {
             super(message);
         }
     }
 
-    public static void validacaoPodeEmprestarExemplarParaUsuario(int codigoUsuario, int codigoLivro, IUsuario usuario, ILivro livro)
-            throws EmprestimoException {
-        validarUsuario(usuario);
+    public static void validarPodeEmprestarExemplarParaUsuario(int codigoUsuario, int codigoLivro)
+            throws SistemaBibliotecaException {
+        validarUsuario(codigoUsuario);
         validarLivro(codigoLivro);
         validarExemplarDisponivel(codigoLivro);
+
+        IUsuario usuario = BancoDeDados.getUsuario(codigoUsuario);
         validarUsuarioSemAtraso(usuario);
         validarUsuarioNaoAtingiuLimiteMaximoDeEmprestimos(usuario);
         validarUsuarioNaoTemEmprestimoDoLivro(usuario, codigoLivro);
     }
 
-    public static void validarUsuario(IUsuario usuario) throws EmprestimoException {
-        if (usuario == null)
-            throw new EmprestimoException("Usuário não existe");
-    }
-
-    public static void validarLivro(int codigoLivro) throws EmprestimoException {
-        if (!MyORM.livroExiste(codigoLivro))
-            throw new EmprestimoException("Livro não existe na biblioteca");
-    }
-
     public static void validarExemplarDisponivel(int codigoLivro) throws EmprestimoException {
-        if (!MyORM.temExemplarDisponivel(codigoLivro))
+        if (!BancoDeDados.temExemplarDisponivel(codigoLivro))
             throw new EmprestimoException("Exemplar não está disponível");
     }
 
@@ -46,8 +37,9 @@ public class ValidacaoEmprestimo {
             throw new EmprestimoException("Usuário atingiu o limite máximo de empréstimos");
     }
 
-    public static void validarUsuarioNaoTemEmprestimoDoLivro(IUsuario usuario, int codigoLivro) throws EmprestimoException {
-        if (usuario.jaTemEmprestimoDoLivro(codigoLivro))
+    public static void validarUsuarioNaoTemEmprestimoDoLivro(IUsuario usuario, int codigoLivro)
+            throws EmprestimoException {
+        if (usuario.jaTemEmprestimoDoLivroEmAberto(codigoLivro))
             throw new EmprestimoException("Usuário já possui empréstimo do livro");
     }
 }
