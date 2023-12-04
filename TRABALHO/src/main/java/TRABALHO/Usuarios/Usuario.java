@@ -1,6 +1,6 @@
 package TRABALHO.Usuarios;
 
-import TRABALHO.BancoDeDados.BancoDeDados;
+import TRABALHO.BancoDeDados.IBancoDeDados;
 import TRABALHO.Emprestimo.Emprestimo;
 
 import java.util.Date;
@@ -10,10 +10,12 @@ import java.util.stream.Collectors;
 public class Usuario implements IUsuario {
     private int codigo_identificador;
     private String nome;
+    private IBancoDeDados db;
 
-    public Usuario(int codigo_identificador, String nome) {
+    public Usuario(int codigo_identificador, String nome, IBancoDeDados db) {
         this.codigo_identificador = codigo_identificador;
         this.nome = nome;
+        this.db = db;
     }
 
     public int getCodigo() {
@@ -32,7 +34,7 @@ public class Usuario implements IUsuario {
     }
 
     public List<Emprestimo> obterEmprestimos(boolean apenasEmAberto) {
-        return BancoDeDados.getInstance().getAll(Emprestimo.class)
+        return db.getAll(Emprestimo.class)
                 .stream()
                 .filter(emprestimo -> emprestimo.getUsuario().getCodigo() == this.getCodigo())
                 .filter(emprestimo -> !apenasEmAberto || !emprestimo.isDevolvido())

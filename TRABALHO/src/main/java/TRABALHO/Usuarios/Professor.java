@@ -1,8 +1,10 @@
 package TRABALHO.Usuarios;
 
+import TRABALHO.BancoDeDados.IBancoDeDados;
+
 public class Professor extends Usuario {
-    public Professor(int codigo_identificador, String nome) {
-        super(codigo_identificador, nome);
+    public Professor(int codigo_identificador, String nome, IBancoDeDados db) {
+        super(codigo_identificador, nome, db);
     }
 
     public int maxEmprestimos() {

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class BancoDeDados implements IBancoDeDados {
     private static BancoDeDados instance;
-    private HashMap<Class<? extends IEntidadeBiblioteca>, List<IEntidadeBiblioteca>> bancoDeDados;
+    private HashMap<Class<? extends IEntidadeBiblioteca>, List<IEntidadeBiblioteca>> tables;
 
     private BancoDeDados() {
         initializeDatabase();
@@ -30,22 +30,22 @@ public class BancoDeDados implements IBancoDeDados {
     }
 
     private void clearDatabase() {
-        bancoDeDados = null;
+        tables = null;
     }
 
     private void initializeDatabase() {
-        bancoDeDados = new HashMap<Class<? extends IEntidadeBiblioteca>, List<IEntidadeBiblioteca>>();
+        tables = new HashMap<Class<? extends IEntidadeBiblioteca>, List<IEntidadeBiblioteca>>();
     }
 
-    public boolean add(IEntidadeBiblioteca object) {
-        return bancoDeDados
+    public boolean insert(IEntidadeBiblioteca object) {
+        return tables
                 .computeIfAbsent(object.getClass(), key -> new ArrayList<>())
                 .add(object);
     }
 
     public void printDados() {
-        for (Class<? extends IEntidadeBiblioteca> key : bancoDeDados.keySet()) {
-            List<IEntidadeBiblioteca> values = bancoDeDados.get(key);
+        for (Class<? extends IEntidadeBiblioteca> key : tables.keySet()) {
+            List<IEntidadeBiblioteca> values = tables.get(key);
             System.out.println("Key: " + key.getSimpleName());
             System.out.println("Values: " + values);
         }
@@ -54,10 +54,10 @@ public class BancoDeDados implements IBancoDeDados {
     public <T extends IEntidadeBiblioteca> List<T> getAll(Class<T> entityType) {
         List<T> result = new ArrayList<>();
 
-        bancoDeDados.keySet()
+        tables.keySet()
                 .stream()
                 .filter(key -> entityType.isAssignableFrom(key))
-                .map(bancoDeDados::get)
+                .map(tables::get)
                 .flatMap(List::stream)
                 .map(entityType::cast)
                 .forEach(result::add);

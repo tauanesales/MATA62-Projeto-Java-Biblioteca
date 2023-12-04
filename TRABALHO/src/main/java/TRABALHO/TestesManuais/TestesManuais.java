@@ -14,19 +14,19 @@ import TRABALHO.Usuarios.Professor;
 public class TestesManuais {
         public static void TesteBasico() {
                 BancoDeDados db = BancoDeDados.getInstance();
-                SistemaBiblioteca biblioteca = SistemaBiblioteca.getInstance();
+                SistemaBiblioteca biblioteca = SistemaBiblioteca.getInstance(db);
 
-                Aluno aluno = new Aluno(1, "João");
-                AlunoGraduacao alunoGrad = new AlunoGraduacao(2, "Maria");
-                AlunoPosGraduacao alunoPosGrad = new AlunoPosGraduacao(3, "Tay");
-                Professor professor = new Professor(4, "Ana");
+                Aluno aluno = new Aluno(1, "João", db);
+                AlunoGraduacao alunoGrad = new AlunoGraduacao(2, "Maria", db);
+                AlunoPosGraduacao alunoPosGrad = new AlunoPosGraduacao(3, "Tay", db);
+                Professor professor = new Professor(4, "Ana", db);
 
                 Exemplar livro1 = new Exemplar(1001, 1, "Teste 1", "Editora 1", "Autor 1", "1ª", "2001");
                 Exemplar livro2 = new Exemplar(1002, 2, "Teste 2", "Editora 2", "Autor 2", "2ª", "2002");
 
                 List.of(aluno, alunoGrad, alunoPosGrad, professor, livro1, livro2)
                                 .stream()
-                                .forEach(dado -> db.add(dado));
+                                .forEach(dado -> db.insert(dado));
 
                 List<Livro> livros = List.of(
                                 new Exemplar(100, 1, "Engenharia de Software", "AddisonWesley", "Ian Sommerville", "6ª",
@@ -60,7 +60,7 @@ public class TestesManuais {
                                 new Livro(401,
                                                 "UML Distilled: A Brief Guide to the Standard Object Modeling Language",
                                                 "Addison-Wesley Professional", "Martin Fowler", "3ª", "2003"));
-                livros.stream().forEach(livro -> db.add(livro));
+                livros.stream().forEach(livro -> db.insert(livro));
 
                 biblioteca.realizarEmprestimo(0, 1001);
                 biblioteca.realizarEmprestimo(1, 1);
@@ -88,10 +88,10 @@ public class TestesManuais {
                 BancoDeDados db = BancoDeDados.getInstance();
 
                 List<Aluno> alunos = List.of(
-                                new AlunoGraduacao(123, "João da Silva"),
-                                new AlunoPosGraduacao(456, "Luiz Fernando Rodrigues"),
-                                new AlunoGraduacao(789, "Pedro Paulo"));
-                Professor professor = new Professor(100, "Carlos Lucena");
+                                new AlunoGraduacao(123, "João da Silva", db),
+                                new AlunoPosGraduacao(456, "Luiz Fernando Rodrigues", db),
+                                new AlunoGraduacao(789, "Pedro Paulo", db));
+                Professor professor = new Professor(100, "Carlos Lucena", db);
 
                 List<Livro> livros = List.of(
                                 new Exemplar(100, 1, "Engenharia de Software", "AddisonWesley", "Ian Sommerville", "6ª",
@@ -126,9 +126,9 @@ public class TestesManuais {
                                                 "UML Distilled: A Brief Guide to the Standard Object Modeling Language",
                                                 "Addison-Wesley Professional", "Martin Fowler", "3ª", "2003"));
 
-                alunos.stream().forEach(aluno -> db.add(aluno));
-                db.add(professor);
-                livros.stream().forEach(livro -> db.add(livro));
+                alunos.stream().forEach(aluno -> db.insert(aluno));
+                db.insert(professor);
+                livros.stream().forEach(livro -> db.insert(livro));
 
                 // biblioteca.realizarEmprestimo(1, 101);
                 // biblioteca.realizarEmprestimo(2, 101);
