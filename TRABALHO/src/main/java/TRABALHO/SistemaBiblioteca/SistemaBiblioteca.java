@@ -1,6 +1,6 @@
 package TRABALHO.SistemaBiblioteca;
 
-import TRABALHO.BancoDeDados.BancoDeDados;
+import TRABALHO.BancoDeDados.IBancoDeDados;
 import TRABALHO.Console.Mensagens;
 import TRABALHO.Emprestimo.Emprestimo;
 import TRABALHO.Livros.Exemplar;
@@ -12,46 +12,46 @@ import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoEmprestim
 
 public class SistemaBiblioteca {
     private static SistemaBiblioteca instance;
-    public BancoDeDados bancoDeDados;
+    public IBancoDeDados db;
 
-    private SistemaBiblioteca() {
-        bancoDeDados = BancoDeDados.getInstance();
+    private SistemaBiblioteca(IBancoDeDados db) {
+        this.db = db;
     }
 
-    public static SistemaBiblioteca getInstance() {
+    public static SistemaBiblioteca getInstance(IBancoDeDados db) {
         if (instance == null) {
-            instance = new SistemaBiblioteca();
+            instance = new SistemaBiblioteca(db);
         }
         return instance;
     }
 
     public void realizarEmprestimo(int codigoUsuario, int codigoLivro) {
-        IUsuario usuario = BancoDeDados.getInstance().getUsuario(codigoUsuario);
-        Exemplar exemplar = BancoDeDados.getInstance().getExemplarDisponivelPorCodigoLivro(codigoLivro);
+        IUsuario usuario = db.getUsuario(codigoUsuario);
+        Exemplar exemplar = db.getExemplarDisponivelPorCodigoLivro(codigoLivro);
 
         try {
-            ValidacaoEmprestimo.validarPodeEmprestarExemplarParaUsuario(codigoUsuario, codigoLivro);
+            ValidacaoEmprestimo.validarPodeEmprestarExemplarParaUsuario(codigoUsuario, codigoLivro, db);
         } catch (ValidacaoBase.SistemaBibliotecaException e) {
             Mensagens.MensagemDeErro("Não foi possível realizar o empréstimo", e.getMessage(), usuario, exemplar);
             return;
         }
 
         Emprestimo emprestimo = new Emprestimo(exemplar, usuario);
-        BancoDeDados.getInstance().add(emprestimo);
+        db.insert(emprestimo);
 
         Mensagens.MensagemSucessoEmprestimoDevolucao("Empréstimo realizado com sucesso", usuario, exemplar, emprestimo);
     }
 
     public void realizarDevolucao(int codigoUsuario, int codigoLivro) {
         try {
-            ValidacaoDevolucao.validarPodeDevolverExemplar(codigoUsuario, codigoLivro);
+            ValidacaoDevolucao.validarPodeDevolverExemplar(codigoUsuario, codigoLivro, db);
         } catch (ValidacaoBase.SistemaBibliotecaException e) {
             Mensagens.MensagemDeErro("Não foi possível realizar a devolução.", e.getMessage(),
-                    BancoDeDados.getInstance().getUsuario(codigoUsuario), BancoDeDados.getInstance().getLivro(codigoLivro));
+                    db.getUsuario(codigoUsuario), db.getLivro(codigoLivro));
             return;
         }
 
-        IUsuario usuario = BancoDeDados.getInstance().getUsuario(codigoUsuario);
+        IUsuario usuario = db.getUsuario(codigoUsuario);
         Emprestimo emprestimo = usuario.obterEmprestimoEmAbertoPorCodigoDoLivro(codigoLivro);
         Exemplar exemplar = emprestimo.getExemplar();
 

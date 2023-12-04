@@ -11,13 +11,13 @@ import TRABALHO.Livros.Exemplar;
 import TRABALHO.Livros.Livro;
 import TRABALHO.Usuarios.IUsuario;
 
-public class MyORMTest extends BaseTest {
+public class BancoDeDadosTest extends BaseTest {
     @Test
     public void getUsuarioTest() {
-        Assert.assertEquals(null, BancoDeDados.getInstance().getUsuario(-1));
+        Assert.assertEquals(null, db.getUsuario(-1));
 
         for (IUsuario usuario : List.of(aluno, alunoGrad, alunoPosGrad, professor)) {
-            IUsuario response = BancoDeDados.getInstance().getUsuario(usuario.getCodigo());
+            IUsuario response = db.getUsuario(usuario.getCodigo());
             Assert.assertEquals(usuario.getClass(), response.getClass());
             Assert.assertEquals(usuario.getCodigo(), response.getCodigo());
             Assert.assertEquals(usuario.getNome(), response.getNome());
@@ -26,7 +26,7 @@ public class MyORMTest extends BaseTest {
 
     @Test
     public void getExemplarTest() {
-        Assert.assertEquals(null, BancoDeDados.getInstance().getExemplar(0, 0));
+        Assert.assertEquals(null, db.getExemplar(0, 0));
 
         List<Exemplar> exemplares = livros.stream()
                 .filter(livro -> livro instanceof Exemplar)
@@ -34,7 +34,7 @@ public class MyORMTest extends BaseTest {
                 .collect(Collectors.toList());
 
         for (Exemplar exemplar : exemplares) {
-            Exemplar response = BancoDeDados.getInstance().getExemplar(exemplar.getCodigoExemplar(), exemplar.getCodigo());
+            Exemplar response = db.getExemplar(exemplar.getCodigoExemplar(), exemplar.getCodigo());
             Assert.assertEquals(exemplar.getClass(), response.getClass());
             Assert.assertEquals(exemplar.getCodigoExemplar(), response.getCodigoExemplar());
             Assert.assertEquals(exemplar.getCodigo(), response.getCodigo());
@@ -48,7 +48,7 @@ public class MyORMTest extends BaseTest {
 
     @Test
     public void livroExisteTest() {
-        Assert.assertEquals(false, BancoDeDados.getInstance().livroExiste(0));
+        Assert.assertEquals(false, db.livroExiste(0));
 
         List<Exemplar> exemplares = livros.stream()
                 .filter(livro -> livro instanceof Exemplar)
@@ -56,16 +56,16 @@ public class MyORMTest extends BaseTest {
                 .collect(Collectors.toList());
 
         for (Exemplar exemplar : exemplares) {
-            Assert.assertEquals(true, BancoDeDados.getInstance().livroExiste(exemplar.getCodigo()));
+            Assert.assertEquals(true, db.livroExiste(exemplar.getCodigo()));
         }
     }
 
     @Test
     public void getExemplarDisponivelPorCodigoLivroTest() {
-        Assert.assertEquals(null, BancoDeDados.getInstance().getExemplarDisponivelPorCodigoLivro(0));
+        Assert.assertEquals(null, db.getExemplarDisponivelPorCodigoLivro(0));
 
         for (Livro livro : livros) {
-            Exemplar response = BancoDeDados.getInstance().getExemplarDisponivelPorCodigoLivro(livro.getCodigo());
+            Exemplar response = db.getExemplarDisponivelPorCodigoLivro(livro.getCodigo());
             if (response == null) {
                 Assert.assertEquals(Livro.class, livro.getClass());
                 continue;

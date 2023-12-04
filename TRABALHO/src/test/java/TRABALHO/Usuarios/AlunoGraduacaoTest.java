@@ -31,7 +31,7 @@ public class AlunoGraduacaoTest extends BaseTest {
         calendar.set(2022, Calendar.JANUARY, 1);
 
         // Entra em situação de atraso por ter um empréstimo antigo;
-        db.add(new Emprestimo(exemplar1, alunoGrad, calendar.getTime()));
+        db.insert(new Emprestimo(exemplar1, alunoGrad, calendar.getTime()));
         Assert.assertTrue(alunoGrad.temAtraso());
     }
 

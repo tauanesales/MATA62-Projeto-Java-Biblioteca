@@ -1,6 +1,6 @@
 package TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca;
 
-import TRABALHO.BancoDeDados.BancoDeDados;
+import TRABALHO.BancoDeDados.IBancoDeDados;
 
 public class ValidacaoDevolucao extends ValidacaoBase {
     public static class DevolucaoException extends SistemaBibliotecaException {
@@ -9,14 +9,14 @@ public class ValidacaoDevolucao extends ValidacaoBase {
         }
     }
 
-    public static void validarPodeDevolverExemplar(int codigoUsuario, int codigoLivro) throws SistemaBibliotecaException {
-        validarUsuario(codigoUsuario);
-        validarLivro(codigoLivro);
-        validarUsuarioTemEmprestimoDoLivro(codigoUsuario, codigoLivro);
+    public static void validarPodeDevolverExemplar(int codigoUsuario, int codigoLivro, IBancoDeDados db) throws SistemaBibliotecaException {
+        validarUsuario(codigoUsuario, db);
+        validarLivro(codigoLivro, db);
+        validarUsuarioTemEmprestimoDoLivro(codigoUsuario, codigoLivro, db);
     }
 
-    public static void validarUsuarioTemEmprestimoDoLivro(int codigoUsuario, int codigoLivro) throws SistemaBibliotecaException {
-        if (!BancoDeDados.getInstance().getUsuario(codigoUsuario).jaTemEmprestimoDoLivroEmAberto(codigoLivro))
+    public static void validarUsuarioTemEmprestimoDoLivro(int codigoUsuario, int codigoLivro, IBancoDeDados db) throws SistemaBibliotecaException {
+        if (!db.getUsuario(codigoUsuario).jaTemEmprestimoDoLivroEmAberto(codigoLivro))
             throw new DevolucaoException("Usuário não possui empréstimo do livro em aberto.");
     }
 }

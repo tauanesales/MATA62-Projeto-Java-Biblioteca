@@ -1,6 +1,7 @@
 package TRABALHO;
 
 import TRABALHO.BancoDeDados.BancoDeDados;
+import TRABALHO.BancoDeDados.IBancoDeDados;
 import TRABALHO.Livros.Exemplar;
 import TRABALHO.Livros.Livro;
 import TRABALHO.SistemaBiblioteca.SistemaBiblioteca;
@@ -16,7 +17,7 @@ import org.junit.Before;
 
 public class BaseTest {
     protected static SistemaBiblioteca biblioteca;
-    protected static BancoDeDados db;
+    protected static IBancoDeDados db;
 
     protected static Usuario usuario;
     protected static Aluno aluno;
@@ -33,12 +34,14 @@ public class BaseTest {
     public void init() {
         db = BancoDeDados.getInstance();
         db.reset();
-        usuario = new Usuario(0, "Usuário");
-        biblioteca = SistemaBiblioteca.getInstance();
-        aluno = new Aluno(1, "João");
-        alunoGrad = new AlunoGraduacao(2, "Maria");
-        alunoPosGrad = new AlunoPosGraduacao(3, "Tay");
-        professor = new Professor(4, "Ana");
+        
+        usuario = new Usuario(0, "Usuário", db);
+        aluno = new Aluno(1, "João", db);
+        alunoGrad = new AlunoGraduacao(2, "Maria", db);
+        alunoPosGrad = new AlunoPosGraduacao(3, "Tay", db);
+        professor = new Professor(4, "Ana", db);
+
+        biblioteca = SistemaBiblioteca.getInstance(db);
 
         exemplar1 = new Exemplar(1001, 1, "Teste 1", "Editora 1", "Autor 1", "1ª", "2001");
         exemplar2 = new Exemplar(1002, 2, "Teste 2", "Editora 2", "Autor 2", "2ª", "2002");
@@ -92,16 +95,16 @@ public class BaseTest {
                 new Exemplar(600, 11, "Agile Principles, Patterns, and Practices in C#",
                         "Prentice Hall", "Robert Martin", "1ª", "2006"));
 
-        List<Aluno> alunos = List.of(new AlunoGraduacao(123, "João da Silva"),
-                new AlunoPosGraduacao(456, "Luiz Fernando Rodrigues"),
-                new AlunoGraduacao(789, "Pedro Paulo"));
-        Professor professor2 = new Professor(100, "Carlos Lucena");
+        List<Aluno> alunos = List.of(new AlunoGraduacao(123, "João da Silva", db),
+                new AlunoPosGraduacao(456, "Luiz Fernando Rodrigues", db),
+                new AlunoGraduacao(789, "Pedro Paulo", db));
+        Professor professor2 = new Professor(100, "Carlos Lucena", db);
 
         List.of(usuario, aluno, alunoGrad, alunoPosGrad, professor, professor2, exemplar1, exemplar2)
                 .stream()
-                .forEach(dado -> db.add(dado));
+                .forEach(dado -> db.insert(dado));
 
-        livros.stream().forEach(livro -> db.add(livro));
-        alunos.stream().forEach(aluno -> db.add(aluno));
+        livros.stream().forEach(livro -> db.insert(livro));
+        alunos.stream().forEach(aluno -> db.insert(aluno));
     }
 }
