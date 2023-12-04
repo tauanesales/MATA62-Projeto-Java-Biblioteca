@@ -11,9 +11,23 @@ import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoDevolucao
 import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoEmprestimo;
 
 public class SistemaBiblioteca {
+    private static SistemaBiblioteca instance;
+    public BancoDeDados bancoDeDados;
+
+    private SistemaBiblioteca() {
+        bancoDeDados = BancoDeDados.getInstance();
+    }
+
+    public static SistemaBiblioteca getInstance() {
+        if (instance == null) {
+            instance = new SistemaBiblioteca();
+        }
+        return instance;
+    }
+
     public void realizarEmprestimo(int codigoUsuario, int codigoLivro) {
-        IUsuario usuario = BancoDeDados.getUsuario(codigoUsuario);
-        Exemplar exemplar = BancoDeDados.getExemplarDisponivelPorCodigoLivro(codigoLivro);
+        IUsuario usuario = BancoDeDados.getInstance().getUsuario(codigoUsuario);
+        Exemplar exemplar = BancoDeDados.getInstance().getExemplarDisponivelPorCodigoLivro(codigoLivro);
 
         try {
             ValidacaoEmprestimo.validarPodeEmprestarExemplarParaUsuario(codigoUsuario, codigoLivro);
@@ -23,7 +37,7 @@ public class SistemaBiblioteca {
         }
 
         Emprestimo emprestimo = new Emprestimo(exemplar, usuario);
-        BancoDeDados.add(emprestimo);
+        BancoDeDados.getInstance().add(emprestimo);
 
         Mensagens.MensagemSucessoEmprestimoDevolucao("Empréstimo realizado com sucesso", usuario, exemplar, emprestimo);
     }
@@ -33,11 +47,11 @@ public class SistemaBiblioteca {
             ValidacaoDevolucao.validarPodeDevolverExemplar(codigoUsuario, codigoLivro);
         } catch (ValidacaoBase.SistemaBibliotecaException e) {
             Mensagens.MensagemDeErro("Não foi possível realizar a devolução.", e.getMessage(),
-                    BancoDeDados.getUsuario(codigoUsuario), BancoDeDados.getLivro(codigoLivro));
+                    BancoDeDados.getInstance().getUsuario(codigoUsuario), BancoDeDados.getInstance().getLivro(codigoLivro));
             return;
         }
 
-        IUsuario usuario = BancoDeDados.getUsuario(codigoUsuario);
+        IUsuario usuario = BancoDeDados.getInstance().getUsuario(codigoUsuario);
         Emprestimo emprestimo = usuario.obterEmprestimoEmAbertoPorCodigoDoLivro(codigoLivro);
         Exemplar exemplar = emprestimo.getExemplar();
 

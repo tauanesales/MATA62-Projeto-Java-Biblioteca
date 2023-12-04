@@ -16,14 +16,14 @@ public class ValidacaoEmprestimo extends ValidacaoBase {
         validarLivro(codigoLivro);
         validarExemplarDisponivel(codigoLivro);
 
-        IUsuario usuario = BancoDeDados.getUsuario(codigoUsuario);
+        IUsuario usuario = BancoDeDados.getInstance().getUsuario(codigoUsuario);
         validarUsuarioSemAtraso(usuario);
         validarUsuarioNaoAtingiuLimiteMaximoDeEmprestimos(usuario);
         validarUsuarioNaoTemEmprestimoDoLivro(usuario, codigoLivro);
     }
 
     public static void validarExemplarDisponivel(int codigoLivro) throws EmprestimoException {
-        if (!BancoDeDados.temExemplarDisponivel(codigoLivro))
+        if (!BancoDeDados.getInstance().temExemplarDisponivel(codigoLivro))
             throw new EmprestimoException("Exemplar não está disponível");
     }
 

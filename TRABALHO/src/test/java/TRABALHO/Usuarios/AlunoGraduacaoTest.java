@@ -1,7 +1,6 @@
 package TRABALHO.Usuarios;
 
 import TRABALHO.BaseTest;
-import TRABALHO.BancoDeDados.BancoDeDados;
 import TRABALHO.Emprestimo.Emprestimo;
 
 import org.junit.Assert;
@@ -32,7 +31,7 @@ public class AlunoGraduacaoTest extends BaseTest {
         calendar.set(2022, Calendar.JANUARY, 1);
 
         // Entra em situação de atraso por ter um empréstimo antigo;
-        BancoDeDados.add(new Emprestimo(exemplar1, alunoGrad, calendar.getTime()));
+        db.add(new Emprestimo(exemplar1, alunoGrad, calendar.getTime()));
         Assert.assertTrue(alunoGrad.temAtraso());
     }
 

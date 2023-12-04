@@ -9,29 +9,41 @@ import java.util.HashMap;
 import java.util.List;
 
 public class BancoDeDados implements IBancoDeDados {
-    private static HashMap<Class<? extends IEntidadeBiblioteca>, List<IEntidadeBiblioteca>> bancoDeDados = new HashMap<Class<? extends IEntidadeBiblioteca>, List<IEntidadeBiblioteca>>();
+    private static BancoDeDados instance;
+    private HashMap<Class<? extends IEntidadeBiblioteca>, List<IEntidadeBiblioteca>> bancoDeDados;
 
-    public static void init() {
+    private BancoDeDados() {
+        initializeDatabase();
+    }
+
+    public static BancoDeDados getInstance() {
+        if (instance == null) {
+            instance = new BancoDeDados();
+        }
+        return instance;
+    }
+
+    public void reset() {
         clearDatabase();
         System.gc();
         initializeDatabase();
     }
 
-    private static void clearDatabase() {
+    private void clearDatabase() {
         bancoDeDados = null;
     }
 
-    private static void initializeDatabase() {
+    private void initializeDatabase() {
         bancoDeDados = new HashMap<Class<? extends IEntidadeBiblioteca>, List<IEntidadeBiblioteca>>();
     }
 
-    public static boolean add(IEntidadeBiblioteca object) {
+    public boolean add(IEntidadeBiblioteca object) {
         return bancoDeDados
                 .computeIfAbsent(object.getClass(), key -> new ArrayList<>())
                 .add(object);
     }
 
-    public static void printDados() {
+    public void printDados() {
         for (Class<? extends IEntidadeBiblioteca> key : bancoDeDados.keySet()) {
             List<IEntidadeBiblioteca> values = bancoDeDados.get(key);
             System.out.println("Key: " + key.getSimpleName());
@@ -39,7 +51,7 @@ public class BancoDeDados implements IBancoDeDados {
         }
     }
 
-    public static <T extends IEntidadeBiblioteca> List<T> getAll(Class<T> entityType) {
+    public <T extends IEntidadeBiblioteca> List<T> getAll(Class<T> entityType) {
         List<T> result = new ArrayList<>();
 
         bancoDeDados.keySet()
@@ -53,9 +65,9 @@ public class BancoDeDados implements IBancoDeDados {
         return result;
     }
 
-    public static <T extends IEntidadeBiblioteca> T getFirtById(Class<T> tabela,
+    public <T extends IEntidadeBiblioteca> T getFirtById(Class<T> tabela,
             int id) {
-        return BancoDeDados.getAll(tabela)
+        return this.getAll(tabela)
                 .stream()
                 .filter(entidade -> entidade.getCodigo() == id)
                 .map(tabela::cast) // Cast the result to the specific type
@@ -63,18 +75,18 @@ public class BancoDeDados implements IBancoDeDados {
                 .orElse(null);
     }
 
-    public static IEntidadeBiblioteca[] getAllById(Class<? extends IEntidadeBiblioteca> tabela, int id) {
-        return BancoDeDados.getAll(tabela)
+    public IEntidadeBiblioteca[] getAllById(Class<? extends IEntidadeBiblioteca> tabela, int id) {
+        return this.getAll(tabela)
                 .stream()
                 .filter(entidade -> entidade.getCodigo() == id)
                 .toArray(IEntidadeBiblioteca[]::new);
     }
 
-    public static Livro getLivro(int codigoLivro) {
-        return BancoDeDados.getFirtById(Livro.class, codigoLivro);
+    public Livro getLivro(int codigoLivro) {
+        return this.getFirtById(Livro.class, codigoLivro);
     }
 
-    public static Exemplar getExemplar(int codigoExemplar, int codigoLivro) {
+    public Exemplar getExemplar(int codigoExemplar, int codigoLivro) {
         return getAll(Exemplar.class)
                 .stream()
                 .filter(exemplar -> exemplar.getCodigo() == codigoLivro)
@@ -83,7 +95,7 @@ public class BancoDeDados implements IBancoDeDados {
                 .orElse(null);
     }
 
-    public static Exemplar getExemplarDisponivelPorCodigoLivro(int codigoLivro) {
+    public Exemplar getExemplarDisponivelPorCodigoLivro(int codigoLivro) {
         return getAll(Exemplar.class)
                 .stream()
                 .filter(exemplar -> exemplar.getCodigo() == codigoLivro)
@@ -92,14 +104,14 @@ public class BancoDeDados implements IBancoDeDados {
                 .orElse(null);
     }
 
-    public static boolean temExemplarDisponivel(int codigoLivro) {
+    public boolean temExemplarDisponivel(int codigoLivro) {
         return getAll(Exemplar.class)
                 .stream()
                 .anyMatch(exemplar -> exemplar.getCodigo() == codigoLivro &&
                         exemplar.isDisponivel());
     }
 
-    public static boolean livroExiste(int codigoLivro) {
+    public boolean livroExiste(int codigoLivro) {
         return getAll(Livro.class)
                 .stream()
                 .filter(livro -> livro.getCodigo() == codigoLivro)
@@ -107,7 +119,7 @@ public class BancoDeDados implements IBancoDeDados {
                 .isPresent();
     }
 
-    public static IUsuario getUsuario(int codigoUsuario) {
-        return BancoDeDados.getFirtById(IUsuario.class, codigoUsuario);
+    public IUsuario getUsuario(int codigoUsuario) {
+        return this.getFirtById(IUsuario.class, codigoUsuario);
     }
 }

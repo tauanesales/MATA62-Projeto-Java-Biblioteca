@@ -32,7 +32,7 @@ public class Usuario implements IUsuario {
     }
 
     public List<Emprestimo> obterEmprestimos(boolean apenasEmAberto) {
-        return BancoDeDados.getAll(Emprestimo.class)
+        return BancoDeDados.getInstance().getAll(Emprestimo.class)
                 .stream()
                 .filter(emprestimo -> emprestimo.getUsuario().getCodigo() == this.getCodigo())
                 .filter(emprestimo -> !apenasEmAberto || !emprestimo.isDevolvido())

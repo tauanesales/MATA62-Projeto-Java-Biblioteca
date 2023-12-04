@@ -13,7 +13,8 @@ import TRABALHO.Usuarios.Professor;
 
 public class TestesManuais {
         public static void TesteBasico() {
-                SistemaBiblioteca biblioteca = new SistemaBiblioteca();
+                BancoDeDados db = BancoDeDados.getInstance();
+                SistemaBiblioteca biblioteca = SistemaBiblioteca.getInstance();
 
                 Aluno aluno = new Aluno(1, "João");
                 AlunoGraduacao alunoGrad = new AlunoGraduacao(2, "Maria");
@@ -25,7 +26,7 @@ public class TestesManuais {
 
                 List.of(aluno, alunoGrad, alunoPosGrad, professor, livro1, livro2)
                                 .stream()
-                                .forEach(dado -> BancoDeDados.add(dado));
+                                .forEach(dado -> db.add(dado));
 
                 List<Livro> livros = List.of(
                                 new Exemplar(100, 1, "Engenharia de Software", "AddisonWesley", "Ian Sommerville", "6ª",
@@ -59,7 +60,7 @@ public class TestesManuais {
                                 new Livro(401,
                                                 "UML Distilled: A Brief Guide to the Standard Object Modeling Language",
                                                 "Addison-Wesley Professional", "Martin Fowler", "3ª", "2003"));
-                livros.stream().forEach(livro -> BancoDeDados.add(livro));
+                livros.stream().forEach(livro -> db.add(livro));
 
                 biblioteca.realizarEmprestimo(0, 1001);
                 biblioteca.realizarEmprestimo(1, 1);
@@ -84,6 +85,7 @@ public class TestesManuais {
 
         public static void TesteDoPDF() {
                 // SistemaBiblioteca biblioteca = new SistemaBiblioteca();
+                BancoDeDados db = BancoDeDados.getInstance();
 
                 List<Aluno> alunos = List.of(
                                 new AlunoGraduacao(123, "João da Silva"),
@@ -124,9 +126,9 @@ public class TestesManuais {
                                                 "UML Distilled: A Brief Guide to the Standard Object Modeling Language",
                                                 "Addison-Wesley Professional", "Martin Fowler", "3ª", "2003"));
 
-                alunos.stream().forEach(aluno -> BancoDeDados.add(aluno));
-                BancoDeDados.add(professor);
-                livros.stream().forEach(livro -> BancoDeDados.add(livro));
+                alunos.stream().forEach(aluno -> db.add(aluno));
+                db.add(professor);
+                livros.stream().forEach(livro -> db.add(livro));
 
                 // biblioteca.realizarEmprestimo(1, 101);
                 // biblioteca.realizarEmprestimo(2, 101);
