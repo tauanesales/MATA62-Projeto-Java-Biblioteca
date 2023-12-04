@@ -106,15 +106,15 @@ public class UsuarioTest extends BaseTest {
 
     @Test
     public void jaTemEmprestimoDoLivroTest() {
-        Assert.assertFalse(usuario.jaTemEmprestimoDoLivro(exemplar1.getCodigo()));
-        Assert.assertFalse(usuario.jaTemEmprestimoDoLivro(exemplar2.getCodigo()));
+        Assert.assertFalse(usuario.jaTemEmprestimoDoLivroEmAberto(exemplar1.getCodigo()));
+        Assert.assertFalse(usuario.jaTemEmprestimoDoLivroEmAberto(exemplar2.getCodigo()));
 
         biblioteca.realizarEmprestimo(usuario.getCodigo(), exemplar1.getCodigo());
-        Assert.assertFalse(usuario.jaTemEmprestimoDoLivro(exemplar1.getCodigo()));
-        Assert.assertFalse(usuario.jaTemEmprestimoDoLivro(exemplar2.getCodigo()));
+        Assert.assertFalse(usuario.jaTemEmprestimoDoLivroEmAberto(exemplar1.getCodigo()));
+        Assert.assertFalse(usuario.jaTemEmprestimoDoLivroEmAberto(exemplar2.getCodigo()));
 
         biblioteca.realizarEmprestimo(usuario.getCodigo(), exemplar2.getCodigo());
-        Assert.assertFalse(usuario.jaTemEmprestimoDoLivro(exemplar1.getCodigo()));
-        Assert.assertFalse(usuario.jaTemEmprestimoDoLivro(exemplar2.getCodigo()));
+        Assert.assertFalse(usuario.jaTemEmprestimoDoLivroEmAberto(exemplar1.getCodigo()));
+        Assert.assertFalse(usuario.jaTemEmprestimoDoLivroEmAberto(exemplar2.getCodigo()));
     }
 }

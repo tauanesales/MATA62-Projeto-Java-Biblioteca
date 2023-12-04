@@ -1,7 +1,7 @@
 package TRABALHO.Usuarios;
 
 import TRABALHO.BaseTest;
-import TRABALHO.BancoDeDados.MyORM;
+import TRABALHO.BancoDeDados.BancoDeDados;
 import TRABALHO.Emprestimo.Emprestimo;
 
 import org.junit.Assert;
@@ -32,7 +32,7 @@ public class AlunoGraduacaoTest extends BaseTest {
         calendar.set(2022, Calendar.JANUARY, 1);
 
         // Entra em situação de atraso por ter um empréstimo antigo;
-        MyORM.add(new Emprestimo(exemplar1, alunoGrad, calendar.getTime()));
+        BancoDeDados.add(new Emprestimo(exemplar1, alunoGrad, calendar.getTime()));
         Assert.assertTrue(alunoGrad.temAtraso());
     }
 
@@ -372,51 +372,51 @@ public class AlunoGraduacaoTest extends BaseTest {
 
     @Test
     public void jaTemEmprestimoDoLivroTest() {
-        Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivro(exemplar1.getCodigo()));
-        Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivro(exemplar2.getCodigo()));
+        Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar1.getCodigo()));
+        Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar2.getCodigo()));
 
         biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar1.getCodigo());
-        Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivro(exemplar1.getCodigo()));
-        Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivro(exemplar2.getCodigo()));
+        Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar1.getCodigo()));
+        Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar2.getCodigo()));
 
         biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar2.getCodigo());
-        Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivro(exemplar1.getCodigo()));
-        Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivro(exemplar2.getCodigo()));
+        Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar1.getCodigo()));
+        Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar2.getCodigo()));
     }
 
     @Test
     public void jaTemEmprestimoDoLivroFalsoAposDevolverLivrosTest() {
-        Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivro(exemplar1.getCodigo()));
-        Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivro(exemplar2.getCodigo()));
+        Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar1.getCodigo()));
+        Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar2.getCodigo()));
 
         biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar1.getCodigo());
         biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar2.getCodigo());
 
-        Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivro(exemplar1.getCodigo()));
-        Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivro(exemplar2.getCodigo()));
+        Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar1.getCodigo()));
+        Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar2.getCodigo()));
 
         alunoGrad.obterEmprestimos(true).get(0).setDevolvido(true);
-        Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivro(exemplar1.getCodigo()));
-        Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivro(exemplar2.getCodigo()));
+        Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar1.getCodigo()));
+        Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar2.getCodigo()));
 
         alunoGrad.obterEmprestimos(true).get(0).setDevolvido(true);
-        Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivro(exemplar1.getCodigo()));
-        Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivro(exemplar2.getCodigo()));
+        Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar1.getCodigo()));
+        Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar2.getCodigo()));
 
         biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar1.getCodigo());
-        Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivro(exemplar1.getCodigo()));
-        Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivro(exemplar2.getCodigo()));
+        Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar1.getCodigo()));
+        Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar2.getCodigo()));
 
         biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar2.getCodigo());
-        Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivro(exemplar1.getCodigo()));
-        Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivro(exemplar2.getCodigo()));
+        Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar1.getCodigo()));
+        Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar2.getCodigo()));
 
         alunoGrad.obterEmprestimos(true).get(0).setDevolvido(true);
-        Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivro(exemplar1.getCodigo()));
-        Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivro(exemplar2.getCodigo()));
+        Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar1.getCodigo()));
+        Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar2.getCodigo()));
 
         alunoGrad.obterEmprestimos(true).get(0).setDevolvido(true);
-        Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivro(exemplar1.getCodigo()));
-        Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivro(exemplar2.getCodigo()));
+        Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar1.getCodigo()));
+        Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar2.getCodigo()));
     }
 }
