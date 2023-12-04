@@ -16,6 +16,7 @@ import org.junit.Before;
 
 public class BaseTest {
     protected static SistemaBiblioteca biblioteca;
+    protected static BancoDeDados db;
 
     protected static Usuario usuario;
     protected static Aluno aluno;
@@ -30,9 +31,10 @@ public class BaseTest {
 
     @Before
     public void init() {
-        BancoDeDados.init();
+        db = BancoDeDados.getInstance();
+        db.reset();
         usuario = new Usuario(0, "Usuário");
-        biblioteca = new SistemaBiblioteca();
+        biblioteca = SistemaBiblioteca.getInstance();
         aluno = new Aluno(1, "João");
         alunoGrad = new AlunoGraduacao(2, "Maria");
         alunoPosGrad = new AlunoPosGraduacao(3, "Tay");
@@ -97,9 +99,9 @@ public class BaseTest {
 
         List.of(usuario, aluno, alunoGrad, alunoPosGrad, professor, professor2, exemplar1, exemplar2)
                 .stream()
-                .forEach(dado -> BancoDeDados.add(dado));
+                .forEach(dado -> db.add(dado));
 
-        livros.stream().forEach(livro -> BancoDeDados.add(livro));
-        alunos.stream().forEach(aluno -> BancoDeDados.add(aluno));
+        livros.stream().forEach(livro -> db.add(livro));
+        alunos.stream().forEach(aluno -> db.add(aluno));
     }
 }
