@@ -32,7 +32,7 @@ public class SistemaBiblioteca {
         try {
             ValidacaoEmprestimo.validarPodeEmprestarExemplarParaUsuario(codigoUsuario, codigoLivro, db);
         } catch (ValidacaoBase.SistemaBibliotecaException e) {
-            Mensagens.MensagemDeErro("Não foi possível realizar o empréstimo", e.getMessage(), usuario, exemplar);
+            Mensagens.MensagemDeErro("Não foi possível realizar o empréstimo", e.getMessage(), usuario, db.getLivro(codigoLivro));
             return;
         }
 
