@@ -23,4 +23,10 @@ public interface IUsuario extends IEntidadeBiblioteca {
     public long tempoDeEmprestimoMaximo();
 
     public boolean jaTemEmprestimoDoLivroEmAberto(int codigoLivro);
+
+    public boolean atingiuLimiteMaximoDeReservas();
+
+    default int maxReservas() {
+        return 3;
+    }
 }

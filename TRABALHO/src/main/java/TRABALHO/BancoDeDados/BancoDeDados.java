@@ -1,7 +1,9 @@
 package TRABALHO.BancoDeDados;
 
+import TRABALHO.Emprestimo.Emprestimo;
 import TRABALHO.Livros.Exemplar;
 import TRABALHO.Livros.Livro;
+import TRABALHO.Reserva.Reserva;
 import TRABALHO.SistemaBiblioteca.IEntidadeBiblioteca;
 import TRABALHO.Usuarios.IUsuario;
 import java.util.ArrayList;
@@ -114,5 +116,47 @@ public class BancoDeDados implements IBancoDeDados {
 
     public HashMap<Class<? extends IEntidadeBiblioteca>, List<IEntidadeBiblioteca>> getTables() {
         return tables;
+    }
+
+    public List<Emprestimo> getEmprestimos(boolean apenasEmAberto, int codigoUsuario) {
+        return this.getAll(Emprestimo.class)
+                .stream()
+                .filter(emprestimo -> emprestimo.getUsuario().getCodigo() == codigoUsuario)
+                .filter(emprestimo -> !apenasEmAberto || !emprestimo.isDevolvido())
+                .collect(Collectors.toList());
+    }
+
+    public List<Reserva> getReservasPorCodigoUsuario(boolean b, int codigoUsuario) {
+        return this.getAll(Reserva.class)
+                .stream()
+                .filter(reserva -> reserva.getUsuario().getCodigo() == codigoUsuario)
+                .filter(reserva -> !b || reserva.isAtiva())
+                .collect(Collectors.toList());
+    }
+
+    public List<Exemplar> getExemplaresDisponiveis(int codigoLivro) {
+        return this.getAll(Exemplar.class)
+                .stream()
+                .filter(exemplar -> exemplar.getCodigo() == codigoLivro)
+                .filter(exemplar -> exemplar.isDisponivel())
+                .collect(Collectors.toList());
+    }
+
+    public Reserva getReservaAtiva(int codigoLivro, int codigoUsuario) {
+        return this.getAll(Reserva.class)
+                .stream()
+                .filter(reserva -> reserva.getUsuario().getCodigo() == codigoUsuario)
+                .filter(reserva -> reserva.getLivro().getCodigo() == codigoLivro)
+                .filter(reserva -> reserva.isAtiva())
+                .findFirst()
+                .orElse(null);
+    }
+
+    public List<Reserva> getReservasPorCodigoLivro(boolean reservaAtiva, int codigoLivro) {
+        return this.getAll(Reserva.class)
+                .stream()
+                .filter(reserva -> reserva.getLivro().getCodigo() == codigoLivro)
+                .filter(reserva -> !reservaAtiva || reserva.isAtiva())
+                .collect(Collectors.toList());
     }
 }

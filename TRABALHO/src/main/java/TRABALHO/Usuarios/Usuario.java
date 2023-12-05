@@ -2,6 +2,7 @@ package TRABALHO.Usuarios;
 
 import TRABALHO.BancoDeDados.IBancoDeDados;
 import TRABALHO.Emprestimo.Emprestimo;
+import TRABALHO.Reserva.Reserva;
 
 import java.util.Date;
 import java.util.List;
@@ -34,11 +35,7 @@ public abstract class Usuario implements IUsuario {
     }
 
     public List<Emprestimo> obterEmprestimos(boolean apenasEmAberto) {
-        return db.getAll(Emprestimo.class)
-                .stream()
-                .filter(emprestimo -> emprestimo.getUsuario().getCodigo() == this.getCodigo())
-                .filter(emprestimo -> !apenasEmAberto || !emprestimo.isDevolvido())
-                .collect(Collectors.toList());
+        return db.getEmprestimos(apenasEmAberto, this.getCodigo());
     }
 
     public Emprestimo obterEmprestimoEmAbertoPorCodigoDoLivro(int codigoLivro) {
@@ -50,16 +47,8 @@ public abstract class Usuario implements IUsuario {
         return this.obterEmprestimos(true).size();
     }
 
-    public int maxEmprestimos() {
-        return 0;
-    }
-
     public boolean atingiuLimiteMaximoDeEmprestimos() {
         return this.quantidadeDeEmprestimosEmAberto() >= this.maxEmprestimos();
-    }
-
-    public long tempoDeEmprestimoMaximo() {
-        return 0;
     }
 
     public boolean jaTemEmprestimoDoLivroEmAberto(int codigoLivro) {
@@ -68,6 +57,14 @@ public abstract class Usuario implements IUsuario {
     }
 
     public String toString() {
-        return String.format("Código: %d | Nome: %s", this.getCodigo(), this.getNome());
+        return String.format("Código: %d | Nome: %s | Tipo: %s", this.getCodigo(), this.getNome(), this.getClass().getSimpleName());
+    }
+
+    public boolean atingiuLimiteMaximoDeReservas() {
+        return this.obterReservasAtivas().size() >= this.maxReservas();
+    }
+
+    public List<Reserva> obterReservasAtivas() {
+        return db.getReservasPorCodigoUsuario(true, this.getCodigo());
     }
 }

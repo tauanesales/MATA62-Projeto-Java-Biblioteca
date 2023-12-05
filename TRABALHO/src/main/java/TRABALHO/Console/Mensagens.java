@@ -39,7 +39,17 @@ public class Mensagens {
         System.out.println(alert);
     }
 
-    public static void MensagemSucessoEmprestimoDevolucao(String mensagem, IUsuario usuario, ILivro livro,
+    public static void MensagemSucessoBase(String mensagem, IUsuario usuario, ILivro livro) {
+        String alert = String.join(delimiter,
+                delimiter == "\n" ? dash : "",
+                mensagem,
+                "Usuário: " + (usuario != null ? usuario.getNome() : "N/A"),
+                "Livro: " + (livro != null ? livro.getTitulo() : "N/A"),
+                delimiter == "\n" ? dash : "");
+        System.out.println(alert);
+    }
+
+    public static void MensagemSucessoBase(String mensagem, IUsuario usuario, ILivro livro,
             Emprestimo emprestimo) {
         String alert = String.join(delimiter,
                 delimiter == "\n" ? dash : "",
