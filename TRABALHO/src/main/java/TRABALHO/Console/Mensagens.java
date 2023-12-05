@@ -2,12 +2,10 @@ package TRABALHO.Console;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import TRABALHO.BancoDeDados.IBancoDeDados;
 import TRABALHO.Emprestimo.Emprestimo;
 import TRABALHO.Livros.ILivro;
-import TRABALHO.SistemaBiblioteca.IEntidadeBiblioteca;
 import TRABALHO.Usuarios.IUsuario;
 
 public class Mensagens {
@@ -48,12 +46,12 @@ public class Mensagens {
                 mensagem,
                 "Usuário: " + (usuario != null ? usuario.getNome() : "N/A"),
                 "Livro: " + (livro != null ? livro.getTitulo() : "N/A"),
-                "Devolução até: " + (new SimpleDateFormat("dd/MM/yyyy")).format(emprestimo.getDataDevolucao()),
-                delimiter == "\n" ? dash : "");
+                "Devolução até: " + (new SimpleDateFormat("dd/MM/yyyy")).format(emprestimo.getDataDevolucao()));
 
         if (emprestimo.isDevolvido()) {
             alert += delimiter + "Devolvido em: " + (new SimpleDateFormat("dd/MM/yyyy")).format(new Date());
         }
+        alert += delimiter + (delimiter == "\n" ? dash : "");
         System.out.println(alert);
     }
 

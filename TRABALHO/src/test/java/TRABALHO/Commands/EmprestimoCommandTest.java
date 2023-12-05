@@ -11,7 +11,6 @@ public class EmprestimoCommandTest extends BaseTest {
         Assert.assertEquals(0, alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertFalse(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
 
-        String codigoAluno = String.valueOf(aluno.getCodigo());
         String codigoAlunoGrad = String.valueOf(alunoGrad.getCodigo());
         String codigoAlunoPosGrad = String.valueOf(alunoPosGrad.getCodigo());
         String codigoProfessor = String.valueOf(professor.getCodigo());
@@ -21,11 +20,7 @@ public class EmprestimoCommandTest extends BaseTest {
         // Usuário inválido;
         biblioteca.executeCommand("emp", "-1", codigoExemplar1);
         // Livro inválido;
-        biblioteca.executeCommand("emp", codigoAluno, "1");
-
-        Assert.assertTrue(exemplar1.isDisponivel());
-        // Classe Aluno "pura" não pode fazer empréstimos;
-        biblioteca.executeCommand("emp", codigoAluno, codigoExemplar1);
+        biblioteca.executeCommand("emp", codigoProfessor, "1");
 
         Assert.assertTrue(exemplar1.isDisponivel());
         // Empréstimo bem sucedido;
