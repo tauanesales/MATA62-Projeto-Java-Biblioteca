@@ -24,13 +24,10 @@ public class AlunoPosGraduacaoTest extends BaseTest {
         // Usuário inválido;
         biblioteca.realizarEmprestimo(-1, exemplar1.getCodigo());
         // Livro inválido;
-        biblioteca.realizarEmprestimo(aluno.getCodigo(), 1);
+        biblioteca.realizarEmprestimo(alunoPosGrad.getCodigo(), 1);
 
         Assert.assertTrue(exemplar1.isDisponivel());
-        // Classe Aluno "pura" não pode fazer empréstimos;
-        biblioteca.realizarEmprestimo(aluno.getCodigo(), exemplar1.getCodigo());
-
-        Assert.assertTrue(exemplar1.isDisponivel());
+        
         // Empréstimo bem sucedido;
         biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar1.getCodigo());
         Assert.assertFalse(exemplar1.isDisponivel());

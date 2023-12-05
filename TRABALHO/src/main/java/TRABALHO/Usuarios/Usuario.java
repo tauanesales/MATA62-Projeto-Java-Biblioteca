@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Usuario implements IUsuario {
+public abstract class Usuario implements IUsuario {
     private int codigo_identificador;
     private String nome;
     private IBancoDeDados db;
@@ -68,6 +68,6 @@ public class Usuario implements IUsuario {
     }
 
     public String toString() {
-        return String.format("Código %d | Nome: %s", this.getCodigo(), this.getNome());
+        return String.format("Código: %d | Nome: %s", this.getCodigo(), this.getNome());
     }
 }

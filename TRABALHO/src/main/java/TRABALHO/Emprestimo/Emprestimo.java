@@ -65,7 +65,7 @@ public class Emprestimo implements IEntidadeBiblioteca {
                 "Usuario: " + usuario.getNome() + " | " +
                 "DataSolicitacao: " + dataSolicitacao + " | " +
                 "DataDevolucao: " + dataDevolucao + " | " +
-                "Devolvido: " + devolvido;
+                "Devolvido: " + (isDevolvido() ? "Sim" : "Não");
     }
 
     public int getCodigo() {

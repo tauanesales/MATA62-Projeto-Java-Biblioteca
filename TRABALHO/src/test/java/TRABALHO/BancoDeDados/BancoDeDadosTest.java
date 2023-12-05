@@ -16,7 +16,7 @@ public class BancoDeDadosTest extends BaseTest {
     public void getUsuarioTest() {
         Assert.assertEquals(null, db.getUsuario(-1));
 
-        for (IUsuario usuario : List.of(aluno, alunoGrad, alunoPosGrad, professor)) {
+        for (IUsuario usuario : List.of(alunoGrad, alunoPosGrad, professor)) {
             IUsuario response = db.getUsuario(usuario.getCodigo());
             Assert.assertEquals(usuario.getClass(), response.getClass());
             Assert.assertEquals(usuario.getCodigo(), response.getCodigo());

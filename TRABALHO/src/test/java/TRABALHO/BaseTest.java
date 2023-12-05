@@ -5,11 +5,10 @@ import TRABALHO.BancoDeDados.IBancoDeDados;
 import TRABALHO.Livros.Exemplar;
 import TRABALHO.Livros.Livro;
 import TRABALHO.SistemaBiblioteca.SistemaBiblioteca;
-import TRABALHO.Usuarios.Aluno;
 import TRABALHO.Usuarios.AlunoGraduacao;
 import TRABALHO.Usuarios.AlunoPosGraduacao;
+import TRABALHO.Usuarios.IUsuario;
 import TRABALHO.Usuarios.Professor;
-import TRABALHO.Usuarios.Usuario;
 
 import java.util.List;
 
@@ -19,8 +18,6 @@ public class BaseTest {
     protected static SistemaBiblioteca biblioteca;
     protected static IBancoDeDados db;
 
-    protected static Usuario usuario;
-    protected static Aluno aluno;
     protected static AlunoGraduacao alunoGrad;
     protected static AlunoPosGraduacao alunoPosGrad;
     protected static Professor professor;
@@ -35,8 +32,6 @@ public class BaseTest {
         db = BancoDeDados.getInstance();
         db.reset();
         
-        usuario = new Usuario(0, "Usuário", db);
-        aluno = new Aluno(1, "João", db);
         alunoGrad = new AlunoGraduacao(2, "Maria", db);
         alunoPosGrad = new AlunoPosGraduacao(3, "Tay", db);
         professor = new Professor(4, "Ana", db);
@@ -95,12 +90,12 @@ public class BaseTest {
                 new Exemplar(600, 11, "Agile Principles, Patterns, and Practices in C#",
                         "Prentice Hall", "Robert Martin", "1ª", "2006"));
 
-        List<Aluno> alunos = List.of(new AlunoGraduacao(123, "João da Silva", db),
+        List<IUsuario> alunos = List.of(new AlunoGraduacao(123, "João da Silva", db),
                 new AlunoPosGraduacao(456, "Luiz Fernando Rodrigues", db),
                 new AlunoGraduacao(789, "Pedro Paulo", db));
         Professor professor2 = new Professor(100, "Carlos Lucena", db);
 
-        List.of(usuario, aluno, alunoGrad, alunoPosGrad, professor, professor2, exemplar1, exemplar2)
+        List.of(alunoGrad, alunoPosGrad, professor, professor2, exemplar1, exemplar2)
                 .stream()
                 .forEach(dado -> db.insert(dado));
 
