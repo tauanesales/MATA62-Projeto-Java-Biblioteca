@@ -15,6 +15,6 @@ public class VerBancoDeDadosCommand implements ICommand {
     public void execute(String... args) {
         validarArgs(args);
 
-        sistemaBiblioteca.mostrarBancoDedados();
+        sistemaBiblioteca.mostrarTodosOsDadosDoBanco();
     }
 }

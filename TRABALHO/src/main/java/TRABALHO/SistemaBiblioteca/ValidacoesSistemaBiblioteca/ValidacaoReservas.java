@@ -1,24 +1,26 @@
 package TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca;
 
 import TRABALHO.BancoDeDados.IBancoDeDados;
+import TRABALHO.Usuarios.IUsuario;
 
 public class ValidacaoReservas extends ValidacaoBase {
-    public static class DevolucaoException extends SistemaBibliotecaException {
-        public DevolucaoException(String message) {
+    public static class ReservaException extends SistemaBibliotecaException {
+        public ReservaException(String message) {
             super(message);
         }
     }
 
-    public static void validarPodeDevolverExemplar(int codigoUsuario, int codigoLivro, IBancoDeDados db)
-            throws SistemaBibliotecaException {
+    public static void validarPodeReservarExemplar(int codigoUsuario, int codigoLivro, IBancoDeDados db) throws SistemaBibliotecaException {
         validarUsuario(codigoUsuario, db);
         validarLivro(codigoLivro, db);
-        validarUsuarioTemEmprestimoDoLivro(codigoUsuario, codigoLivro, db);
+
+        IUsuario usuario = db.getUsuario(codigoUsuario);
+        validarUsuarioNaoTemEmprestimoDoLivro(usuario, codigoLivro);
+        validarUsuarioNaoAtingiuOLimiteDeReservasDeLivro(usuario);
     }
 
-    public static void validarUsuarioTemEmprestimoDoLivro(int codigoUsuario, int codigoLivro, IBancoDeDados db)
-            throws SistemaBibliotecaException {
-        if (!db.getUsuario(codigoUsuario).jaTemEmprestimoDoLivroEmAberto(codigoLivro))
-            throw new DevolucaoException("Usuário não possui empréstimo do livro em aberto.");
+    private static void validarUsuarioNaoAtingiuOLimiteDeReservasDeLivro(IUsuario usuario) throws SistemaBibliotecaException {
+        if (usuario.atingiuLimiteMaximoDeReservas())
+            throw new ReservaException("O usuário atingiu o limite máximo de reservas de livros.");
     }
 }

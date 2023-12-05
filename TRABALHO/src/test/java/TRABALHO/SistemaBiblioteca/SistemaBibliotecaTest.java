@@ -131,4 +131,26 @@ public class SistemaBibliotecaTest extends BaseTest {
 
         Assert.assertEquals(5, alunoPosGrad.obterEmprestimos(false).size());
     }
+
+    @Test
+    public void realizarReservaNaoUltrapassaLimiteDeReservasTest() {
+        biblioteca.realizarReserva(alunoPosGrad.getCodigo(), exemplar1.getCodigo());
+        biblioteca.realizarReserva(alunoPosGrad.getCodigo(), exemplar2.getCodigo());
+        biblioteca.realizarReserva(alunoPosGrad.getCodigo(), 100);
+
+        Assert.assertEquals(3, alunoPosGrad.obterReservasAtivas().size());
+        Assert.assertEquals(exemplar1, alunoPosGrad.obterReservasAtivas().get(0).getLivro());
+        Assert.assertEquals(exemplar2, alunoPosGrad.obterReservasAtivas().get(1).getLivro());
+        Assert.assertEquals(100, alunoPosGrad.obterReservasAtivas().get(2).getLivro().getCodigo());
+
+        biblioteca.realizarReserva(alunoPosGrad.getCodigo(), 101);
+        biblioteca.realizarReserva(alunoPosGrad.getCodigo(), 200);
+        biblioteca.realizarReserva(alunoPosGrad.getCodigo(), 201);
+        biblioteca.realizarReserva(alunoPosGrad.getCodigo(), 400);
+        biblioteca.realizarReserva(alunoPosGrad.getCodigo(), 500);
+        biblioteca.realizarReserva(alunoPosGrad.getCodigo(), 600);
+
+        Assert.assertEquals(alunoPosGrad.maxReservas(), alunoPosGrad.obterReservasAtivas().size());
+        Assert.assertTrue(alunoPosGrad.atingiuLimiteMaximoDeReservas());
+    }
 }

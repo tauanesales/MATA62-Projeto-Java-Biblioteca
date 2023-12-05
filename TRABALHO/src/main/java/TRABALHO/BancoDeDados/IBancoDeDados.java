@@ -3,8 +3,10 @@ package TRABALHO.BancoDeDados;
 import java.util.HashMap;
 import java.util.List;
 
+import TRABALHO.Emprestimo.Emprestimo;
 import TRABALHO.Livros.Exemplar;
 import TRABALHO.Livros.ILivro;
+import TRABALHO.Reserva.Reserva;
 import TRABALHO.SistemaBiblioteca.IEntidadeBiblioteca;
 import TRABALHO.Usuarios.IUsuario;
 
@@ -36,4 +38,14 @@ public interface IBancoDeDados {
     public IUsuario getUsuario(int codigoUsuario);
 
     public HashMap<Class<? extends IEntidadeBiblioteca>, List<IEntidadeBiblioteca>> getTables();
+
+    public List<Emprestimo> getEmprestimos(boolean apenasEmAberto, int codigoUsuario);
+
+    public List<Reserva> getReservasPorCodigoUsuario(boolean reservaAtiva, int codigo);
+
+    public List<Exemplar> getExemplaresDisponiveis(int codigoLivro);
+
+    public Reserva getReservaAtiva(int codigoLivro, int codigoUsuario);
+
+    public List<Reserva> getReservasPorCodigoLivro(boolean reservaAtiva, int codigoLivro);
 }

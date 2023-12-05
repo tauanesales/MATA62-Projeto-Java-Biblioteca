@@ -23,6 +23,7 @@ import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoBase;
 import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoBase.SistemaBibliotecaException;
 import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoDevolucao;
 import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoEmprestimo;
+import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoReservas;
 
 public class SistemaBiblioteca {
     private static SistemaBiblioteca instance;
@@ -82,6 +83,11 @@ public class SistemaBiblioteca {
         Exemplar exemplar = db.getExemplarDisponivelPorCodigoLivro(codigoLivro);
 
         Emprestimo emprestimo = new Emprestimo(exemplar, usuario);
+        Reserva reserva = db.getReservaAtiva(codigoLivro, codigoUsuario);
+
+        if (reserva != null)
+            reserva.setAtiva(false);
+
         db.insert(emprestimo);
 
         Mensagens.MensagemSucessoBase("Empréstimo realizado com sucesso!", usuario, exemplar,
@@ -108,7 +114,7 @@ public class SistemaBiblioteca {
 
     public void realizarReserva(int codigoUsuario, int codigoLivro) {
         try {
-            ValidacaoEmprestimo.validarPodeEmprestarExemplarParaUsuario(codigoUsuario, codigoLivro, db);
+            ValidacaoReservas.validarPodeReservarExemplar(codigoUsuario, codigoLivro, db);
         } catch (SistemaBibliotecaException e) {
             Mensagens.MensagemDeErro("Não foi possível realizar a reserva.", e.getMessage(),
                     db.getUsuario(codigoUsuario), db.getLivro(codigoLivro));
@@ -136,7 +142,7 @@ public class SistemaBiblioteca {
         System.out.println("Não implementado");
     }
 
-    public void mostrarBancoDedados() {
+    public void mostrarTodosOsDadosDoBanco() {
         Mensagens.mostrarTodosOsDadosDoBanco(db);
     }
 }
