@@ -23,4 +23,15 @@ public class Exemplar extends Livro {
     public void setDisponivel(boolean disponivel) {
         this.disponivel = disponivel;
     }
+
+    public String toString() {
+        return "Código Livro: " + getCodigo() + " | " +
+                "Código Exemplar: " + getCodigoExemplar() + " | " +
+                "Livro: " + getTitulo() + " | " +
+                "Editora: " + getEditora() + " | " +
+                "Autores: " + getAutores() + " | " +
+                "Edição: " + getEdicao() + " | " +
+                "Ano de publicação: " + getAnoPublicacao() + " | " +
+                "Disponível: " + (isDisponivel() ? "Sim" : "Não");
+    }
 }

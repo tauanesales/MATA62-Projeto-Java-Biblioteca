@@ -1,32 +1,22 @@
 package TRABALHO.Console;
 
 import TRABALHO.SistemaBiblioteca.SistemaBiblioteca;
+import java.util.Arrays;
 
 public class Interaction {
+
     public static void waitRequests(SistemaBiblioteca sistemaBiblioteca) {
+        Mensagens.LimparTela();
         Mensagens.MensagemAjuda();
         while (true) {
             String[] inputArray = System.console().readLine().split(" ");
 
-            if (inputArray.length != 3 && !inputArray[0].equals("sair")) {
-                Mensagens.MensagemAjuda();
-                continue;
-            }
-
             String command = inputArray[0];
-            int codigoUsuario = 0;
-            int codigoLivro = 0;
+            String[] args = Arrays.copyOfRange(inputArray, 1, inputArray.length);
 
-            if (inputArray.length == 3) {
-                try {
-                    codigoUsuario = Integer.parseInt(inputArray[1]);
-                    codigoLivro = Integer.parseInt(inputArray[2]);
-                } catch (NumberFormatException e) {
-                    System.out.println("Entrada inválida. Por favor, insira números inteiros válidos para usuário e livro.");
-                    continue;
-                }
-            }
-            sistemaBiblioteca.executeCommand(command, codigoUsuario, codigoLivro);
+            Mensagens.LimparTela();
+            Mensagens.MensagemAjuda();
+            sistemaBiblioteca.executeCommand(command, args);
         }
     }
 }

@@ -3,11 +3,11 @@ package TRABALHO.Commands;
 import TRABALHO.BancoDeDados.IBancoDeDados;
 import TRABALHO.SistemaBiblioteca.SistemaBiblioteca;
 
-public class DevolucaoCommand implements ICommand {
+public class VerLivroCommand implements ICommand {
     private SistemaBiblioteca sistemaBiblioteca;
     private IBancoDeDados db;
 
-    public DevolucaoCommand(SistemaBiblioteca sistemaBiblioteca, IBancoDeDados db) {
+    public VerLivroCommand(SistemaBiblioteca sistemaBiblioteca, IBancoDeDados db) {
         this.sistemaBiblioteca = sistemaBiblioteca;
         this.db = db;
     }
@@ -15,13 +15,12 @@ public class DevolucaoCommand implements ICommand {
     public void execute(String... args) {
         validarArgs(args);
 
-        int codigoUsuario = Integer.parseInt(args[0]);
-        int codigoLivro = Integer.parseInt(args[1]);
+        int codigo = Integer.parseInt(args[0]);
 
-        sistemaBiblioteca.realizarDevolucao(codigoUsuario, codigoLivro);
+        sistemaBiblioteca.mostrarDadosDoLivro(codigo);
     }
 
     public int getNumberOfArgs() {
-        return 2;
+        return 1;
     }
 }

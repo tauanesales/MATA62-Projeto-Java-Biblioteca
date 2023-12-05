@@ -5,13 +5,14 @@ import java.util.HashMap;
 import TRABALHO.BancoDeDados.IBancoDeDados;
 import TRABALHO.Commands.DevolucaoCommand;
 import TRABALHO.Commands.EmprestimoCommand;
-import TRABALHO.Commands.GetLivroCommand;
-import TRABALHO.Commands.GetUsuarioCommand;
+import TRABALHO.Commands.VerLivroCommand;
+import TRABALHO.Commands.VerUsuarioCommand;
 import TRABALHO.Commands.ICommand;
-import TRABALHO.Commands.ICommandAcao;
-import TRABALHO.Commands.ICommandVisualizacao;
+import TRABALHO.Commands.ObservarLivroCommand;
+import TRABALHO.Commands.ICommand.InvalidNumberOfArgsException;
 import TRABALHO.Commands.ReservarCommand;
-import TRABALHO.Commands.SairCommand;
+import TRABALHO.Commands.SaiCommand;
+import TRABALHO.Commands.VerBancoDeDadosCommand;
 import TRABALHO.Console.Mensagens;
 import TRABALHO.Emprestimo.Emprestimo;
 import TRABALHO.Livros.Exemplar;
@@ -32,9 +33,11 @@ public class SistemaBiblioteca {
         addCommand("emp", new EmprestimoCommand(this, db));
         addCommand("dev", new DevolucaoCommand(this, db));
         addCommand("res", new ReservarCommand(this, db));
-        addCommand("usu", new GetUsuarioCommand(this, db));
-        addCommand("liv", new GetLivroCommand(this, db));
-        addCommand("sai", new SairCommand(this, db));
+        addCommand("obs", new ObservarLivroCommand(this, db));
+        addCommand("usu", new VerUsuarioCommand(this, db));
+        addCommand("liv", new VerLivroCommand(this, db));
+        addCommand("all", new VerBancoDeDadosCommand(this, db));
+        addCommand("sai", new SaiCommand());
     }
 
     public static SistemaBiblioteca getInstance(IBancoDeDados db) {
@@ -48,22 +51,18 @@ public class SistemaBiblioteca {
         commands.put(commandStr, commandCls);
     }
 
-    public void executeCommand(String command, int codigoUsuario, int codigoLivro) {
+    public void executeCommand(String command, String... args) {
         try {
-            ((ICommandAcao) commands.get(command)).execute(codigoUsuario, codigoLivro);
-        } catch (NullPointerException e) {
-            Mensagens.MensagemDeErro("Não foi possível processar seu pedido.", "Comando \"" + command + "\" inválido.",
-                    db.getUsuario(codigoUsuario),
-                    db.getLivro(codigoLivro));
-        }
-    }
-
-    public void executeCommand(String command, int codigo) {
-        try {
-            ((ICommandVisualizacao) commands.get(command)).execute(codigo);
+            commands.get(command).execute(args);
         } catch (NullPointerException e) {
             Mensagens.MensagemDeErro("Não foi possível processar seu pedido.", "Comando \"" + command + "\" inválido.",
                     null, null);
+        } catch (NumberFormatException e) {
+            Mensagens.MensagemDeErro("Não foi possível processar seu pedido.",
+                    "Esperava números como argumentos.",
+                    null, null);
+        } catch (InvalidNumberOfArgsException e) {
+            Mensagens.MensagemDeErro("Não foi possível processar seu pedido.", e.getMessage(), null, null);
         }
     }
 
@@ -83,7 +82,8 @@ public class SistemaBiblioteca {
         Emprestimo emprestimo = new Emprestimo(exemplar, usuario);
         db.insert(emprestimo);
 
-        Mensagens.MensagemSucessoEmprestimoDevolucao("Empréstimo realizado com sucesso", usuario, exemplar, emprestimo);
+        Mensagens.MensagemSucessoEmprestimoDevolucao("Empréstimo realizado com sucesso!", usuario, exemplar,
+                emprestimo);
     }
 
     public void realizarDevolucao(int codigoUsuario, int codigoLivro) {
@@ -100,16 +100,27 @@ public class SistemaBiblioteca {
 
         emprestimo.setDevolvido(true);
 
-        Mensagens.MensagemSucessoEmprestimoDevolucao("Devolução realizada com sucesso", usuario,
+        Mensagens.MensagemSucessoEmprestimoDevolucao("Devolução realizada com sucesso!", usuario,
                 emprestimo.getExemplar(), emprestimo);
     }
 
     public void realizarReserva(int codigoUsuario, int codigoLivro) {
+        System.out.println("Não implementado");
     }
 
     public void mostrarDadosDoUsuario(int codigo) {
+        System.out.println("Não implementado");
     }
 
     public void mostrarDadosDoLivro(int codigo) {
+        System.out.println("Não implementado");
+    }
+
+    public void observarReservasDeLivro(int codigoLivro, int codigoObservador) {
+        System.out.println("Não implementado");
+    }
+
+    public void mostrarBancoDedados() {
+        Mensagens.mostrarTodosOsDadosDoBanco(db);
     }
 }

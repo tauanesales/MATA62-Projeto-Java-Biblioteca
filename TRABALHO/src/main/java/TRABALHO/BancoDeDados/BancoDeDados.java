@@ -7,6 +7,7 @@ import TRABALHO.Usuarios.IUsuario;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BancoDeDados implements IBancoDeDados {
     private static BancoDeDados instance;
@@ -43,26 +44,14 @@ public class BancoDeDados implements IBancoDeDados {
                 .add(object);
     }
 
-    public void printDados() {
-        for (Class<? extends IEntidadeBiblioteca> key : tables.keySet()) {
-            List<IEntidadeBiblioteca> values = tables.get(key);
-            System.out.println("Key: " + key.getSimpleName());
-            System.out.println("Values: " + values);
-        }
-    }
-
     public <T extends IEntidadeBiblioteca> List<T> getAll(Class<T> entityType) {
-        List<T> result = new ArrayList<>();
-
-        tables.keySet()
+        return tables.keySet()
                 .stream()
                 .filter(key -> entityType.isAssignableFrom(key))
                 .map(tables::get)
                 .flatMap(List::stream)
                 .map(entityType::cast)
-                .forEach(result::add);
-
-        return result;
+                .collect(Collectors.toList());
     }
 
     public <T extends IEntidadeBiblioteca> T getFirtById(Class<T> tabela,
@@ -121,5 +110,9 @@ public class BancoDeDados implements IBancoDeDados {
 
     public IUsuario getUsuario(int codigoUsuario) {
         return this.getFirtById(IUsuario.class, codigoUsuario);
+    }
+
+    public HashMap<Class<? extends IEntidadeBiblioteca>, List<IEntidadeBiblioteca>> getTables() {
+        return tables;
     }
 }
