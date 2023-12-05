@@ -36,10 +36,4 @@ public class ValidacaoEmprestimo extends ValidacaoBase {
         if (usuario.atingiuLimiteMaximoDeEmprestimos())
             throw new EmprestimoException("Usuário atingiu o limite máximo de empréstimos");
     }
-
-    public static void validarUsuarioNaoTemEmprestimoDoLivro(IUsuario usuario, int codigoLivro)
-            throws EmprestimoException {
-        if (usuario.jaTemEmprestimoDoLivroEmAberto(codigoLivro))
-            throw new EmprestimoException("Usuário já possui empréstimo do livro");
-    }
 }

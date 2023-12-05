@@ -16,9 +16,11 @@ import TRABALHO.Commands.VerBancoDeDadosCommand;
 import TRABALHO.Console.Mensagens;
 import TRABALHO.Emprestimo.Emprestimo;
 import TRABALHO.Livros.Exemplar;
+import TRABALHO.Reserva.Reserva;
 import TRABALHO.Usuarios.IUsuario;
 
 import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoBase;
+import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoBase.SistemaBibliotecaException;
 import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoDevolucao;
 import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoEmprestimo;
 
@@ -69,7 +71,7 @@ public class SistemaBiblioteca {
     public void realizarEmprestimo(int codigoUsuario, int codigoLivro) {
         try {
             ValidacaoEmprestimo.validarPodeEmprestarExemplarParaUsuario(codigoUsuario, codigoLivro, db);
-        } catch (ValidacaoBase.SistemaBibliotecaException e) {
+        } catch (SistemaBibliotecaException e) {
             Mensagens.MensagemDeErro("Não foi possível realizar o empréstimo", e.getMessage(),
                     db.getUsuario(codigoUsuario),
                     db.getLivro(codigoLivro));
@@ -82,7 +84,7 @@ public class SistemaBiblioteca {
         Emprestimo emprestimo = new Emprestimo(exemplar, usuario);
         db.insert(emprestimo);
 
-        Mensagens.MensagemSucessoEmprestimoDevolucao("Empréstimo realizado com sucesso!", usuario, exemplar,
+        Mensagens.MensagemSucessoBase("Empréstimo realizado com sucesso!", usuario, exemplar,
                 emprestimo);
     }
 
@@ -100,12 +102,26 @@ public class SistemaBiblioteca {
 
         emprestimo.setDevolvido(true);
 
-        Mensagens.MensagemSucessoEmprestimoDevolucao("Devolução realizada com sucesso!", usuario,
+        Mensagens.MensagemSucessoBase("Devolução realizada com sucesso!", usuario,
                 emprestimo.getExemplar(), emprestimo);
     }
 
     public void realizarReserva(int codigoUsuario, int codigoLivro) {
-        System.out.println("Não implementado");
+        try {
+            ValidacaoEmprestimo.validarPodeEmprestarExemplarParaUsuario(codigoUsuario, codigoLivro, db);
+        } catch (SistemaBibliotecaException e) {
+            Mensagens.MensagemDeErro("Não foi possível realizar a reserva.", e.getMessage(),
+                    db.getUsuario(codigoUsuario), db.getLivro(codigoLivro));
+            return;
+        }
+
+        IUsuario usuario = db.getUsuario(codigoUsuario);
+        Exemplar exemplar = db.getExemplarDisponivelPorCodigoLivro(codigoLivro);
+
+        Reserva reserva = new Reserva(usuario, exemplar);
+        db.insert(reserva);
+
+        Mensagens.MensagemSucessoBase("Reserva realizada com sucesso!", usuario, exemplar);
     }
 
     public void mostrarDadosDoUsuario(int codigo) {
