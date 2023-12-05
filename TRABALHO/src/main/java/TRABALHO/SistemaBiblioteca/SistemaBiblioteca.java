@@ -5,7 +5,12 @@ import java.util.HashMap;
 import TRABALHO.BancoDeDados.IBancoDeDados;
 import TRABALHO.Commands.DevolucaoCommand;
 import TRABALHO.Commands.EmprestimoCommand;
+import TRABALHO.Commands.GetLivroCommand;
+import TRABALHO.Commands.GetUsuarioCommand;
 import TRABALHO.Commands.ICommand;
+import TRABALHO.Commands.ICommandAcao;
+import TRABALHO.Commands.ICommandVisualizacao;
+import TRABALHO.Commands.ReservarCommand;
 import TRABALHO.Commands.SairCommand;
 import TRABALHO.Console.Mensagens;
 import TRABALHO.Emprestimo.Emprestimo;
@@ -26,7 +31,10 @@ public class SistemaBiblioteca {
         this.commands = new HashMap<String, ICommand>();
         addCommand("emp", new EmprestimoCommand(this, db));
         addCommand("dev", new DevolucaoCommand(this, db));
-        addCommand("sair", new SairCommand(this, db));
+        addCommand("res", new ReservarCommand(this, db));
+        addCommand("usu", new GetUsuarioCommand(this, db));
+        addCommand("liv", new GetLivroCommand(this, db));
+        addCommand("sai", new SairCommand(this, db));
     }
 
     public static SistemaBiblioteca getInstance(IBancoDeDados db) {
@@ -42,24 +50,35 @@ public class SistemaBiblioteca {
 
     public void executeCommand(String command, int codigoUsuario, int codigoLivro) {
         try {
-            commands.get(command).execute(codigoUsuario, codigoLivro);
+            ((ICommandAcao) commands.get(command)).execute(codigoUsuario, codigoLivro);
         } catch (NullPointerException e) {
-            Mensagens.MensagemDeErro("Não foi possível processar seu pedido.", "Comando \"" + command + "\" inválido.", db.getUsuario(codigoUsuario),
+            Mensagens.MensagemDeErro("Não foi possível processar seu pedido.", "Comando \"" + command + "\" inválido.",
+                    db.getUsuario(codigoUsuario),
                     db.getLivro(codigoLivro));
         }
     }
 
-    public void realizarEmprestimo(int codigoUsuario, int codigoLivro) {
-        IUsuario usuario = db.getUsuario(codigoUsuario);
-        Exemplar exemplar = db.getExemplarDisponivelPorCodigoLivro(codigoLivro);
+    public void executeCommand(String command, int codigo) {
+        try {
+            ((ICommandVisualizacao) commands.get(command)).execute(codigo);
+        } catch (NullPointerException e) {
+            Mensagens.MensagemDeErro("Não foi possível processar seu pedido.", "Comando \"" + command + "\" inválido.",
+                    null, null);
+        }
+    }
 
+    public void realizarEmprestimo(int codigoUsuario, int codigoLivro) {
         try {
             ValidacaoEmprestimo.validarPodeEmprestarExemplarParaUsuario(codigoUsuario, codigoLivro, db);
         } catch (ValidacaoBase.SistemaBibliotecaException e) {
-            Mensagens.MensagemDeErro("Não foi possível realizar o empréstimo", e.getMessage(), usuario,
+            Mensagens.MensagemDeErro("Não foi possível realizar o empréstimo", e.getMessage(),
+                    db.getUsuario(codigoUsuario),
                     db.getLivro(codigoLivro));
             return;
         }
+
+        IUsuario usuario = db.getUsuario(codigoUsuario);
+        Exemplar exemplar = db.getExemplarDisponivelPorCodigoLivro(codigoLivro);
 
         Emprestimo emprestimo = new Emprestimo(exemplar, usuario);
         db.insert(emprestimo);
@@ -78,12 +97,19 @@ public class SistemaBiblioteca {
 
         IUsuario usuario = db.getUsuario(codigoUsuario);
         Emprestimo emprestimo = usuario.obterEmprestimoEmAbertoPorCodigoDoLivro(codigoLivro);
-        Exemplar exemplar = emprestimo.getExemplar();
 
         emprestimo.setDevolvido(true);
 
-        Mensagens.MensagemSucessoEmprestimoDevolucao("Devolução realizada com sucesso", usuario, exemplar, emprestimo);
-
+        Mensagens.MensagemSucessoEmprestimoDevolucao("Devolução realizada com sucesso", usuario,
+                emprestimo.getExemplar(), emprestimo);
     }
 
+    public void realizarReserva(int codigoUsuario, int codigoLivro) {
+    }
+
+    public void mostrarDadosDoUsuario(int codigo) {
+    }
+
+    public void mostrarDadosDoLivro(int codigo) {
+    }
 }

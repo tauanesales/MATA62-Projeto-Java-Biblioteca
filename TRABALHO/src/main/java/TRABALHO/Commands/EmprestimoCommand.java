@@ -3,7 +3,7 @@ package TRABALHO.Commands;
 import TRABALHO.BancoDeDados.IBancoDeDados;
 import TRABALHO.SistemaBiblioteca.SistemaBiblioteca;
 
-public class EmprestimoCommand implements ICommand {
+public class EmprestimoCommand implements ICommandAcao {
     private SistemaBiblioteca sistemaBiblioteca;
     private IBancoDeDados db;
 

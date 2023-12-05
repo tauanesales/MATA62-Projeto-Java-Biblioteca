@@ -3,7 +3,7 @@ package TRABALHO.Commands;
 import TRABALHO.BancoDeDados.IBancoDeDados;
 import TRABALHO.SistemaBiblioteca.SistemaBiblioteca;
 
-public class SairCommand implements ICommand {
+public class SairCommand implements ICommandAcao {
     private SistemaBiblioteca sistemaBiblioteca;
     private IBancoDeDados db;
 
