@@ -11,9 +11,9 @@ import TRABALHO.Emprestimo.Emprestimo;
 public class SistemaBibliotecaTest extends BaseTest {
     @Test
     public void commandDesconhecidoNaoLancaExcecaoTest() {
-        biblioteca.executeCommand("comandoDesconhecido", 0, 0);
+        biblioteca.executeCommand("comandoDesconhecido", "0", "0");
     }
-    
+
     @Test
     public void realizarDevolucaoNaoDevolveExemplaresEmprestadosAOutroUsuarioTest() {
         biblioteca.realizarEmprestimo(alunoPosGrad.getCodigo(), exemplar1.getCodigo());

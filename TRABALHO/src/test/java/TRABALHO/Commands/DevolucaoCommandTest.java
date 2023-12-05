@@ -8,23 +8,27 @@ import TRABALHO.BaseTest;
 public class DevolucaoCommandTest extends BaseTest {
     @Test
     public void executeTest() {
-        biblioteca.executeCommand("emp", alunoGrad.getCodigo(), exemplar1.getCodigo());
-        biblioteca.executeCommand("emp", alunoGrad.getCodigo(), exemplar2.getCodigo());
-        biblioteca.executeCommand("emp", alunoGrad.getCodigo(), 200);
+        String codigoAlunoGrad = String.valueOf(alunoGrad.getCodigo());
+        String codigoExemplar1 = String.valueOf(exemplar1.getCodigo());
+        String codigoExemplar2 = String.valueOf(exemplar2.getCodigo());
+
+        biblioteca.executeCommand("emp", codigoAlunoGrad, codigoExemplar1);
+        biblioteca.executeCommand("emp", codigoAlunoGrad, codigoExemplar2);
+        biblioteca.executeCommand("emp", codigoAlunoGrad, "200");
 
         Assert.assertEquals(3, alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertEquals(alunoGrad.maxEmprestimos(), alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertTrue(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
 
-        biblioteca.executeCommand("dev", alunoGrad.getCodigo(), exemplar1.getCodigo());
+        biblioteca.executeCommand("dev", codigoAlunoGrad, codigoExemplar1);
         Assert.assertEquals(2, alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertFalse(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
 
-        biblioteca.executeCommand("dev", alunoGrad.getCodigo(), exemplar2.getCodigo());
+        biblioteca.executeCommand("dev", codigoAlunoGrad, codigoExemplar2);
         Assert.assertEquals(1, alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertFalse(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
 
-        biblioteca.executeCommand("dev", alunoGrad.getCodigo(), 200);
+        biblioteca.executeCommand("dev", codigoAlunoGrad, "200");
         Assert.assertEquals(0, alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertFalse(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
     }

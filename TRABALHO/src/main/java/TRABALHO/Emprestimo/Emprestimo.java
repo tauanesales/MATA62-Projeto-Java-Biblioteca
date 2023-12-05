@@ -58,15 +58,14 @@ public class Emprestimo implements IEntidadeBiblioteca {
         exemplar.setDisponivel(devolvido);
     }
 
-    @Override
     public String toString() {
-        return "Emprestimo{" +
-                "exemplar=" + exemplar +
-                ", usuario=" + usuario +
-                ", dataSolicitacao=" + dataSolicitacao +
-                ", dataDevolucao=" + dataDevolucao +
-                ", devolvido=" + devolvido +
-                '}';
+        return "Exemplar: " + exemplar.getTitulo() + " | " +
+                "Código Livro: " + exemplar.getCodigo() + " | " +
+                "Código Exemplar: " + exemplar.getCodigoExemplar() + " | " +
+                "Usuario: " + usuario.getNome() + " | " +
+                "DataSolicitacao: " + dataSolicitacao + " | " +
+                "DataDevolucao: " + dataDevolucao + " | " +
+                "Devolvido: " + devolvido;
     }
 
     public int getCodigo() {

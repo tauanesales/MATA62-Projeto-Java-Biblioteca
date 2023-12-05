@@ -41,4 +41,13 @@ public class Livro implements ILivro {
     public String getAnoPublicacao() {
         return anoDaPublicacao;
     }
+
+    public String toString() {
+        return "Código: " + codigoLivro + " | " +
+                "Livro: " + titulo + " | " +
+                "Editora: " + editora + " | " +
+                "Autores: " + autores + " | " +
+                "Edição: " + edicao + " | " +
+                "Ano de publicação: " + anoDaPublicacao;
+    }
 }

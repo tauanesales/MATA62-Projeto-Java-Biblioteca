@@ -1,5 +1,6 @@
 package TRABALHO.BancoDeDados;
 
+import java.util.HashMap;
 import java.util.List;
 
 import TRABALHO.Livros.Exemplar;
@@ -34,4 +35,5 @@ public interface IBancoDeDados {
 
     public IUsuario getUsuario(int codigoUsuario);
 
+    public HashMap<Class<? extends IEntidadeBiblioteca>, List<IEntidadeBiblioteca>> getTables();
 }

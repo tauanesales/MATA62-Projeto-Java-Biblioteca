@@ -45,7 +45,7 @@ public class Usuario implements IUsuario {
         return this.obterEmprestimos(true).stream().filter(
                 emprestimo -> emprestimo.getExemplar().getCodigo() == codigoLivro).findFirst().orElse(null);
     }
-    
+
     public int quantidadeDeEmprestimosEmAberto() {
         return this.obterEmprestimos(true).size();
     }
@@ -65,5 +65,9 @@ public class Usuario implements IUsuario {
     public boolean jaTemEmprestimoDoLivroEmAberto(int codigoLivro) {
         return this.obterEmprestimos(true).stream().anyMatch(
                 emprestimo -> emprestimo.getExemplar().getCodigo() == codigoLivro);
+    }
+
+    public String toString() {
+        return String.format("Código %d | Nome: %s", this.getCodigo(), this.getNome());
     }
 }
