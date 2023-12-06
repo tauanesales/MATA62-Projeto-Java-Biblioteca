@@ -1,5 +1,10 @@
 package TRABALHO.Livros;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import TRABALHO.Usuarios.IUsuario;
+
 public class Livro implements ILivro {
     private int codigoLivro;
     private String titulo;
@@ -7,6 +12,9 @@ public class Livro implements ILivro {
     private String autores;
     private String edicao;
     private String anoDaPublicacao;
+
+    private List<IUsuario> observadores;
+    private int quantidadeDeReservas;
 
     public Livro(int codigoLivro, String titulo, String editora, String autores, String edicao,
             String anoDaPublicacao) {
@@ -16,6 +24,9 @@ public class Livro implements ILivro {
         this.autores = autores;
         this.edicao = edicao;
         this.anoDaPublicacao = anoDaPublicacao;
+
+        this.observadores = new ArrayList<IUsuario>();
+        this.quantidadeDeReservas = 0;
     }
 
     public int getCodigo() {
@@ -49,5 +60,25 @@ public class Livro implements ILivro {
                 "Autores: " + autores + " | " +
                 "Edição: " + edicao + " | " +
                 "Ano de publicação: " + anoDaPublicacao;
+    }
+
+    public void adicionarObservador(IUsuario usuario) {
+        this.observadores.add(usuario);
+    }
+
+    public List<IUsuario> getObservadores() {
+        return this.observadores;
+    }
+
+    public int getQuantidadeDeReservas() {
+        return this.quantidadeDeReservas;
+    }
+
+    public void incrementarQuantidadeDeReservas() {
+        this.quantidadeDeReservas++;
+    }
+
+    public void decrementarQuantidadeDeReservas() {
+        this.quantidadeDeReservas--;
     }
 }

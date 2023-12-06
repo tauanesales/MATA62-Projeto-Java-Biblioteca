@@ -18,6 +18,7 @@ import TRABALHO.Console.Mensagens;
 import TRABALHO.Emprestimo.Emprestimo;
 import TRABALHO.Livros.Exemplar;
 import TRABALHO.Livros.ILivro;
+import TRABALHO.Livros.Livro;
 import TRABALHO.Reserva.Reserva;
 import TRABALHO.Usuarios.IUsuario;
 
@@ -27,6 +28,7 @@ import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoCommand.C
 import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoDevolucao;
 import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoCommand;
 import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoEmprestimo;
+import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoObserver;
 import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoReservas;
 
 public class SistemaBiblioteca {
@@ -93,7 +95,7 @@ public class SistemaBiblioteca {
         Reserva reserva = db.getReservaAtiva(codigoLivro, codigoUsuario);
 
         if (reserva != null)
-            reserva.setAtiva(false);
+            reserva.removerReserva();
 
         db.insert(emprestimo);
 
@@ -129,7 +131,7 @@ public class SistemaBiblioteca {
         }
 
         IUsuario usuario = db.getUsuario(codigoUsuario);
-        ILivro livro = db.getLivro(codigoLivro);
+        Livro livro = db.getLivro(codigoLivro);
 
         Reserva reserva = new Reserva(usuario, livro);
         db.insert(reserva);
@@ -146,7 +148,20 @@ public class SistemaBiblioteca {
     }
 
     public void observarReservasDeLivro(int codigoLivro, int codigoObservador) {
-        System.out.println("Não implementado");
+        try {
+            ValidacaoObserver.validarPodeSeTornarObservador(codigoObservador, codigoLivro, db);
+        } catch (SistemaBibliotecaException e) {
+            Mensagens.MensagemDeErro("Não é possível se tornar observador.", e.getMessage(),
+                    db.getUsuario(codigoObservador), db.getLivro(codigoLivro));
+            return;
+        }
+
+        IUsuario usuario = db.getUsuario(codigoObservador);
+        Livro livro = db.getLivro(codigoLivro);
+
+        livro.adicionarObservador(usuario);
+
+        Mensagens.MensagemSucessoBase("Sucesso: usuário se tornou observador.", usuario, livro);
     }
 
     public void mostrarTodosOsDadosDoBanco() {

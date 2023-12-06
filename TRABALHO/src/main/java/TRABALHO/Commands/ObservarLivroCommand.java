@@ -15,8 +15,8 @@ public class ObservarLivroCommand implements ICommand {
     public void execute(String... args) {
         validarArgs(args);
 
-        int codigoLivro = Integer.parseInt(args[0]);
-        int codigoObservador = Integer.parseInt(args[1]);
+        int codigoObservador = Integer.parseInt(args[0]);
+        int codigoLivro = Integer.parseInt(args[1]);
 
         sistemaBiblioteca.observarReservasDeLivro(codigoLivro, codigoObservador);
     }
