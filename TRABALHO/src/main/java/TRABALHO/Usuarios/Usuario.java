@@ -39,7 +39,7 @@ public abstract class Usuario implements IUsuario {
 
     public Emprestimo obterEmprestimoEmAbertoPorCodigoDoLivro(int codigoLivro) {
         return this.obterEmprestimos(true).stream().filter(
-                emprestimo -> emprestimo.getExemplar().getCodigo() == codigoLivro).findFirst().orElse(null);
+                emprestimo -> emprestimo.getExemplar().getCodigoLivro() == codigoLivro).findFirst().orElse(null);
     }
 
     public int quantidadeDeEmprestimosEmAberto() {
@@ -52,7 +52,7 @@ public abstract class Usuario implements IUsuario {
 
     public boolean jaTemEmprestimoDoLivroEmAberto(int codigoLivro) {
         return this.obterEmprestimos(true).stream().anyMatch(
-                emprestimo -> emprestimo.getExemplar().getCodigo() == codigoLivro);
+                emprestimo -> emprestimo.getExemplar().getCodigoLivro() == codigoLivro);
     }
 
     public String toString() {

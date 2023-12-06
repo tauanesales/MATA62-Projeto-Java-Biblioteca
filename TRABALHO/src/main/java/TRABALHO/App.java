@@ -30,31 +30,22 @@ public class App {
                 new Professor(100, "Carlos Lucena", db));
 
         List<ILivro> livros = List.of(
-                new Exemplar(100, 1, "Engenharia de Software", "AddisonWesley", "Ian Sommerville", "6ª",
+                new Livro(100, "Engenharia de Software", "AddisonWesley", "Ian Sommerville", "6ª",
                         "2000"),
-                new Exemplar(100, 2, "Engenharia de Software", "AddisonWesley", "Ian Sommerville", "6ª",
-                        "2000"),
-                new Exemplar(101, 3, "UML - Guia do Usuário", "Campus",
+                new Livro(101, "UML - Guia do Usuário", "Campus",
                         "Grady Booch, James Rumbaugh, Ivar Jacobson", "7ª",
                         "2000"),
-                new Exemplar(200, 4, "Code Complete", "Microsoft Press", "Steve McConnell", "2ª",
+                new Livro(200, "Code Complete", "Microsoft Press", "Steve McConnell", "2ª",
                         "2014"),
-                new Exemplar(201, 5, "Agile Software Development, Principles, Patterns and Practices",
+                new Livro(201, "Agile Software Development, Principles, Patterns and Practices",
                         "Prentice Hall",
                         "Robert Martin", "1ª", "2002"),
-                new Exemplar(300, 6, "Refactoring: Improving the Design of Existing Code",
-                        "Addison-Wesley Professional",
-                        "Martin Fowler", "1ª", "1999"),
-                new Exemplar(300, 7, "Refactoring: Improving the Design of Existing Code",
+                new Livro(300, "Refactoring: Improving the Design of Existing Code",
                         "Addison-Wesley Professional",
                         "Martin Fowler", "1ª", "1999"),
                 new Livro(301, "Software Metrics: A Rigorous and Practical Approach", "CRC Press",
                         "Norman Fenton, James Bieman", "3ª", "2014"),
-                new Exemplar(400, 8, "Design Patterns: Elements of Reusable Object-Oriented Software",
-                        "Addison-Wesley Professional",
-                        "Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides", "1ª",
-                        "1994"),
-                new Exemplar(400, 9, "Design Patterns: Elements of Reusable Object-Oriented Software",
+                new Livro(400, "Design Patterns: Elements of Reusable Object-Oriented Software",
                         "Addison-Wesley Professional",
                         "Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides", "1ª",
                         "1994"),
@@ -62,7 +53,19 @@ public class App {
                         "UML Distilled: A Brief Guide to the Standard Object Modeling Language",
                         "Addison-Wesley Professional", "Martin Fowler", "3ª", "2003"));
 
+        List<Exemplar> exemplares = List.of(
+                new Exemplar(1, livros.get(0)),
+                new Exemplar(2, livros.get(0)),
+                new Exemplar(3, livros.get(1)),
+                new Exemplar(4, livros.get(2)),
+                new Exemplar(5, livros.get(3)),
+                new Exemplar(6, livros.get(4)),
+                new Exemplar(7, livros.get(4)),
+                new Exemplar(8, livros.get(6)),
+                new Exemplar(9, livros.get(6)));
+
         usuarios.stream().forEach(aluno -> db.insert(aluno));
         livros.stream().forEach(livro -> db.insert(livro));
+        exemplares.stream().forEach(exemplar -> db.insert(exemplar));
     }
 }
