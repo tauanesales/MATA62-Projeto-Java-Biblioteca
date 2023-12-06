@@ -6,21 +6,20 @@ import TRABALHO.Reserva.Reserva;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public abstract class Usuario implements IUsuario {
-    private int codigo_identificador;
+    private int codigoUsuario;
     private String nome;
     private IBancoDeDados db;
 
-    public Usuario(int codigo_identificador, String nome, IBancoDeDados db) {
-        this.codigo_identificador = codigo_identificador;
+    public Usuario(int codigoUsuario, String nome, IBancoDeDados db) {
+        this.codigoUsuario = codigoUsuario;
         this.nome = nome;
         this.db = db;
     }
 
     public int getCodigo() {
-        return codigo_identificador;
+        return codigoUsuario;
     }
 
     public String getNome() {
@@ -57,7 +56,8 @@ public abstract class Usuario implements IUsuario {
     }
 
     public String toString() {
-        return String.format("Código: %d | Nome: %s | Tipo: %s", this.getCodigo(), this.getNome(), this.getClass().getSimpleName());
+        return String.format("Código: %d | Nome: %s | Tipo: %s", this.getCodigo(), this.getNome(),
+                this.getClass().getSimpleName());
     }
 
     public boolean atingiuLimiteMaximoDeReservas() {
@@ -66,5 +66,10 @@ public abstract class Usuario implements IUsuario {
 
     public List<Reserva> obterReservasAtivas() {
         return db.getReservasPorCodigoUsuario(true, this.getCodigo());
+    }
+
+    public boolean temReservaDoLivro(int codigoLivro) {
+        return this.obterReservasAtivas().stream().anyMatch(
+                reserva -> reserva.getLivro().getCodigo() == codigoLivro);
     }
 }

@@ -9,13 +9,15 @@ public class ValidacaoDevolucao extends ValidacaoBase {
         }
     }
 
-    public static void validarPodeDevolverExemplar(int codigoUsuario, int codigoLivro, IBancoDeDados db) throws SistemaBibliotecaException {
+    public static void validarPodeDevolverExemplar(int codigoUsuario, int codigoLivro, IBancoDeDados db)
+            throws SistemaBibliotecaException {
         validarUsuario(codigoUsuario, db);
         validarLivro(codigoLivro, db);
         validarUsuarioTemEmprestimoDoLivro(codigoUsuario, codigoLivro, db);
     }
 
-    public static void validarUsuarioTemEmprestimoDoLivro(int codigoUsuario, int codigoLivro, IBancoDeDados db) throws SistemaBibliotecaException {
+    public static void validarUsuarioTemEmprestimoDoLivro(int codigoUsuario, int codigoLivro, IBancoDeDados db)
+            throws SistemaBibliotecaException {
         if (!db.getUsuario(codigoUsuario).jaTemEmprestimoDoLivroEmAberto(codigoLivro))
             throw new DevolucaoException("Usuário não possui empréstimo do livro em aberto.");
     }

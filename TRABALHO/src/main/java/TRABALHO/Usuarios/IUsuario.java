@@ -29,4 +29,6 @@ public interface IUsuario extends IEntidadeBiblioteca {
     default int maxReservas() {
         return 3;
     }
+
+    public boolean temReservaDoLivro(int codigoLivro);
 }
