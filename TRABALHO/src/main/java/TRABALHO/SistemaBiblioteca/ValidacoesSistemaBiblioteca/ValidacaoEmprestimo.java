@@ -1,7 +1,6 @@
 package TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca;
 
 import TRABALHO.BancoDeDados.IBancoDeDados;
-import TRABALHO.Livros.Exemplar;
 import TRABALHO.Usuarios.IUsuario;
 import TRABALHO.Usuarios.Professor;
 

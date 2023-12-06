@@ -10,16 +10,23 @@ public class ValidacaoReservas extends ValidacaoBase {
         }
     }
 
-    public static void validarPodeReservarExemplar(int codigoUsuario, int codigoLivro, IBancoDeDados db) throws SistemaBibliotecaException {
+    public static void validarPodeReservarExemplar(int codigoUsuario, int codigoLivro, IBancoDeDados db)
+            throws SistemaBibliotecaException {
         validarUsuario(codigoUsuario, db);
         validarLivro(codigoLivro, db);
 
         IUsuario usuario = db.getUsuario(codigoUsuario);
         validarUsuarioNaoTemEmprestimoDoLivro(usuario, codigoLivro);
+        validarUsuarioNaoTemReservaDoLivro(usuario, codigoLivro);
         validarUsuarioNaoAtingiuOLimiteDeReservasDeLivro(usuario);
     }
 
-    private static void validarUsuarioNaoAtingiuOLimiteDeReservasDeLivro(IUsuario usuario) throws SistemaBibliotecaException {
+    private static void validarUsuarioNaoTemReservaDoLivro(IUsuario usuario, int codigoLivro) throws ReservaException {
+        if (usuario.temReservaDoLivro(codigoLivro))
+            throw new ReservaException("O usuário já tem uma reserva do livro.");
+    }
+
+    private static void validarUsuarioNaoAtingiuOLimiteDeReservasDeLivro(IUsuario usuario) throws ReservaException {
         if (usuario.atingiuLimiteMaximoDeReservas())
             throw new ReservaException("O usuário atingiu o limite máximo de reservas de livros.");
     }
