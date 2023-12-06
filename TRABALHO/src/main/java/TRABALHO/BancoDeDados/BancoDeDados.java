@@ -80,8 +80,8 @@ public class BancoDeDados implements IBancoDeDados {
     public Exemplar getExemplar(int codigoExemplar, int codigoLivro) {
         return getAll(Exemplar.class)
                 .stream()
-                .filter(exemplar -> exemplar.getCodigo() == codigoLivro)
-                .filter(exemplar -> exemplar.getCodigoExemplar() == codigoExemplar)
+                .filter(exemplar -> exemplar.getCodigoLivro() == codigoLivro)
+                .filter(exemplar -> exemplar.getCodigo() == codigoExemplar)
                 .findFirst()
                 .orElse(null);
     }
@@ -89,7 +89,7 @@ public class BancoDeDados implements IBancoDeDados {
     public Exemplar getExemplarDisponivelPorCodigoLivro(int codigoLivro) {
         return getAll(Exemplar.class)
                 .stream()
-                .filter(exemplar -> exemplar.getCodigo() == codigoLivro)
+                .filter(exemplar -> exemplar.getCodigoLivro() == codigoLivro)
                 .filter(exemplar -> exemplar.isDisponivel())
                 .findFirst()
                 .orElse(null);
@@ -98,7 +98,7 @@ public class BancoDeDados implements IBancoDeDados {
     public boolean temExemplarDisponivel(int codigoLivro) {
         return getAll(Exemplar.class)
                 .stream()
-                .anyMatch(exemplar -> exemplar.getCodigo() == codigoLivro &&
+                .anyMatch(exemplar -> exemplar.getCodigoLivro() == codigoLivro &&
                         exemplar.isDisponivel());
     }
 
@@ -137,7 +137,7 @@ public class BancoDeDados implements IBancoDeDados {
     public List<Exemplar> getExemplaresDisponiveis(int codigoLivro) {
         return this.getAll(Exemplar.class)
                 .stream()
-                .filter(exemplar -> exemplar.getCodigo() == codigoLivro)
+                .filter(exemplar -> exemplar.getCodigoLivro() == codigoLivro)
                 .filter(exemplar -> exemplar.isDisponivel())
                 .collect(Collectors.toList());
     }

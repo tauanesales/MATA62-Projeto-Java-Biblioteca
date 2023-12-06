@@ -1,21 +1,28 @@
 package TRABALHO.Livros;
 
-public class Exemplar extends Livro {
+public class Exemplar implements ILivro {
     private int codigoExemplar;
     private boolean disponivel;
+    private ILivro livro;
 
-    public Exemplar(int codigoLivro, int codigoExemplar, String titulo,
-            String editora, String autores, String edicao,
-            String anoDaPublicacao) {
-        super(codigoLivro, titulo, editora, autores, edicao, anoDaPublicacao);
+    public Exemplar(int codigoExemplar, ILivro livro) {
         this.codigoExemplar = codigoExemplar;
+        this.livro = livro;
         this.setDisponivel(true);
     }
 
-    public int getCodigoExemplar() {
+    public int getCodigo() {
         return codigoExemplar;
     }
 
+    public int getCodigoLivro() {
+        return livro.getCodigo();
+    }
+
+    public ILivro getLivro() {
+        return livro;
+    }
+    
     public boolean isDisponivel() {
         return disponivel;
     }
@@ -25,13 +32,33 @@ public class Exemplar extends Livro {
     }
 
     public String toString() {
-        return "Código Livro: " + getCodigo() + " | " +
-                "Código Exemplar: " + getCodigoExemplar() + " | " +
+        return "Código Livro: " + livro.getCodigo() + " | " +
+                "Código Exemplar: " + getCodigo() + " | " +
                 "Livro: " + getTitulo() + " | " +
                 "Editora: " + getEditora() + " | " +
                 "Autores: " + getAutores() + " | " +
                 "Edição: " + getEdicao() + " | " +
                 "Ano de publicação: " + getAnoPublicacao() + " | " +
                 "Disponível: " + (isDisponivel() ? "Sim" : "Não");
+    }
+
+    public String getTitulo() {
+        return livro.getTitulo();
+    }
+
+    public String getEditora() {
+        return livro.getEditora();
+    }
+
+    public String getAutores() {
+        return livro.getAutores();
+    }
+
+    public String getEdicao() {
+        return livro.getEdicao();
+    }
+
+    public String getAnoPublicacao() {
+        return livro.getAnoPublicacao();
     }
 }

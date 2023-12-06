@@ -17,12 +17,15 @@ import TRABALHO.Commands.VerBancoDeDadosCommand;
 import TRABALHO.Console.Mensagens;
 import TRABALHO.Emprestimo.Emprestimo;
 import TRABALHO.Livros.Exemplar;
+import TRABALHO.Livros.ILivro;
 import TRABALHO.Reserva.Reserva;
 import TRABALHO.Usuarios.IUsuario;
 
 import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoBase;
 import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoBase.SistemaBibliotecaException;
+import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoCommand.CommandException;
 import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoDevolucao;
+import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoCommand;
 import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoEmprestimo;
 import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoReservas;
 
@@ -58,8 +61,10 @@ public class SistemaBiblioteca {
 
     public void executeCommand(String command, String... args) {
         try {
-            commands.get(command).execute(args);
-        } catch (NullPointerException e) {
+            ICommand concreteCommand = commands.get(command);
+            ValidacaoCommand.validarCommand(concreteCommand);
+            concreteCommand.execute(args);
+        } catch (CommandException e) {
             Mensagens.MensagemDeErro("Não foi possível processar seu pedido.", "Comando \"" + command + "\" inválido.",
                     null, null);
         } catch (NumberFormatException e) {
@@ -124,19 +129,19 @@ public class SistemaBiblioteca {
         }
 
         IUsuario usuario = db.getUsuario(codigoUsuario);
-        Exemplar exemplar = db.getExemplarDisponivelPorCodigoLivro(codigoLivro);
+        ILivro livro = db.getLivro(codigoLivro);
 
-        Reserva reserva = new Reserva(usuario, exemplar);
+        Reserva reserva = new Reserva(usuario, livro);
         db.insert(reserva);
 
-        Mensagens.MensagemSucessoBase("Reserva realizada com sucesso!", usuario, exemplar);
+        Mensagens.MensagemSucessoBase("Reserva realizada com sucesso!", usuario, livro);
     }
 
-    public void mostrarDadosDoUsuario(int codigo) {
+    public void mostrarDadosDoUsuario(int codigoUsuario) {
         System.out.println("Não implementado");
     }
 
-    public void mostrarDadosDoLivro(int codigo) {
+    public void mostrarDadosDoLivro(int codigoLivro) {
         System.out.println("Não implementado");
     }
 
