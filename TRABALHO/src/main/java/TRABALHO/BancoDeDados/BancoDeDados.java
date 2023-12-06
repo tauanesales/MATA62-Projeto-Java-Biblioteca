@@ -130,7 +130,7 @@ public class BancoDeDados implements IBancoDeDados {
         return this.getAll(Reserva.class)
                 .stream()
                 .filter(reserva -> reserva.getUsuario().getCodigo() == codigoUsuario)
-                .filter(reserva -> !b || reserva.isAtiva())
+                .filter(reserva -> !b || reserva.reservaEstaAtiva())
                 .collect(Collectors.toList());
     }
 
@@ -147,7 +147,7 @@ public class BancoDeDados implements IBancoDeDados {
                 .stream()
                 .filter(reserva -> reserva.getUsuario().getCodigo() == codigoUsuario)
                 .filter(reserva -> reserva.getLivro().getCodigo() == codigoLivro)
-                .filter(reserva -> reserva.isAtiva())
+                .filter(reserva -> reserva.reservaEstaAtiva())
                 .findFirst()
                 .orElse(null);
     }
@@ -156,7 +156,7 @@ public class BancoDeDados implements IBancoDeDados {
         return this.getAll(Reserva.class)
                 .stream()
                 .filter(reserva -> reserva.getLivro().getCodigo() == codigoLivro)
-                .filter(reserva -> !reservaAtiva || reserva.isAtiva())
+                .filter(reserva -> !reservaAtiva || reserva.reservaEstaAtiva())
                 .collect(Collectors.toList());
     }
 }
