@@ -4,13 +4,25 @@
   <groupId>TRABALHO</groupId>
   <artifactId>TRABALHO</artifactId>
   <packaging>jar</packaging>
-  <version>0.13.1</version>
+  <version>0.13.2</version>
   <name>TRABALHO</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.1.1</version>
+        <configuration>
+          <mainClass>TRABALHO.App</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>

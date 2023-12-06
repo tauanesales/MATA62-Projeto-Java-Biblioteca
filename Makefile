@@ -6,11 +6,13 @@ endif
 
 default: test
 
-run: compile
-	java -cp ./TRABALHO/target/classes/ TRABALHO/App
+run: compile exec
+
+exec:
+	mvn -f TRABALHO\pom.xml exec:java
 
 compile: clean
-	javac -cp ./TRABALHO/src/main/java/ ./TRABALHO/src/main/java/TRABALHO/App.java -d "./TRABALHO/target/classes"
+	mvn -f TRABALHO\pom.xml compile
 
 clean:
 	$(RM)
