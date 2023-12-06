@@ -22,6 +22,7 @@ public class Mensagens {
                 "obs <codigoLivro> <codigoUsuario> - Observa as reservas de um livro",
                 "usu <codigoUsuario> - Mostra os dados de um usuário",
                 "liv <codigoLivro> - Mostra os dados de um livro",
+                "ntf <codigoUsuario> - Mostra as notificações de um usuário",
                 "all - Mostra todos os dados do banco de dados",
                 "sai - Encerra o programa",
                 dash);
