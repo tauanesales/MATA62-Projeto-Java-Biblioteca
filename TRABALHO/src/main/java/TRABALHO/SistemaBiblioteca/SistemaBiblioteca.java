@@ -6,6 +6,7 @@ import TRABALHO.BancoDeDados.IBancoDeDados;
 import TRABALHO.Commands.DevolucaoCommand;
 import TRABALHO.Commands.EmprestimoCommand;
 import TRABALHO.Commands.VerLivroCommand;
+import TRABALHO.Commands.VerNotificacoesCommand;
 import TRABALHO.Commands.VerUsuarioCommand;
 import TRABALHO.Commands.ICommand;
 import TRABALHO.Commands.ObservarLivroCommand;
@@ -39,6 +40,7 @@ public class SistemaBiblioteca {
         addCommand("obs", new ObservarLivroCommand(this, db));
         addCommand("usu", new VerUsuarioCommand(this, db));
         addCommand("liv", new VerLivroCommand(this, db));
+        addCommand("ntf", new VerNotificacoesCommand(this, db));
         addCommand("all", new VerBancoDeDadosCommand(this, db));
         addCommand("sai", new SaiCommand());
     }
@@ -144,5 +146,9 @@ public class SistemaBiblioteca {
 
     public void mostrarTodosOsDadosDoBanco() {
         Mensagens.mostrarTodosOsDadosDoBanco(db);
+    }
+
+    public void mostrarNotificacoesDoUsuario(int codigoUsuario) {
+        System.out.println("Não implementado");
     }
 }
