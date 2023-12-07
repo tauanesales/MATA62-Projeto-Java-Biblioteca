@@ -50,4 +50,6 @@ public interface IBancoDeDados {
     public List<Reserva> getReservasPorCodigoLivro(boolean reservaAtiva, int codigoLivro);
 
     public Exemplar getExemplarEmprestado(int codigoLivro, int codigoUsuario);
+
+    public List<Exemplar> getExemplares(int codigoLivro);
 }

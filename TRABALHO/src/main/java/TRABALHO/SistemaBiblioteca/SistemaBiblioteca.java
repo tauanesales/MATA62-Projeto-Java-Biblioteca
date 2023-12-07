@@ -137,14 +137,6 @@ public class SistemaBiblioteca {
         Mensagens.MensagemSucessoBase("Reserva realizada com sucesso!", usuario, livro);
     }
 
-    public void mostrarDadosDoUsuario(int codigoUsuario) {
-        System.out.println("Não implementado");
-    }
-
-    public void mostrarDadosDoLivro(int codigoLivro) {
-        System.out.println("Não implementado");
-    }
-
     public void observarReservasDeLivro(int codigoLivro, int codigoObservador) {
         try {
             ValidacaoObserver.validarPodeSeTornarObservador(codigoObservador, codigoLivro, db);
@@ -165,8 +157,16 @@ public class SistemaBiblioteca {
     public void mostrarTodosOsDadosDoBanco() {
         Mensagens.mostrarTodosOsDadosDoBanco(db);
     }
+    
+    public void mostrarDadosDoLivro(int codigoLivro) {
+        Mensagens.mostrarDadosDoLivro(db.getLivro(codigoLivro), db);
+    }
+
+    public void mostrarDadosDoUsuario(int codigoUsuario) {
+        Mensagens.mostrarDadosDoUsuario(db.getUsuario(codigoUsuario));
+    }
 
     public void mostrarNotificacoesDoUsuario(int codigoUsuario) {
-        System.out.println("Não implementado");
+        Mensagens.mostrarNotificacoesDoUsuario(db.getUsuario(codigoUsuario));
     }
 }

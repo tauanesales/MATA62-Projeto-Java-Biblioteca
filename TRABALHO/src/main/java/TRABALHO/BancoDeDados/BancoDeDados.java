@@ -1,7 +1,6 @@
 package TRABALHO.BancoDeDados;
 
 import TRABALHO.Emprestimo.Emprestimo;
-import TRABALHO.Livros.EstadoExemplar.ExemplarEmprestado;
 import TRABALHO.Livros.Exemplar.Exemplar;
 import TRABALHO.Livros.Livro.Livro;
 import TRABALHO.Reserva.Reserva;
@@ -136,10 +135,16 @@ public class BancoDeDados implements IBancoDeDados {
     }
 
     public List<Exemplar> getExemplaresDisponiveis(int codigoLivro) {
+        return this.getExemplares(codigoLivro)
+                .stream()
+                .filter(exemplar -> exemplar.isDisponivel())
+                .collect(Collectors.toList());
+    }
+
+    public List<Exemplar> getExemplares(int codigoLivro) {
         return this.getAll(Exemplar.class)
                 .stream()
                 .filter(exemplar -> exemplar.getCodigoLivro() == codigoLivro)
-                .filter(exemplar -> exemplar.isDisponivel())
                 .collect(Collectors.toList());
     }
 
@@ -170,5 +175,4 @@ public class BancoDeDados implements IBancoDeDados {
                 .findFirst()
                 .orElse(null);
     }
-
 }
