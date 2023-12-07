@@ -16,9 +16,9 @@ import TRABALHO.Commands.SaiCommand;
 import TRABALHO.Commands.VerBancoDeDadosCommand;
 import TRABALHO.Console.Mensagens;
 import TRABALHO.Emprestimo.Emprestimo;
-import TRABALHO.Livros.Exemplar;
-import TRABALHO.Livros.ILivro;
-import TRABALHO.Livros.Livro;
+import TRABALHO.Livros.Exemplar.Exemplar;
+import TRABALHO.Livros.Exemplar.IExemplar;
+import TRABALHO.Livros.Livro.Livro;
 import TRABALHO.Reserva.Reserva;
 import TRABALHO.Usuarios.IUsuario;
 
@@ -39,14 +39,14 @@ public class SistemaBiblioteca {
     private SistemaBiblioteca(IBancoDeDados db) {
         this.db = db;
         this.commands = new HashMap<String, ICommand>();
-        addCommand("emp", new EmprestimoCommand(this, db));
-        addCommand("dev", new DevolucaoCommand(this, db));
-        addCommand("res", new ReservarCommand(this, db));
-        addCommand("obs", new ObservarLivroCommand(this, db));
-        addCommand("usu", new VerUsuarioCommand(this, db));
-        addCommand("liv", new VerLivroCommand(this, db));
-        addCommand("ntf", new VerNotificacoesCommand(this, db));
-        addCommand("all", new VerBancoDeDadosCommand(this, db));
+        addCommand("emp", new EmprestimoCommand(this));
+        addCommand("dev", new DevolucaoCommand(this));
+        addCommand("res", new ReservarCommand(this));
+        addCommand("obs", new ObservarLivroCommand(this));
+        addCommand("usu", new VerUsuarioCommand(this));
+        addCommand("liv", new VerLivroCommand(this));
+        addCommand("ntf", new VerNotificacoesCommand(this));
+        addCommand("all", new VerBancoDeDadosCommand(this));
         addCommand("sai", new SaiCommand());
     }
 
@@ -87,20 +87,16 @@ public class SistemaBiblioteca {
                     db.getLivro(codigoLivro));
             return;
         }
-
-        IUsuario usuario = db.getUsuario(codigoUsuario);
         Exemplar exemplar = db.getExemplarDisponivelPorCodigoLivro(codigoLivro);
 
-        Emprestimo emprestimo = new Emprestimo(exemplar, usuario);
-        Reserva reserva = db.getReservaAtiva(codigoLivro, codigoUsuario);
+        exemplar.emprestar(codigoUsuario, db);
 
+        Reserva reserva = db.getReservaAtiva(codigoLivro, codigoUsuario);
         if (reserva != null)
             reserva.removerReserva();
 
-        db.insert(emprestimo);
-
-        Mensagens.MensagemSucessoBase("Empréstimo realizado com sucesso!", usuario, exemplar,
-                emprestimo);
+        Mensagens.MensagemSucessoBase("Empréstimo realizado com sucesso!", exemplar.getMutuario(), exemplar,
+                exemplar.getEmprestimo());
     }
 
     public void realizarDevolucao(int codigoUsuario, int codigoLivro) {
@@ -112,13 +108,15 @@ public class SistemaBiblioteca {
             return;
         }
 
-        IUsuario usuario = db.getUsuario(codigoUsuario);
-        Emprestimo emprestimo = usuario.obterEmprestimoEmAbertoPorCodigoDoLivro(codigoLivro);
+        IExemplar exemplar = db.getExemplarEmprestado(codigoLivro, codigoUsuario);
 
-        emprestimo.setDevolvido(true);
+        Emprestimo emprestimo = exemplar.getEmprestimo();
+        IUsuario usuario = exemplar.getMutuario();
+
+        exemplar.devolver();
 
         Mensagens.MensagemSucessoBase("Devolução realizada com sucesso!", usuario,
-                emprestimo.getExemplar(), emprestimo);
+                exemplar, emprestimo);
     }
 
     public void realizarReserva(int codigoUsuario, int codigoLivro) {

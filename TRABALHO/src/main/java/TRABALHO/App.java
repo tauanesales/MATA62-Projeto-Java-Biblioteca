@@ -4,9 +4,8 @@ import java.util.List;
 import TRABALHO.BancoDeDados.BancoDeDados;
 import TRABALHO.BancoDeDados.IBancoDeDados;
 import TRABALHO.Console.Interaction;
-import TRABALHO.Livros.Exemplar;
-import TRABALHO.Livros.ILivro;
-import TRABALHO.Livros.Livro;
+import TRABALHO.Livros.Exemplar.Exemplar;
+import TRABALHO.Livros.Livro.Livro;
 import TRABALHO.SistemaBiblioteca.SistemaBiblioteca;
 import TRABALHO.Usuarios.AlunoGraduacao;
 import TRABALHO.Usuarios.AlunoPosGraduacao;
@@ -29,7 +28,7 @@ public class App {
                 new AlunoGraduacao(789, "Pedro Paulo", db),
                 new Professor(100, "Carlos Lucena", db));
 
-        List<ILivro> livros = List.of(
+        List<Livro> livros = List.of(
                 new Livro(100, "Engenharia de Software", "AddisonWesley", "Ian Sommerville", "6ª",
                         "2000"),
                 new Livro(101, "UML - Guia do Usuário", "Campus",

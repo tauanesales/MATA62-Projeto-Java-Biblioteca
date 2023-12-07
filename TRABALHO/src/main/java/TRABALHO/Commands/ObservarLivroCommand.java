@@ -1,15 +1,12 @@
 package TRABALHO.Commands;
 
-import TRABALHO.BancoDeDados.IBancoDeDados;
 import TRABALHO.SistemaBiblioteca.SistemaBiblioteca;
 
 public class ObservarLivroCommand implements ICommand {
     private SistemaBiblioteca sistemaBiblioteca;
-    private IBancoDeDados db;
 
-    public ObservarLivroCommand(SistemaBiblioteca sistemaBiblioteca, IBancoDeDados db) {
+    public ObservarLivroCommand(SistemaBiblioteca sistemaBiblioteca) {
         this.sistemaBiblioteca = sistemaBiblioteca;
-        this.db = db;
     }
 
     public void execute(String... args) {

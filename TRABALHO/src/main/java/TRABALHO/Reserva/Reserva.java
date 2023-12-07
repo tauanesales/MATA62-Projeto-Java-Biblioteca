@@ -1,6 +1,6 @@
 package TRABALHO.Reserva;
 
-import TRABALHO.Livros.Livro;
+import TRABALHO.Livros.Livro.Livro;
 import TRABALHO.SistemaBiblioteca.IEntidadeBiblioteca;
 import TRABALHO.Usuarios.IUsuario;
 

@@ -1,14 +1,13 @@
 package TRABALHO.BancoDeDados;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import TRABALHO.BaseTest;
-import TRABALHO.Livros.Exemplar;
-import TRABALHO.Livros.Livro;
+import TRABALHO.Livros.Exemplar.Exemplar;
+import TRABALHO.Livros.Livro.Livro;
 import TRABALHO.Usuarios.IUsuario;
 
 public class BancoDeDadosTest extends BaseTest {
