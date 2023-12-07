@@ -32,7 +32,7 @@ public class ExemplarEmprestado implements IExemplarEstado {
     }
 
     public void devolver() {
-        getEmprestimo().setDevolvido(true);
+        getEmprestimo().devolver();
         exemplar.setEstado(new ExemplarDisponivel(exemplar));
     }
 

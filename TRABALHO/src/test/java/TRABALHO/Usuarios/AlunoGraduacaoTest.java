@@ -71,15 +71,15 @@ public class AlunoGraduacaoTest extends BaseTest {
         biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), 100);
         biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), 500);
 
-        alunoGrad.obterEmprestimos(false).get(0).setDevolvido(true);
+        alunoGrad.obterEmprestimos(false).get(0).devolver();
         Assert.assertEquals(2, alunoGrad.obterEmprestimos(true).size());
         Assert.assertEquals(3, alunoGrad.obterEmprestimos(false).size());
 
-        alunoGrad.obterEmprestimos(false).get(1).setDevolvido(true);
+        alunoGrad.obterEmprestimos(false).get(1).devolver();
         Assert.assertEquals(1, alunoGrad.obterEmprestimos(true).size());
         Assert.assertEquals(3, alunoGrad.obterEmprestimos(false).size());
 
-        alunoGrad.obterEmprestimos(false).get(2).setDevolvido(true);
+        alunoGrad.obterEmprestimos(false).get(2).devolver();
         Assert.assertEquals(0, alunoGrad.obterEmprestimos(true).size());
         Assert.assertEquals(3, alunoGrad.obterEmprestimos(false).size());
 
@@ -238,15 +238,15 @@ public class AlunoGraduacaoTest extends BaseTest {
         Assert.assertEquals(alunoGrad.maxEmprestimos(), alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertTrue(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
 
-        alunoGrad.obterEmprestimos(false).get(0).setDevolvido(true);
+        alunoGrad.obterEmprestimos(false).get(0).devolver();
         Assert.assertEquals(2, alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertFalse(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
 
-        alunoGrad.obterEmprestimos(false).get(1).setDevolvido(true);
+        alunoGrad.obterEmprestimos(false).get(1).devolver();
         Assert.assertEquals(1, alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertFalse(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
 
-        alunoGrad.obterEmprestimos(false).get(2).setDevolvido(true);
+        alunoGrad.obterEmprestimos(false).get(2).devolver();
         Assert.assertEquals(0, alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertFalse(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
     }
@@ -310,7 +310,7 @@ public class AlunoGraduacaoTest extends BaseTest {
         Assert.assertEquals(alunoGrad.maxEmprestimos(), alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertTrue(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
 
-        alunoGrad.obterEmprestimos(true).forEach(emprestimo -> emprestimo.setDevolvido(true));
+        alunoGrad.obterEmprestimos(true).forEach(emprestimo -> emprestimo.devolver());
 
         Assert.assertEquals(0, alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertFalse(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
@@ -534,11 +534,11 @@ public class AlunoGraduacaoTest extends BaseTest {
         Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar1.getCodigoLivro()));
         Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar2.getCodigoLivro()));
 
-        alunoGrad.obterEmprestimos(true).get(0).setDevolvido(true);
+        alunoGrad.obterEmprestimos(true).get(0).devolver();
         Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar1.getCodigoLivro()));
         Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar2.getCodigoLivro()));
 
-        alunoGrad.obterEmprestimos(true).get(0).setDevolvido(true);
+        alunoGrad.obterEmprestimos(true).get(0).devolver();
         Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar1.getCodigoLivro()));
         Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar2.getCodigoLivro()));
     }

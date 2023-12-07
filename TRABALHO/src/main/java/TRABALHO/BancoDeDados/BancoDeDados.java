@@ -1,7 +1,6 @@
 package TRABALHO.BancoDeDados;
 
 import TRABALHO.Emprestimo.Emprestimo;
-import TRABALHO.Livros.EstadoExemplar.ExemplarEmprestado;
 import TRABALHO.Livros.Exemplar.Exemplar;
 import TRABALHO.Livros.Livro.Livro;
 import TRABALHO.Reserva.Reserva;

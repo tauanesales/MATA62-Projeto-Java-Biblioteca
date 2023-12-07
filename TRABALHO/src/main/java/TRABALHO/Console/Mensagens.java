@@ -88,4 +88,20 @@ public class Mensagens {
         System.out.println(usuario);
         System.out.println(dash);
     }
+
+    public static void mostrarDadosDoUsuario(IUsuario usuario) {
+        System.out.println(dash);
+        System.out.println(usuario.getNome() + "\n");
+
+        System.out.println("Emprestimos:");
+        usuario.obterEmprestimos(false).forEach(emprestimo -> {
+            System.out.println("  - " + emprestimo);
+        });
+
+        System.out.println("Reservas:");
+        usuario.obterReservas(false).forEach(reserva -> {
+            System.out.println("  - " + reserva);
+        });
+        System.out.println(dash);
+    }
 }

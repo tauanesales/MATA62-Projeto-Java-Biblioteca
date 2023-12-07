@@ -85,4 +85,8 @@ public abstract class Usuario implements IUsuario {
     public void notificar() {
         this.quantidadeDeVezesQueFoiNotificado++;
     }
+
+    public List<Reserva> obterReservas(boolean apenasEmAberto) {
+        return db.getReservasPorCodigoUsuario(apenasEmAberto, this.getCodigo());
+    }
 }

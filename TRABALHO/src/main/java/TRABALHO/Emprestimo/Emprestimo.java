@@ -2,6 +2,7 @@ package TRABALHO.Emprestimo;
 
 import java.util.Date;
 
+import TRABALHO.App;
 import TRABALHO.Livros.Exemplar.Exemplar;
 import TRABALHO.SistemaBiblioteca.IEntidadeBiblioteca;
 import TRABALHO.Usuarios.IUsuario;
@@ -51,18 +52,19 @@ public class Emprestimo implements IEntidadeBiblioteca {
         return devolvido;
     }
 
-    public void setDevolvido(boolean devolvido) {
-        this.devolvido = devolvido;
+    public void devolver() {
+        this.devolvido = true;
+        dataDevolucao = new Date();
     }
 
     public String toString() {
-        return "Exemplar: " + exemplar.getTitulo() + " | " +
-                "Código Livro: " + exemplar.getCodigoLivro() + " | " +
-                "Código Exemplar: " + exemplar.getCodigo() + " | " +
-                "Usuario: " + usuario.getNome() + " | " +
-                "DataSolicitacao: " + dataSolicitacao + " | " +
-                "DataDevolucao: " + dataDevolucao + " | " +
-                "Devolvido: " + (isDevolvido() ? "Sim" : "Não");
+        return "Título: " + exemplar.getTitulo() + " | " +
+                "Solicitação: " + App.df.format(getDataSolicitacao()) + " | " +
+                "Status do empréstimo: " + (isDevolvido() ? "Finalizado" : "Em curso"   ) + " | " +
+                "Devolução: " + App.df.format(getDataDevolucao()) + " | " +
+                "Livro: " + exemplar.getCodigoLivro() + " | " +
+                "Exemplar: " + exemplar.getCodigo() + " | " +
+                "Usuário: " + usuario.getCodigo();
     }
 
     public int getCodigo() {

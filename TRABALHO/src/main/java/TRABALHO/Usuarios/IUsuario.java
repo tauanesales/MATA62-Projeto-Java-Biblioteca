@@ -3,6 +3,7 @@ package TRABALHO.Usuarios;
 import java.util.List;
 
 import TRABALHO.Emprestimo.Emprestimo;
+import TRABALHO.Reserva.Reserva;
 import TRABALHO.SistemaBiblioteca.IEntidadeBiblioteca;
 
 public interface IUsuario extends IEntidadeBiblioteca {
@@ -39,4 +40,6 @@ public interface IUsuario extends IEntidadeBiblioteca {
     default Boolean podeSerObservador() {
         return false;
     }
+
+    public List<Reserva> obterReservas(boolean apenasEmAberto);
 }
