@@ -56,7 +56,7 @@ public class BancoDeDados implements IBancoDeDados {
                 .collect(Collectors.toList());
     }
 
-    public <T extends IEntidadeBiblioteca> T getFirtById(Class<T> tabela,
+    public <T extends IEntidadeBiblioteca> T getFirstById(Class<T> tabela,
             int id) {
         return this.getAll(tabela)
                 .stream()
@@ -74,7 +74,7 @@ public class BancoDeDados implements IBancoDeDados {
     }
 
     public Livro getLivro(int codigoLivro) {
-        return this.getFirtById(Livro.class, codigoLivro);
+        return this.getFirstById(Livro.class, codigoLivro);
     }
 
     public Exemplar getExemplar(int codigoExemplar, int codigoLivro) {
@@ -111,7 +111,7 @@ public class BancoDeDados implements IBancoDeDados {
     }
 
     public IUsuario getUsuario(int codigoUsuario) {
-        return this.getFirtById(IUsuario.class, codigoUsuario);
+        return this.getFirstById(IUsuario.class, codigoUsuario);
     }
 
     public HashMap<Class<? extends IEntidadeBiblioteca>, List<IEntidadeBiblioteca>> getTables() {

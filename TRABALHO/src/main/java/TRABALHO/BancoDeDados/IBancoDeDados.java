@@ -21,7 +21,7 @@ public interface IBancoDeDados {
 
     public <T extends IEntidadeBiblioteca> List<T> getAll(Class<T> entityType);
 
-    public <T extends IEntidadeBiblioteca> T getFirtById(Class<T> tabela, int id);
+    public <T extends IEntidadeBiblioteca> T getFirstById(Class<T> tabela, int id);
 
     public IEntidadeBiblioteca[] getAllById(Class<? extends IEntidadeBiblioteca> tabela, int id);
 
