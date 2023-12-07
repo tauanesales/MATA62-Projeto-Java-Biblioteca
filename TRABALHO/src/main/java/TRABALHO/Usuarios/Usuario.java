@@ -59,7 +59,7 @@ public abstract class Usuario implements IUsuario {
 
     public String toString() {
         return String.format(
-                "Código: %d | Nome: %s | Quantidade de Notificações: %s | Tipo: %s",
+                "Código Usuário: %d | Nome: %s | Quantidade de Notificações: %s | Tipo: %s",
                 this.getCodigo(),
                 this.getNome(), this.getQuantidadeDeVezesQueFoiNotificado(),
                 this.getClass().getSimpleName());

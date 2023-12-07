@@ -167,6 +167,6 @@ public class SistemaBiblioteca {
     }
 
     public void mostrarNotificacoesDoUsuario(int codigoUsuario) {
-        System.out.println("Não implementado");
+        Mensagens.mostrarNotificacoesDoUsuario(db.getUsuario(codigoUsuario));
     }
 }

@@ -83,4 +83,9 @@ public class Mensagens {
         });
     }
 
+    public static void mostrarNotificacoesDoUsuario(IUsuario usuario) {
+        System.out.println(dash);
+        System.out.println(usuario);
+        System.out.println(dash);
+    }
 }
