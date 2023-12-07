@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import TRABALHO.BaseTest;
-import TRABALHO.Emprestimo.Emprestimo;
+import TRABALHO.Livros.EstadoExemplar.ExemplarEmprestado;
 
 public class SistemaBibliotecaTest extends BaseTest {
     @Test
@@ -98,7 +98,7 @@ public class SistemaBibliotecaTest extends BaseTest {
         calendar.set(2022, Calendar.JANUARY, 1);
 
         // Entra em situação de atraso por ter um empréstimo antigo;
-        db.insert(new Emprestimo(exemplar1, alunoPosGrad, calendar.getTime()));
+        exemplar1.setEstado(new ExemplarEmprestado(exemplar1, alunoPosGrad, db, calendar.getTime()));
         Assert.assertTrue(alunoPosGrad.temAtraso());
         Assert.assertEquals(1, alunoPosGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertEquals(2, alunoPosGrad.obterEmprestimos(false).size());

@@ -2,8 +2,8 @@ package TRABALHO;
 
 import TRABALHO.BancoDeDados.BancoDeDados;
 import TRABALHO.BancoDeDados.IBancoDeDados;
-import TRABALHO.Livros.Exemplar;
-import TRABALHO.Livros.Livro;
+import TRABALHO.Livros.Exemplar.Exemplar;
+import TRABALHO.Livros.Livro.Livro;
 import TRABALHO.SistemaBiblioteca.SistemaBiblioteca;
 import TRABALHO.Usuarios.AlunoGraduacao;
 import TRABALHO.Usuarios.AlunoPosGraduacao;

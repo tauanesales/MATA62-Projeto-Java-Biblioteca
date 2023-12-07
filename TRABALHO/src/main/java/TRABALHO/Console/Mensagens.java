@@ -5,7 +5,7 @@ import java.util.Date;
 
 import TRABALHO.BancoDeDados.IBancoDeDados;
 import TRABALHO.Emprestimo.Emprestimo;
-import TRABALHO.Livros.ILivro;
+import TRABALHO.Livros.Livro.ILivro;
 import TRABALHO.Usuarios.IUsuario;
 
 public class Mensagens {

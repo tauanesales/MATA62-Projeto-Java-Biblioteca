@@ -85,4 +85,56 @@ public class ReservarCommandTest extends BaseTest {
         Assert.assertEquals(exemplar1, professor.obterEmprestimos(true).get(0).getExemplar());
         Assert.assertFalse(exemplar1.isDisponivel());
     }
+
+    @Test
+    public void reservaDeLivroPodeSerFeitaApenasUmaVezPorPessoaPorVezTest() {
+        String codigoAlunoGrad = String.valueOf(alunoGrad.getCodigo());
+        String codigoLivro1 = String.valueOf(exemplar1.getCodigoLivro());
+
+        biblioteca.executeCommand("res", codigoAlunoGrad, codigoLivro1);
+        Assert.assertEquals(1, alunoGrad.obterReservasAtivas().size());
+        Assert.assertEquals(exemplar1.getLivro(), alunoGrad.obterReservasAtivas().get(0).getLivro());
+
+        biblioteca.executeCommand("res", codigoAlunoGrad, codigoLivro1);
+        Assert.assertEquals(1, alunoGrad.obterReservasAtivas().size());
+    }
+
+    @Test
+    public void professorTemPrioridadeSobreReservasTest() {
+        String codigoProfessor = String.valueOf(professor.getCodigo());
+        String codigoAlunoGrad = String.valueOf(alunoGrad.getCodigo());
+        String codigoAlunoPosGrad = String.valueOf(alunoPosGrad.getCodigo());
+        String codigoLivro1 = String.valueOf(exemplar1.getCodigoLivro());
+
+        biblioteca.executeCommand("res", codigoAlunoGrad, codigoLivro1);
+        Assert.assertEquals(1, alunoGrad.obterReservasAtivas().size());
+        Assert.assertEquals(exemplar1.getLivro(), alunoGrad.obterReservasAtivas().get(0).getLivro());
+        Assert.assertTrue(exemplar1.isDisponivel());
+
+        biblioteca.executeCommand("emp", codigoAlunoPosGrad, codigoLivro1);
+        Assert.assertTrue(exemplar1.isDisponivel());
+
+        biblioteca.executeCommand("emp", codigoProfessor, codigoLivro1);
+        Assert.assertFalse(exemplar1.isDisponivel());
+        Assert.assertEquals(exemplar1.getMutuario(), professor);
+    }
+
+    @Test
+    public void alunoComReservaTemPrioridadeNosEmprestimosTest() {
+        String codigoAlunoGrad = String.valueOf(alunoGrad.getCodigo());
+        String codigoAlunoPosGrad = String.valueOf(alunoPosGrad.getCodigo());
+        String codigoLivro1 = String.valueOf(exemplar1.getCodigoLivro());
+
+        biblioteca.executeCommand("res", codigoAlunoGrad, codigoLivro1);
+        Assert.assertEquals(1, alunoGrad.obterReservasAtivas().size());
+        Assert.assertEquals(exemplar1.getLivro(), alunoGrad.obterReservasAtivas().get(0).getLivro());
+        Assert.assertTrue(exemplar1.isDisponivel());
+
+        biblioteca.executeCommand("emp", codigoAlunoPosGrad, codigoLivro1);
+        Assert.assertTrue(exemplar1.isDisponivel());
+
+        biblioteca.executeCommand("emp", codigoAlunoGrad, codigoLivro1);
+        Assert.assertFalse(exemplar1.isDisponivel());
+        Assert.assertEquals(exemplar1.getMutuario(), alunoGrad);
+    }
 }

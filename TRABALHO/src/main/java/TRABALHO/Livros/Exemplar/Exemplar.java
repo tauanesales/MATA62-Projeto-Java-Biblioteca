@@ -1,14 +1,28 @@
-package TRABALHO.Livros;
+package TRABALHO.Livros.Exemplar;
 
-public class Exemplar implements ILivro {
+import TRABALHO.Livros.EstadoExemplar.ExemplarDisponivel;
+import TRABALHO.Livros.EstadoExemplar.IExemplarEstado;
+import TRABALHO.Livros.Livro.Livro;
+import TRABALHO.Usuarios.IUsuario;
+
+public class Exemplar implements IExemplar {
+    private IExemplarEstado estado;
+
     private int codigoExemplar;
-    private boolean disponivel;
-    private ILivro livro;
+    private Livro livro;
 
-    public Exemplar(int codigoExemplar, ILivro livro) {
+    public Exemplar(int codigoExemplar, Livro livro) {
         this.codigoExemplar = codigoExemplar;
         this.livro = livro;
-        this.setDisponivel(true);
+        setEstado(new ExemplarDisponivel(this));
+    }
+
+    public void setEstado(IExemplarEstado estado) {
+        this.estado = estado;
+    }
+
+    public IUsuario getMutuario() {
+        return estado.getMutuario();
     }
 
     public int getCodigo() {
@@ -19,16 +33,12 @@ public class Exemplar implements ILivro {
         return livro.getCodigo();
     }
 
-    public ILivro getLivro() {
+    public Livro getLivro() {
         return livro;
     }
-    
-    public boolean isDisponivel() {
-        return disponivel;
-    }
 
-    public void setDisponivel(boolean disponivel) {
-        this.disponivel = disponivel;
+    public boolean isDisponivel() {
+        return estado.isDisponivel();
     }
 
     public String toString() {
@@ -60,5 +70,9 @@ public class Exemplar implements ILivro {
 
     public String getAnoPublicacao() {
         return livro.getAnoPublicacao();
+    }
+
+    public IExemplarEstado getEstado() {
+        return estado;
     }
 }

@@ -1,8 +1,9 @@
 package TRABALHO.BancoDeDados;
 
 import TRABALHO.Emprestimo.Emprestimo;
-import TRABALHO.Livros.Exemplar;
-import TRABALHO.Livros.Livro;
+import TRABALHO.Livros.EstadoExemplar.ExemplarEmprestado;
+import TRABALHO.Livros.Exemplar.Exemplar;
+import TRABALHO.Livros.Livro.Livro;
 import TRABALHO.Reserva.Reserva;
 import TRABALHO.SistemaBiblioteca.IEntidadeBiblioteca;
 import TRABALHO.Usuarios.IUsuario;
@@ -159,4 +160,15 @@ public class BancoDeDados implements IBancoDeDados {
                 .filter(reserva -> !reservaAtiva || reserva.reservaEstaAtiva())
                 .collect(Collectors.toList());
     }
+
+    public Exemplar getExemplarEmprestado(int codigoLivro, int codigoUsuario) {
+        return this.getAll(Exemplar.class)
+                .stream()
+                .filter(exemplar -> exemplar.getCodigoLivro() == codigoLivro)
+                .filter(exemplar -> !exemplar.isDisponivel())
+                .filter(exemplar -> exemplar.getMutuario().getCodigo() == codigoUsuario)
+                .findFirst()
+                .orElse(null);
+    }
+
 }

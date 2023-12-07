@@ -284,7 +284,7 @@ public class AlunoGraduacaoTest extends BaseTest {
         Assert.assertEquals(alunoGrad.maxEmprestimos(), alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertTrue(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
 
-        alunoGrad.obterEmprestimos(true).forEach(emprestimo -> emprestimo.setDevolvido(true));
+        alunoGrad.obterEmprestimos(true).forEach(emprestimo -> emprestimo.getExemplar().devolver());
 
         Assert.assertEquals(0, alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertFalse(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
@@ -297,7 +297,7 @@ public class AlunoGraduacaoTest extends BaseTest {
         Assert.assertEquals(alunoGrad.maxEmprestimos(), alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertTrue(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
 
-        alunoGrad.obterEmprestimos(true).forEach(emprestimo -> emprestimo.setDevolvido(true));
+        alunoGrad.obterEmprestimos(true).forEach(emprestimo -> emprestimo.getExemplar().devolver());
 
         Assert.assertEquals(0, alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertFalse(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
@@ -518,11 +518,11 @@ public class AlunoGraduacaoTest extends BaseTest {
         Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar1.getCodigoLivro()));
         Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar2.getCodigoLivro()));
 
-        alunoGrad.obterEmprestimos(true).get(0).setDevolvido(true);
+        biblioteca.realizarDevolucao(alunoGrad.getCodigo(),exemplar1.getCodigoLivro());
         Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar1.getCodigoLivro()));
         Assert.assertTrue(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar2.getCodigoLivro()));
 
-        alunoGrad.obterEmprestimos(true).get(0).setDevolvido(true);
+        exemplar2.devolver();
         Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar1.getCodigoLivro()));
         Assert.assertFalse(alunoGrad.jaTemEmprestimoDoLivroEmAberto(exemplar2.getCodigoLivro()));
 
