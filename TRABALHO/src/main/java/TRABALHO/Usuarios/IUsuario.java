@@ -31,4 +31,12 @@ public interface IUsuario extends IEntidadeBiblioteca {
     }
 
     public boolean temReservaDoLivro(int codigoLivro);
+
+    public int getQuantidadeDeVezesQueFoiNotificado();
+
+    public void notificar();
+
+    default Boolean podeSerObservador() {
+        return false;
+    }
 }

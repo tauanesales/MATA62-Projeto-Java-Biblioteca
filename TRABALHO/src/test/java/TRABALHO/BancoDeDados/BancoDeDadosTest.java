@@ -1,14 +1,13 @@
 package TRABALHO.BancoDeDados;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import TRABALHO.BaseTest;
-import TRABALHO.Livros.Exemplar;
-import TRABALHO.Livros.Livro;
+import TRABALHO.Livros.Exemplar.Exemplar;
+import TRABALHO.Livros.Livro.Livro;
 import TRABALHO.Usuarios.IUsuario;
 
 public class BancoDeDadosTest extends BaseTest {
@@ -28,16 +27,11 @@ public class BancoDeDadosTest extends BaseTest {
     public void getExemplarTest() {
         Assert.assertEquals(null, db.getExemplar(0, 0));
 
-        List<Exemplar> exemplares = livros.stream()
-                .filter(livro -> livro instanceof Exemplar)
-                .map(exemplar -> (Exemplar) exemplar)
-                .collect(Collectors.toList());
-
         for (Exemplar exemplar : exemplares) {
-            Exemplar response = db.getExemplar(exemplar.getCodigoExemplar(), exemplar.getCodigo());
+            Exemplar response = db.getExemplar(exemplar.getCodigo(), exemplar.getCodigoLivro());
             Assert.assertEquals(exemplar.getClass(), response.getClass());
-            Assert.assertEquals(exemplar.getCodigoExemplar(), response.getCodigoExemplar());
             Assert.assertEquals(exemplar.getCodigo(), response.getCodigo());
+            Assert.assertEquals(exemplar.getCodigoLivro(), response.getCodigoLivro());
             Assert.assertEquals(exemplar.getTitulo(), response.getTitulo());
             Assert.assertEquals(exemplar.getEditora(), response.getEditora());
             Assert.assertEquals(exemplar.getAutores(), response.getAutores());
@@ -50,13 +44,8 @@ public class BancoDeDadosTest extends BaseTest {
     public void livroExisteTest() {
         Assert.assertEquals(false, db.livroExiste(0));
 
-        List<Exemplar> exemplares = livros.stream()
-                .filter(livro -> livro instanceof Exemplar)
-                .map(exemplar -> (Exemplar) exemplar)
-                .collect(Collectors.toList());
-
         for (Exemplar exemplar : exemplares) {
-            Assert.assertEquals(true, db.livroExiste(exemplar.getCodigo()));
+            Assert.assertEquals(true, db.livroExiste(exemplar.getCodigoLivro()));
         }
     }
 
@@ -67,11 +56,10 @@ public class BancoDeDadosTest extends BaseTest {
         for (Livro livro : livros) {
             Exemplar response = db.getExemplarDisponivelPorCodigoLivro(livro.getCodigo());
             if (response == null) {
-                Assert.assertEquals(Livro.class, livro.getClass());
                 continue;
             }
-            Assert.assertEquals(livro.getClass(), response.getClass());
-            Assert.assertEquals(livro.getCodigo(), response.getCodigo());
+            Assert.assertEquals(livro.getClass(), response.getLivro().getClass());
+            Assert.assertEquals(livro.getCodigo(), response.getCodigoLivro());
             Assert.assertEquals(livro.getTitulo(), response.getTitulo());
             Assert.assertEquals(livro.getEditora(), response.getEditora());
             Assert.assertEquals(livro.getAutores(), response.getAutores());

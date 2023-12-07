@@ -1,15 +1,12 @@
 package TRABALHO.Commands;
 
-import TRABALHO.BancoDeDados.IBancoDeDados;
 import TRABALHO.SistemaBiblioteca.SistemaBiblioteca;
 
 public class ReservarCommand implements ICommand {
     private SistemaBiblioteca sistemaBiblioteca;
-    private IBancoDeDados db;
 
-    public ReservarCommand(SistemaBiblioteca sistemaBiblioteca, IBancoDeDados db) {
+    public ReservarCommand(SistemaBiblioteca sistemaBiblioteca) {
         this.sistemaBiblioteca = sistemaBiblioteca;
-        this.db = db;
     }
 
     public void execute(String... args) {

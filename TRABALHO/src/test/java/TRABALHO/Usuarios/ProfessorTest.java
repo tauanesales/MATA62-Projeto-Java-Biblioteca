@@ -22,24 +22,24 @@ public class ProfessorTest extends BaseTest {
         Assert.assertEquals(false, alunoPosGrad.atingiuLimiteMaximoDeEmprestimos());
 
         // Usuário inválido;
-        biblioteca.realizarEmprestimo(-1, exemplar1.getCodigo());
+        biblioteca.realizarEmprestimo(-1, exemplar1.getCodigoLivro());
         // Livro inválido;
         biblioteca.realizarEmprestimo(professor.getCodigo(), 1);
 
         Assert.assertTrue(exemplar1.isDisponivel());
 
         // Empréstimo bem sucedido;
-        biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar1.getCodigo());
+        biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar1.getCodigoLivro());
         Assert.assertFalse(exemplar1.isDisponivel());
 
         Assert.assertEquals(1, alunoGrad.quantidadeDeEmprestimosEmAberto());
         // Exemplar indisponível;
-        biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar1.getCodigo());
+        biblioteca.realizarEmprestimo(alunoGrad.getCodigo(), exemplar1.getCodigoLivro());
         Assert.assertFalse(exemplar1.isDisponivel());
 
         Assert.assertTrue(exemplar2.isDisponivel());
         // Empréstimo bem sucedido;
-        biblioteca.realizarEmprestimo(alunoPosGrad.getCodigo(), exemplar2.getCodigo());
+        biblioteca.realizarEmprestimo(alunoPosGrad.getCodigo(), exemplar2.getCodigoLivro());
         Assert.assertFalse(exemplar2.isDisponivel());
 
         // Emprestimo bem sucedido;
@@ -54,15 +54,15 @@ public class ProfessorTest extends BaseTest {
         Assert.assertEquals(false, professor.atingiuLimiteMaximoDeEmprestimos());
 
         // Exemplar indisponível;
-        biblioteca.realizarEmprestimo(professor.getCodigo(), exemplar1.getCodigo());
-        biblioteca.realizarEmprestimo(professor.getCodigo(), exemplar1.getCodigo());
-        biblioteca.realizarEmprestimo(professor.getCodigo(), exemplar1.getCodigo());
-        biblioteca.realizarEmprestimo(professor.getCodigo(), exemplar1.getCodigo());
+        biblioteca.realizarEmprestimo(professor.getCodigo(), exemplar1.getCodigoLivro());
+        biblioteca.realizarEmprestimo(professor.getCodigo(), exemplar1.getCodigoLivro());
+        biblioteca.realizarEmprestimo(professor.getCodigo(), exemplar1.getCodigoLivro());
+        biblioteca.realizarEmprestimo(professor.getCodigo(), exemplar1.getCodigoLivro());
         Assert.assertEquals(1, professor.quantidadeDeEmprestimosEmAberto());
         Assert.assertEquals(false, professor.atingiuLimiteMaximoDeEmprestimos());
 
         // Exemplar indisponível;
-        biblioteca.realizarEmprestimo(professor.getCodigo(), exemplar1.getCodigo());
+        biblioteca.realizarEmprestimo(professor.getCodigo(), exemplar1.getCodigoLivro());
         Assert.assertEquals(1, professor.quantidadeDeEmprestimosEmAberto());
         Assert.assertEquals(false, professor.atingiuLimiteMaximoDeEmprestimos());
 
@@ -85,7 +85,7 @@ public class ProfessorTest extends BaseTest {
         biblioteca.realizarEmprestimo(professor.getCodigo(), 100);
 
         // Exemplar indisponível;
-        biblioteca.realizarEmprestimo(professor.getCodigo(), exemplar2.getCodigo());
+        biblioteca.realizarEmprestimo(professor.getCodigo(), exemplar2.getCodigoLivro());
 
         Assert.assertEquals(1, professor.quantidadeDeEmprestimosEmAberto());
         Assert.assertEquals(false, professor.atingiuLimiteMaximoDeEmprestimos());

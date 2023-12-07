@@ -2,7 +2,7 @@ package TRABALHO.Emprestimo;
 
 import java.util.Date;
 
-import TRABALHO.Livros.Exemplar;
+import TRABALHO.Livros.Exemplar.Exemplar;
 import TRABALHO.SistemaBiblioteca.IEntidadeBiblioteca;
 import TRABALHO.Usuarios.IUsuario;
 
@@ -25,8 +25,6 @@ public class Emprestimo implements IEntidadeBiblioteca {
 
         this.dataSolicitacao = dataSolicitacao != null ? dataSolicitacao : new Date();
         this.dataDevolucao = this.calcularDataDevolucao();
-
-        exemplar.setDisponivel(this.devolvido);
     }
 
     private Date calcularDataDevolucao() {
@@ -55,13 +53,12 @@ public class Emprestimo implements IEntidadeBiblioteca {
 
     public void setDevolvido(boolean devolvido) {
         this.devolvido = devolvido;
-        exemplar.setDisponivel(devolvido);
     }
 
     public String toString() {
         return "Exemplar: " + exemplar.getTitulo() + " | " +
-                "Código Livro: " + exemplar.getCodigo() + " | " +
-                "Código Exemplar: " + exemplar.getCodigoExemplar() + " | " +
+                "Código Livro: " + exemplar.getCodigoLivro() + " | " +
+                "Código Exemplar: " + exemplar.getCodigo() + " | " +
                 "Usuario: " + usuario.getNome() + " | " +
                 "DataSolicitacao: " + dataSolicitacao + " | " +
                 "DataDevolucao: " + dataDevolucao + " | " +

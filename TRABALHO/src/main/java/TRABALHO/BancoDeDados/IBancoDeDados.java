@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import TRABALHO.Emprestimo.Emprestimo;
-import TRABALHO.Livros.Exemplar;
-import TRABALHO.Livros.ILivro;
+import TRABALHO.Livros.Exemplar.Exemplar;
+import TRABALHO.Livros.Livro.Livro;
 import TRABALHO.Reserva.Reserva;
 import TRABALHO.SistemaBiblioteca.IEntidadeBiblioteca;
 import TRABALHO.Usuarios.IUsuario;
@@ -25,7 +25,7 @@ public interface IBancoDeDados {
 
     public IEntidadeBiblioteca[] getAllById(Class<? extends IEntidadeBiblioteca> tabela, int id);
 
-    public ILivro getLivro(int codigoLivro);
+    public Livro getLivro(int codigoLivro);
 
     public Exemplar getExemplar(int codigoExemplar, int codigoLivro);
 
@@ -48,4 +48,6 @@ public interface IBancoDeDados {
     public Reserva getReservaAtiva(int codigoLivro, int codigoUsuario);
 
     public List<Reserva> getReservasPorCodigoLivro(boolean reservaAtiva, int codigoLivro);
+
+    public Exemplar getExemplarEmprestado(int codigoLivro, int codigoUsuario);
 }

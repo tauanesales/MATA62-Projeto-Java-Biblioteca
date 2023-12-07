@@ -1,34 +1,34 @@
 ifeq ($(OS),Windows_NT)
-	RM := if exist "TRABALHO\target\classes\TRABALHO" (rmdir /s /q "TRABALHO\target\classes\TRABALHO")
+	RM := if exist "TRABALHO/target/classes/TRABALHO" (rmdir /s /q "TRABALHO/target/classes/TRABALHO")
 else
-	RM := rm -rf 'TRABALHO\target\classes\TRABALHO'
+	RM := rm -rf 'TRABALHO/target/classes/TRABALHO'
 endif
 
 default: test
 
-run: compile exec
+run:
+	mvn -f TRABALHO/pom.xml clean compile exec:java
 
-exec:
-	mvn -f TRABALHO\pom.xml exec:java
+test:
+	mvn -f TRABALHO/pom.xml clean test
 
-compile: clean
-	mvn -f TRABALHO\pom.xml compile
+jar:
+	mvn -f TRABALHO/pom.xml clean compile assembly:single
 
-clean:
-	$(RM)
+run-jar:
+	java -jar $(wildcard ./TRABALHO/target/TRABALHO*.jar)
 
-test: clean
-	mvn -f TRABALHO\pom.xml test
+jrj: jar run-jar
 
 install-maven-dependencies:
-	mvn -f TRABALHO\pom.xml clean install
+	mvn -f TRABALHO/pom.xml clean install
 
 install-java-and-maven-windows:
 	choco install -y openjdk --version=11.0.1 --allow-downgrade
 	choco install -y maven --version=3.9.5 --allow-downgrade
 
 patch:
-	mvn -f TRABALHO\pom.xml \
+	mvn -f TRABALHO/pom.xml \
 	build-helper:parse-version \
 	versions:set -DnewVersion=\
 	\$${parsedVersion.majorVersion}.\
@@ -37,7 +37,7 @@ patch:
 	-DgenerateBackupPoms=false
 
 minor:
-	mvn -f TRABALHO\pom.xml \
+	mvn -f TRABALHO/pom.xml \
 	build-helper:parse-version \
 	versions:set -DnewVersion=\
 	\$${parsedVersion.majorVersion}.\

@@ -11,11 +11,13 @@ public abstract class Usuario implements IUsuario {
     private int codigoUsuario;
     private String nome;
     private IBancoDeDados db;
+    private int quantidadeDeVezesQueFoiNotificado;
 
     public Usuario(int codigoUsuario, String nome, IBancoDeDados db) {
         this.codigoUsuario = codigoUsuario;
         this.nome = nome;
         this.db = db;
+        this.quantidadeDeVezesQueFoiNotificado = 0;
     }
 
     public int getCodigo() {
@@ -39,7 +41,7 @@ public abstract class Usuario implements IUsuario {
 
     public Emprestimo obterEmprestimoEmAbertoPorCodigoDoLivro(int codigoLivro) {
         return this.obterEmprestimos(true).stream().filter(
-                emprestimo -> emprestimo.getExemplar().getCodigo() == codigoLivro).findFirst().orElse(null);
+                emprestimo -> emprestimo.getExemplar().getCodigoLivro() == codigoLivro).findFirst().orElse(null);
     }
 
     public int quantidadeDeEmprestimosEmAberto() {
@@ -52,11 +54,14 @@ public abstract class Usuario implements IUsuario {
 
     public boolean jaTemEmprestimoDoLivroEmAberto(int codigoLivro) {
         return this.obterEmprestimos(true).stream().anyMatch(
-                emprestimo -> emprestimo.getExemplar().getCodigo() == codigoLivro);
+                emprestimo -> emprestimo.getExemplar().getCodigoLivro() == codigoLivro);
     }
 
     public String toString() {
-        return String.format("Código: %d | Nome: %s | Tipo: %s", this.getCodigo(), this.getNome(),
+        return String.format(
+                "Código: %d | Nome: %s | Quantidade de Notificações: %s | Tipo: %s",
+                this.getCodigo(),
+                this.getNome(), this.getQuantidadeDeVezesQueFoiNotificado(),
                 this.getClass().getSimpleName());
     }
 
@@ -71,5 +76,13 @@ public abstract class Usuario implements IUsuario {
     public boolean temReservaDoLivro(int codigoLivro) {
         return this.obterReservasAtivas().stream().anyMatch(
                 reserva -> reserva.getLivro().getCodigo() == codigoLivro);
+    }
+
+    public int getQuantidadeDeVezesQueFoiNotificado() {
+        return quantidadeDeVezesQueFoiNotificado;
+    }
+
+    public void notificar() {
+        this.quantidadeDeVezesQueFoiNotificado++;
     }
 }

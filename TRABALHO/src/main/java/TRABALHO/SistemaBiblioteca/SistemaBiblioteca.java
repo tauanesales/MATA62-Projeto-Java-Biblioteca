@@ -16,14 +16,19 @@ import TRABALHO.Commands.SaiCommand;
 import TRABALHO.Commands.VerBancoDeDadosCommand;
 import TRABALHO.Console.Mensagens;
 import TRABALHO.Emprestimo.Emprestimo;
-import TRABALHO.Livros.Exemplar;
+import TRABALHO.Livros.Exemplar.Exemplar;
+import TRABALHO.Livros.Exemplar.IExemplar;
+import TRABALHO.Livros.Livro.Livro;
 import TRABALHO.Reserva.Reserva;
 import TRABALHO.Usuarios.IUsuario;
 
 import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoBase;
 import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoBase.SistemaBibliotecaException;
+import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoCommand.CommandException;
 import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoDevolucao;
+import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoCommand;
 import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoEmprestimo;
+import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoObserver;
 import TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca.ValidacaoReservas;
 
 public class SistemaBiblioteca {
@@ -34,14 +39,14 @@ public class SistemaBiblioteca {
     private SistemaBiblioteca(IBancoDeDados db) {
         this.db = db;
         this.commands = new HashMap<String, ICommand>();
-        addCommand("emp", new EmprestimoCommand(this, db));
-        addCommand("dev", new DevolucaoCommand(this, db));
-        addCommand("res", new ReservarCommand(this, db));
-        addCommand("obs", new ObservarLivroCommand(this, db));
-        addCommand("usu", new VerUsuarioCommand(this, db));
-        addCommand("liv", new VerLivroCommand(this, db));
-        addCommand("ntf", new VerNotificacoesCommand(this, db));
-        addCommand("all", new VerBancoDeDadosCommand(this, db));
+        addCommand("emp", new EmprestimoCommand(this));
+        addCommand("dev", new DevolucaoCommand(this));
+        addCommand("res", new ReservarCommand(this));
+        addCommand("obs", new ObservarLivroCommand(this));
+        addCommand("usu", new VerUsuarioCommand(this));
+        addCommand("liv", new VerLivroCommand(this));
+        addCommand("ntf", new VerNotificacoesCommand(this));
+        addCommand("all", new VerBancoDeDadosCommand(this));
         addCommand("sai", new SaiCommand());
     }
 
@@ -58,8 +63,10 @@ public class SistemaBiblioteca {
 
     public void executeCommand(String command, String... args) {
         try {
-            commands.get(command).execute(args);
-        } catch (NullPointerException e) {
+            ICommand concreteCommand = commands.get(command);
+            ValidacaoCommand.validarCommand(concreteCommand);
+            concreteCommand.execute(args);
+        } catch (CommandException e) {
             Mensagens.MensagemDeErro("Não foi possível processar seu pedido.", "Comando \"" + command + "\" inválido.",
                     null, null);
         } catch (NumberFormatException e) {
@@ -80,20 +87,16 @@ public class SistemaBiblioteca {
                     db.getLivro(codigoLivro));
             return;
         }
-
-        IUsuario usuario = db.getUsuario(codigoUsuario);
         Exemplar exemplar = db.getExemplarDisponivelPorCodigoLivro(codigoLivro);
 
-        Emprestimo emprestimo = new Emprestimo(exemplar, usuario);
+        exemplar.emprestar(codigoUsuario, db);
+
         Reserva reserva = db.getReservaAtiva(codigoLivro, codigoUsuario);
-
         if (reserva != null)
-            reserva.setAtiva(false);
+            reserva.removerReserva();
 
-        db.insert(emprestimo);
-
-        Mensagens.MensagemSucessoBase("Empréstimo realizado com sucesso!", usuario, exemplar,
-                emprestimo);
+        Mensagens.MensagemSucessoBase("Empréstimo realizado com sucesso!", exemplar.getMutuario(), exemplar,
+                exemplar.getEmprestimo());
     }
 
     public void realizarDevolucao(int codigoUsuario, int codigoLivro) {
@@ -105,13 +108,15 @@ public class SistemaBiblioteca {
             return;
         }
 
-        IUsuario usuario = db.getUsuario(codigoUsuario);
-        Emprestimo emprestimo = usuario.obterEmprestimoEmAbertoPorCodigoDoLivro(codigoLivro);
+        IExemplar exemplar = db.getExemplarEmprestado(codigoLivro, codigoUsuario);
 
-        emprestimo.setDevolvido(true);
+        Emprestimo emprestimo = exemplar.getEmprestimo();
+        IUsuario usuario = exemplar.getMutuario();
+
+        exemplar.devolver();
 
         Mensagens.MensagemSucessoBase("Devolução realizada com sucesso!", usuario,
-                emprestimo.getExemplar(), emprestimo);
+                exemplar, emprestimo);
     }
 
     public void realizarReserva(int codigoUsuario, int codigoLivro) {
@@ -124,24 +129,37 @@ public class SistemaBiblioteca {
         }
 
         IUsuario usuario = db.getUsuario(codigoUsuario);
-        Exemplar exemplar = db.getExemplarDisponivelPorCodigoLivro(codigoLivro);
+        Livro livro = db.getLivro(codigoLivro);
 
-        Reserva reserva = new Reserva(usuario, exemplar);
+        Reserva reserva = new Reserva(usuario, livro);
         db.insert(reserva);
 
-        Mensagens.MensagemSucessoBase("Reserva realizada com sucesso!", usuario, exemplar);
+        Mensagens.MensagemSucessoBase("Reserva realizada com sucesso!", usuario, livro);
     }
 
-    public void mostrarDadosDoUsuario(int codigo) {
+    public void mostrarDadosDoUsuario(int codigoUsuario) {
         System.out.println("Não implementado");
     }
 
-    public void mostrarDadosDoLivro(int codigo) {
+    public void mostrarDadosDoLivro(int codigoLivro) {
         System.out.println("Não implementado");
     }
 
     public void observarReservasDeLivro(int codigoLivro, int codigoObservador) {
-        System.out.println("Não implementado");
+        try {
+            ValidacaoObserver.validarPodeSeTornarObservador(codigoObservador, codigoLivro, db);
+        } catch (SistemaBibliotecaException e) {
+            Mensagens.MensagemDeErro("Não é possível se tornar observador.", e.getMessage(),
+                    db.getUsuario(codigoObservador), db.getLivro(codigoLivro));
+            return;
+        }
+
+        IUsuario usuario = db.getUsuario(codigoObservador);
+        Livro livro = db.getLivro(codigoLivro);
+
+        livro.adicionarObservador(usuario);
+
+        Mensagens.MensagemSucessoBase("Sucesso: usuário se tornou observador.", usuario, livro);
     }
 
     public void mostrarTodosOsDadosDoBanco() {

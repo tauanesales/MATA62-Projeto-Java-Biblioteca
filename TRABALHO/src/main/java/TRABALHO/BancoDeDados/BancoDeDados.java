@@ -1,8 +1,9 @@
 package TRABALHO.BancoDeDados;
 
 import TRABALHO.Emprestimo.Emprestimo;
-import TRABALHO.Livros.Exemplar;
-import TRABALHO.Livros.Livro;
+import TRABALHO.Livros.EstadoExemplar.ExemplarEmprestado;
+import TRABALHO.Livros.Exemplar.Exemplar;
+import TRABALHO.Livros.Livro.Livro;
 import TRABALHO.Reserva.Reserva;
 import TRABALHO.SistemaBiblioteca.IEntidadeBiblioteca;
 import TRABALHO.Usuarios.IUsuario;
@@ -80,8 +81,8 @@ public class BancoDeDados implements IBancoDeDados {
     public Exemplar getExemplar(int codigoExemplar, int codigoLivro) {
         return getAll(Exemplar.class)
                 .stream()
-                .filter(exemplar -> exemplar.getCodigo() == codigoLivro)
-                .filter(exemplar -> exemplar.getCodigoExemplar() == codigoExemplar)
+                .filter(exemplar -> exemplar.getCodigoLivro() == codigoLivro)
+                .filter(exemplar -> exemplar.getCodigo() == codigoExemplar)
                 .findFirst()
                 .orElse(null);
     }
@@ -89,7 +90,7 @@ public class BancoDeDados implements IBancoDeDados {
     public Exemplar getExemplarDisponivelPorCodigoLivro(int codigoLivro) {
         return getAll(Exemplar.class)
                 .stream()
-                .filter(exemplar -> exemplar.getCodigo() == codigoLivro)
+                .filter(exemplar -> exemplar.getCodigoLivro() == codigoLivro)
                 .filter(exemplar -> exemplar.isDisponivel())
                 .findFirst()
                 .orElse(null);
@@ -98,7 +99,7 @@ public class BancoDeDados implements IBancoDeDados {
     public boolean temExemplarDisponivel(int codigoLivro) {
         return getAll(Exemplar.class)
                 .stream()
-                .anyMatch(exemplar -> exemplar.getCodigo() == codigoLivro &&
+                .anyMatch(exemplar -> exemplar.getCodigoLivro() == codigoLivro &&
                         exemplar.isDisponivel());
     }
 
@@ -130,14 +131,14 @@ public class BancoDeDados implements IBancoDeDados {
         return this.getAll(Reserva.class)
                 .stream()
                 .filter(reserva -> reserva.getUsuario().getCodigo() == codigoUsuario)
-                .filter(reserva -> !b || reserva.isAtiva())
+                .filter(reserva -> !b || reserva.reservaEstaAtiva())
                 .collect(Collectors.toList());
     }
 
     public List<Exemplar> getExemplaresDisponiveis(int codigoLivro) {
         return this.getAll(Exemplar.class)
                 .stream()
-                .filter(exemplar -> exemplar.getCodigo() == codigoLivro)
+                .filter(exemplar -> exemplar.getCodigoLivro() == codigoLivro)
                 .filter(exemplar -> exemplar.isDisponivel())
                 .collect(Collectors.toList());
     }
@@ -147,7 +148,7 @@ public class BancoDeDados implements IBancoDeDados {
                 .stream()
                 .filter(reserva -> reserva.getUsuario().getCodigo() == codigoUsuario)
                 .filter(reserva -> reserva.getLivro().getCodigo() == codigoLivro)
-                .filter(reserva -> reserva.isAtiva())
+                .filter(reserva -> reserva.reservaEstaAtiva())
                 .findFirst()
                 .orElse(null);
     }
@@ -156,7 +157,18 @@ public class BancoDeDados implements IBancoDeDados {
         return this.getAll(Reserva.class)
                 .stream()
                 .filter(reserva -> reserva.getLivro().getCodigo() == codigoLivro)
-                .filter(reserva -> !reservaAtiva || reserva.isAtiva())
+                .filter(reserva -> !reservaAtiva || reserva.reservaEstaAtiva())
                 .collect(Collectors.toList());
     }
+
+    public Exemplar getExemplarEmprestado(int codigoLivro, int codigoUsuario) {
+        return this.getAll(Exemplar.class)
+                .stream()
+                .filter(exemplar -> exemplar.getCodigoLivro() == codigoLivro)
+                .filter(exemplar -> !exemplar.isDisponivel())
+                .filter(exemplar -> exemplar.getMutuario().getCodigo() == codigoUsuario)
+                .findFirst()
+                .orElse(null);
+    }
+
 }
