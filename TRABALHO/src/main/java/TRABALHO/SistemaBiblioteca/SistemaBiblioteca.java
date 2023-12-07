@@ -159,7 +159,7 @@ public class SistemaBiblioteca {
     }
     
     public void mostrarDadosDoLivro(int codigoLivro) {
-        System.out.println("Não implementado");
+        Mensagens.mostrarDadosDoLivro(db.getLivro(codigoLivro), db);
     }
 
     public void mostrarDadosDoUsuario(int codigoUsuario) {

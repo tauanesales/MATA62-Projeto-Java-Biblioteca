@@ -135,10 +135,16 @@ public class BancoDeDados implements IBancoDeDados {
     }
 
     public List<Exemplar> getExemplaresDisponiveis(int codigoLivro) {
+        return this.getExemplares(codigoLivro)
+                .stream()
+                .filter(exemplar -> exemplar.isDisponivel())
+                .collect(Collectors.toList());
+    }
+
+    public List<Exemplar> getExemplares(int codigoLivro) {
         return this.getAll(Exemplar.class)
                 .stream()
                 .filter(exemplar -> exemplar.getCodigoLivro() == codigoLivro)
-                .filter(exemplar -> exemplar.isDisponivel())
                 .collect(Collectors.toList());
     }
 
@@ -169,5 +175,4 @@ public class BancoDeDados implements IBancoDeDados {
                 .findFirst()
                 .orElse(null);
     }
-
 }
