@@ -8,6 +8,7 @@ import TRABALHO.BancoDeDados.BancoDeDados;
 import TRABALHO.BancoDeDados.IBancoDeDados;
 import TRABALHO.Console.Interaction;
 import TRABALHO.Livros.Exemplar.Exemplar;
+import TRABALHO.Livros.Livro.ILivroObservavel;
 import TRABALHO.Livros.Livro.Livro;
 import TRABALHO.SistemaBiblioteca.SistemaBiblioteca;
 import TRABALHO.Usuarios.AlunoGraduacao;
@@ -33,7 +34,7 @@ public class App {
                 new AlunoGraduacao(789, "Pedro Paulo", db),
                 new Professor(100, "Carlos Lucena", db));
 
-        List<Livro> livros = List.of(
+        List<ILivroObservavel> livros = List.of(
                 new Livro(100, "Engenharia de Software", "AddisonWesley", "Ian Sommerville", "6ª",
                         "2000"),
                 new Livro(101, "UML - Guia do Usuário", "Campus",

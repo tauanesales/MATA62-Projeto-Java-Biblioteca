@@ -5,7 +5,7 @@ import java.util.List;
 
 import TRABALHO.Usuarios.IUsuario;
 
-public class Livro implements ILivro {
+public class Livro implements ILivroObservavel {
     private int codigoLivro;
     private String titulo;
     private String editora;
@@ -70,12 +70,17 @@ public class Livro implements ILivro {
         return this.observadores;
     }
 
+    public void notificarObservadores() {
+        this.getObservadores().forEach(observador -> observador.notificar());
+    }
+
     public int getQuantidadeDeReservas() {
         return this.quantidadeDeReservas;
     }
 
     public void incrementarQuantidadeDeReservas() {
-        this.quantidadeDeReservas++;
+        if (++quantidadeDeReservas > 2)
+            this.notificarObservadores();
     }
 
     public void decrementarQuantidadeDeReservas() {

@@ -50,6 +50,9 @@ public class ObservarLivroCommandTest extends BaseTest {
         
         biblioteca.executeCommand("res", "789", codigoLivro1);
         
+        Assert.assertEquals(3, livro1.getQuantidadeDeReservas());
+        Assert.assertEquals(1, livro1.getObservadores().size());
+        Assert.assertEquals(professor, livro1.getObservadores().get(0));
         Assert.assertEquals(1, professor.getQuantidadeDeVezesQueFoiNotificado());
     }
 }

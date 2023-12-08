@@ -2,7 +2,7 @@ package TRABALHO.Reserva;
 
 import java.util.Date;
 
-import TRABALHO.Livros.Livro.Livro;
+import TRABALHO.Livros.Livro.ILivroObservavel;
 import TRABALHO.SistemaBiblioteca.IEntidadeBiblioteca;
 import TRABALHO.Usuarios.IUsuario;
 import TRABALHO.App;
@@ -10,21 +10,17 @@ import TRABALHO.App;
 public class Reserva implements IEntidadeBiblioteca {
     private int codigo;
     private IUsuario usuario;
-    private Livro livro;
+    private ILivroObservavel livro;
     private boolean ativa;
     private Date dataSolicitacao;
 
-    public Reserva(IUsuario usuario, Livro livro) {
+    public Reserva(IUsuario usuario, ILivroObservavel livro) {
         this.usuario = usuario;
         this.livro = livro;
         this.ativa = true;
         this.dataSolicitacao = new Date();
 
         livro.incrementarQuantidadeDeReservas();
-
-        if (livro.getQuantidadeDeReservas() > 2) {
-            livro.getObservadores().forEach(observador -> observador.notificar());
-        }
     }
 
     public int getCodigo() {
@@ -35,7 +31,7 @@ public class Reserva implements IEntidadeBiblioteca {
         return usuario;
     }
 
-    public Livro getLivro() {
+    public ILivroObservavel getLivro() {
         return livro;
     }
 

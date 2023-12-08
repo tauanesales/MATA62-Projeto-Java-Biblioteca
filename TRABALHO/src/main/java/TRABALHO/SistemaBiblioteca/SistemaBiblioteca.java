@@ -18,7 +18,7 @@ import TRABALHO.Console.Mensagens;
 import TRABALHO.Emprestimo.Emprestimo;
 import TRABALHO.Livros.Exemplar.Exemplar;
 import TRABALHO.Livros.Exemplar.IExemplar;
-import TRABALHO.Livros.Livro.Livro;
+import TRABALHO.Livros.Livro.ILivroObservavel;
 import TRABALHO.Reserva.Reserva;
 import TRABALHO.Usuarios.IUsuario;
 
@@ -129,7 +129,7 @@ public class SistemaBiblioteca {
         }
 
         IUsuario usuario = db.getUsuario(codigoUsuario);
-        Livro livro = db.getLivro(codigoLivro);
+        ILivroObservavel livro = db.getLivro(codigoLivro);
 
         Reserva reserva = new Reserva(usuario, livro);
         db.insert(reserva);
@@ -147,7 +147,7 @@ public class SistemaBiblioteca {
         }
 
         IUsuario usuario = db.getUsuario(codigoObservador);
-        Livro livro = db.getLivro(codigoLivro);
+        ILivroObservavel livro = db.getLivro(codigoLivro);
 
         livro.adicionarObservador(usuario);
 
