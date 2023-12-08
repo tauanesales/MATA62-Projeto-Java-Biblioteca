@@ -2,16 +2,16 @@ package TRABALHO.Livros.Exemplar;
 
 import TRABALHO.Livros.EstadoExemplar.ExemplarDisponivel;
 import TRABALHO.Livros.EstadoExemplar.IExemplarEstado;
-import TRABALHO.Livros.Livro.Livro;
+import TRABALHO.Livros.Livro.ILivroObservavel;
 import TRABALHO.Usuarios.IUsuario;
 
 public class Exemplar implements IExemplar {
     private IExemplarEstado estado;
 
     private int codigoExemplar;
-    private Livro livro;
+    private ILivroObservavel livro;
 
-    public Exemplar(int codigoExemplar, Livro livro) {
+    public Exemplar(int codigoExemplar, ILivroObservavel livro) {
         this.codigoExemplar = codigoExemplar;
         this.livro = livro;
         setEstado(new ExemplarDisponivel(this));
@@ -33,7 +33,7 @@ public class Exemplar implements IExemplar {
         return livro.getCodigo();
     }
 
-    public Livro getLivro() {
+    public ILivroObservavel getLivro() {
         return livro;
     }
 

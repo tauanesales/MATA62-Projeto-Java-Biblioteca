@@ -3,6 +3,7 @@ package TRABALHO;
 import TRABALHO.BancoDeDados.BancoDeDados;
 import TRABALHO.BancoDeDados.IBancoDeDados;
 import TRABALHO.Livros.Exemplar.Exemplar;
+import TRABALHO.Livros.Livro.ILivroObservavel;
 import TRABALHO.Livros.Livro.Livro;
 import TRABALHO.SistemaBiblioteca.SistemaBiblioteca;
 import TRABALHO.Usuarios.AlunoGraduacao;
@@ -22,13 +23,13 @@ public class BaseTest {
     protected static AlunoPosGraduacao alunoPosGrad;
     protected static Professor professor;
 
-    protected static Livro livro1;
-    protected static Livro livro2;
+    protected static ILivroObservavel livro1;
+    protected static ILivroObservavel livro2;
 
     protected static Exemplar exemplar1;
     protected static Exemplar exemplar2;
 
-    protected static List<Livro> livros;
+    protected static List<ILivroObservavel> livros;
     protected static List<Exemplar> exemplares;
 
     @Before

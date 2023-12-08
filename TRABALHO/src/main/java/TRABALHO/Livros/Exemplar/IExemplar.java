@@ -4,7 +4,7 @@ import TRABALHO.BancoDeDados.IBancoDeDados;
 import TRABALHO.Emprestimo.Emprestimo;
 import TRABALHO.Livros.EstadoExemplar.IExemplarEstado;
 import TRABALHO.Livros.Livro.ILivro;
-import TRABALHO.Livros.Livro.Livro;
+import TRABALHO.Livros.Livro.ILivroObservavel;
 import TRABALHO.Usuarios.IUsuario;
 
 public interface IExemplar extends ILivro {
@@ -31,7 +31,7 @@ public interface IExemplar extends ILivro {
         return getLivro().getCodigo();
     }
 
-    public Livro getLivro();
+    public ILivroObservavel getLivro();
 
     default String getTitulo() {
         return getLivro().getTitulo();

@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import TRABALHO.BaseTest;
 import TRABALHO.Livros.Exemplar.Exemplar;
-import TRABALHO.Livros.Livro.Livro;
+import TRABALHO.Livros.Livro.ILivroObservavel;
 import TRABALHO.Usuarios.IUsuario;
 
 public class BancoDeDadosTest extends BaseTest {
@@ -53,7 +53,7 @@ public class BancoDeDadosTest extends BaseTest {
     public void getExemplarDisponivelPorCodigoLivroTest() {
         Assert.assertEquals(null, db.getExemplarDisponivelPorCodigoLivro(0));
 
-        for (Livro livro : livros) {
+        for (ILivroObservavel livro : livros) {
             Exemplar response = db.getExemplarDisponivelPorCodigoLivro(livro.getCodigo());
             if (response == null) {
                 continue;
