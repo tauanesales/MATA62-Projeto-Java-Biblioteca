@@ -4,13 +4,17 @@ import TRABALHO.Usuarios.IUsuario;
 import java.util.List;
 
 public interface ILivroObservavel extends ILivro {
-  public void adicionarObservador(IUsuario usuario);
+    default void notificarObservadores() {
+      this.getObservadores().forEach(observador -> observador.notificar());
+    }
 
-  public List<IUsuario> getObservadores();
+    public void adicionarObservador(IUsuario usuario);
 
-  public int getQuantidadeDeReservas();
+    public List<IUsuario> getObservadores();
 
-  public void incrementarQuantidadeDeReservas();
+    public int getQuantidadeDeReservas();
 
-  public void decrementarQuantidadeDeReservas();
+    public void incrementarQuantidadeDeReservas();
+
+    public void decrementarQuantidadeDeReservas();
 }
