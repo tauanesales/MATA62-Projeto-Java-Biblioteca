@@ -70,10 +70,6 @@ public class Livro implements ILivroObservavel {
         return this.observadores;
     }
 
-    public void notificarObservadores() {
-        this.getObservadores().forEach(observador -> observador.notificar());
-    }
-
     public int getQuantidadeDeReservas() {
         return this.quantidadeDeReservas;
     }
