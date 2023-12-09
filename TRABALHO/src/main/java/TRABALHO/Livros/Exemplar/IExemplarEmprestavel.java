@@ -7,7 +7,7 @@ import TRABALHO.Livros.Livro.ILivro;
 import TRABALHO.Livros.Livro.ILivroObservavel;
 import TRABALHO.Usuarios.IUsuario;
 
-public interface IExemplar extends ILivro {
+public interface IExemplarEmprestavel extends ILivro {
 
     default void emprestar(int codigoUsuario, IBancoDeDados db) {
         getEstado().emprestar(codigoUsuario, db);
@@ -21,7 +21,9 @@ public interface IExemplar extends ILivro {
         return getEstado().getClass().getSimpleName();
     }
 
-    public IUsuario getMutuario();
+    default IUsuario getMutuario() {
+        return getEstado().getMutuario();
+    }
 
     public void setEstado(IExemplarEstado estado);
 
@@ -55,5 +57,9 @@ public interface IExemplar extends ILivro {
 
     default Emprestimo getEmprestimo() {
         return getEstado().getEmprestimo();
+    }
+
+    default boolean isDisponivel() {
+        return getEstado().isDisponivel();
     }
 }

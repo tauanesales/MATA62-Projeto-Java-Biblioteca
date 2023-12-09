@@ -3,9 +3,8 @@ package TRABALHO.Livros.Exemplar;
 import TRABALHO.Livros.EstadoExemplar.ExemplarDisponivel;
 import TRABALHO.Livros.EstadoExemplar.IExemplarEstado;
 import TRABALHO.Livros.Livro.ILivroObservavel;
-import TRABALHO.Usuarios.IUsuario;
 
-public class Exemplar implements IExemplar {
+public class Exemplar implements IExemplarEmprestavel {
     private IExemplarEstado estado;
 
     private int codigoExemplar;
@@ -21,28 +20,20 @@ public class Exemplar implements IExemplar {
         this.estado = estado;
     }
 
-    public IUsuario getMutuario() {
-        return estado.getMutuario();
-    }
-
     public int getCodigo() {
         return codigoExemplar;
-    }
-
-    public int getCodigoLivro() {
-        return livro.getCodigo();
     }
 
     public ILivroObservavel getLivro() {
         return livro;
     }
 
-    public boolean isDisponivel() {
-        return estado.isDisponivel();
+    public IExemplarEstado getEstado() {
+        return estado;
     }
 
     public String toString() {
-        return "Código Livro: " + livro.getCodigo() + " | " +
+        return "Código Livro: " + getLivro().getCodigo() + " | " +
                 "Código Exemplar: " + getCodigo() + " | " +
                 "Livro: " + getTitulo() + " | " +
                 "Editora: " + getEditora() + " | " +
@@ -50,29 +41,5 @@ public class Exemplar implements IExemplar {
                 "Edição: " + getEdicao() + " | " +
                 "Ano de publicação: " + getAnoPublicacao() + " | " +
                 "Disponível: " + (isDisponivel() ? "Sim" : "Não");
-    }
-
-    public String getTitulo() {
-        return livro.getTitulo();
-    }
-
-    public String getEditora() {
-        return livro.getEditora();
-    }
-
-    public String getAutores() {
-        return livro.getAutores();
-    }
-
-    public String getEdicao() {
-        return livro.getEdicao();
-    }
-
-    public String getAnoPublicacao() {
-        return livro.getAnoPublicacao();
-    }
-
-    public IExemplarEstado getEstado() {
-        return estado;
     }
 }
