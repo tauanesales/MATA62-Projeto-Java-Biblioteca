@@ -80,6 +80,7 @@ public class Livro implements ILivroObservavel {
     }
 
     public void decrementarQuantidadeDeReservas() {
-        this.quantidadeDeReservas--;
+        if (quantidadeDeReservas > 0)
+            this.quantidadeDeReservas--;
     }
 }

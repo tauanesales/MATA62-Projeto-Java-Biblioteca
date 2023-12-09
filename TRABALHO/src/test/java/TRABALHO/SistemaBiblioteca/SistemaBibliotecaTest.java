@@ -153,4 +153,14 @@ public class SistemaBibliotecaTest extends BaseTest {
         Assert.assertEquals(alunoPosGrad.maxReservas(), alunoPosGrad.obterReservasAtivas().size());
         Assert.assertTrue(alunoPosGrad.atingiuLimiteMaximoDeReservas());
     }
+
+    @Test
+    public void assertSingletonSystemTest() {
+        Assert.assertEquals(biblioteca, SistemaBiblioteca.getInstance(db));
+
+        SistemaBiblioteca sistemaBiblioteca = SistemaBiblioteca.getInstance(db);
+        Assert.assertEquals(sistemaBiblioteca, SistemaBiblioteca.getInstance(db));
+
+        Assert.assertEquals(biblioteca, sistemaBiblioteca);
+    }
 }
