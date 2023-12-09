@@ -17,7 +17,7 @@ import TRABALHO.Commands.VerBancoDeDadosCommand;
 import TRABALHO.Console.Mensagens;
 import TRABALHO.Emprestimo.Emprestimo;
 import TRABALHO.Livros.Exemplar.Exemplar;
-import TRABALHO.Livros.Exemplar.IExemplar;
+import TRABALHO.Livros.Exemplar.IExemplarEmprestavel;
 import TRABALHO.Livros.Livro.ILivroObservavel;
 import TRABALHO.Reserva.Reserva;
 import TRABALHO.Usuarios.IUsuario;
@@ -108,7 +108,7 @@ public class SistemaBiblioteca {
             return;
         }
 
-        IExemplar exemplar = db.getExemplarEmprestado(codigoLivro, codigoUsuario);
+        IExemplarEmprestavel exemplar = db.getExemplarEmprestado(codigoLivro, codigoUsuario);
 
         Emprestimo emprestimo = exemplar.getEmprestimo();
         IUsuario usuario = exemplar.getMutuario();
