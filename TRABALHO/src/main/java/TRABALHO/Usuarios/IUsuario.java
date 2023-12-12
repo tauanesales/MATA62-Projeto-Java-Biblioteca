@@ -40,6 +40,10 @@ public interface IUsuario extends IEntidadeBiblioteca {
     default Boolean podeSerObservador() {
         return false;
     }
+    
+    default Boolean podeIgnorarListaDeReservas() {
+        return false;
+    }
 
     public List<Reserva> obterReservas(boolean apenasEmAberto);
 }

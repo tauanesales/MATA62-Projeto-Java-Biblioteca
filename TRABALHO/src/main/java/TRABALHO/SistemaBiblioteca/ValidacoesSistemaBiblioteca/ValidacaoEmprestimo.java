@@ -25,7 +25,7 @@ public class ValidacaoEmprestimo extends ValidacaoBase {
     }
 
     private static boolean usuarioEhProfessor(int codigoUsuario, IBancoDeDados db) {
-        return db.getUsuario(codigoUsuario) instanceof Professor;
+        return db.getUsuario(codigoUsuario).podeIgnorarListaDeReservas();
     }
 
     private static boolean usuarioPossuiReservaAtiva(int codigoLivro, int codigoUsuario, IBancoDeDados db) {

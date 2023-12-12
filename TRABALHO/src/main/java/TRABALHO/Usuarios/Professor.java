@@ -18,4 +18,8 @@ public class Professor extends Usuario {
     public Boolean podeSerObservador() {
         return true;
     }
+
+    public Boolean podeIgnorarListaDeReservas() {
+        return true;
+    }
 }
