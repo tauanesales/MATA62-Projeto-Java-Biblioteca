@@ -1,6 +1,8 @@
 # Sistema da Bilioteca
 
-As classes separadas de gerenciamento de dados da bilbioteca tem como objetivo fazer com que o código obedeça ao princípio da responsabilidade única, de forma que temos 5 classes com funcionalidades específicas:
+As classes separadas de gerenciamento de dados da bilbioteca tem como objetivo fazer com que o código obedeça ao princípio da responsabilidade única. Além disso, ao criarmos classes as quais possuem função de gerenciamento, promovemos a terceirização de interações com classes de forma direta. Isso está diretamente relacionado ao baixo acoplamento, pois temos o encadeamento de classes para realização de tarefas. Além disso, o padrão creator é obedcido no sentido de que as classes gerenciadoras irão criar novas instâncias das classes sobre as quais possuem conhecimento. 
+
+As classes de gerenciamento de dados da biblioteca são as seguintes:
 
 ## 1. GerenciadorDeComandos
 - Adiciona comandos: Responsável por adicionar comandos ao sistema.
