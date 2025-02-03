@@ -29,5 +29,7 @@ public class ReservaBancoDeDados implements IReservaBancoDeDados {
     public List<Reserva> getReservasPorCodigoLivro(boolean reservaAtiva, int codigoLivro) {
         return this.bancoDeDados.getAll(Reserva.class)
                 .stream()
-                .filter(reserva);
+                .filter(reserva -> reserva.getLivro().getCodigo() == codigoLivro)
+                .filter(reserva -> !reservaAtiva || reserva.reservaEstaAtiva())
+                .collect(Collectors.toList());
           }
