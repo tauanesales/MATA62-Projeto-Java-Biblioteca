@@ -47,4 +47,6 @@ public class SistemaBiblioteca {
         gerenciadorDeEmprestimos.realizarEmprestimo(codigoUsuario, codigoLivro);
     }
 
-    public void realizarDevolucao(int
+    public void realizarDevolucao(int codigoUsuario, int codigoLivro) {
+        gerenciadorDeEmprestimos.realizarDevolucao(codigoUsuario, codigoLivro);
+    }
