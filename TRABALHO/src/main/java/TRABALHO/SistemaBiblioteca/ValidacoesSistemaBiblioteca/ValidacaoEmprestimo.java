@@ -2,7 +2,6 @@ package TRABALHO.SistemaBiblioteca.ValidacoesSistemaBiblioteca;
 
 import TRABALHO.BancoDeDados.IBancoDeDados;
 import TRABALHO.Usuarios.IUsuario;
-import TRABALHO.Usuarios.Professor;
 
 public class ValidacaoEmprestimo extends ValidacaoBase {
     public static class EmprestimoException extends SistemaBibliotecaException {
@@ -13,8 +12,8 @@ public class ValidacaoEmprestimo extends ValidacaoBase {
 
     public static void validarPodeEmprestarExemplarParaUsuario(int codigoUsuario, int codigoLivro, IBancoDeDados db)
             throws SistemaBibliotecaException {
-        validarUsuario(codigoUsuario, db);
-        validarLivro(codigoLivro, db);
+        validarUsuarioExiste(codigoUsuario, db);
+        validarLivroExiste(codigoLivro, db);
         validarExemplarDisponivel(codigoLivro, db);
         validarReservasNaoImpedemEmprestimo(codigoLivro, codigoUsuario, db);
 
@@ -24,7 +23,7 @@ public class ValidacaoEmprestimo extends ValidacaoBase {
         validarUsuarioNaoTemEmprestimoDoLivro(usuario, codigoLivro);
     }
 
-    private static boolean usuarioEhProfessor(int codigoUsuario, IBancoDeDados db) {
+    private static boolean usuarioPodeIgnorarListaDeReservas(int codigoUsuario, IBancoDeDados db) {
         return db.getUsuario(codigoUsuario).podeIgnorarListaDeReservas();
     }
 
@@ -39,7 +38,7 @@ public class ValidacaoEmprestimo extends ValidacaoBase {
 
     private static void validarReservasNaoImpedemEmprestimo(
             int codigoLivro, int codigoUsuario, IBancoDeDados db) throws EmprestimoException {
-        if (!usuarioEhProfessor(codigoUsuario, db) && !usuarioPossuiReservaAtiva(codigoLivro, codigoUsuario, db)
+        if (!usuarioPodeIgnorarListaDeReservas(codigoUsuario, db) && !usuarioPossuiReservaAtiva(codigoLivro, codigoUsuario, db)
                 && numeroDeReservasAtivasEhIgualOuMaiorAoNumeroDeExemplaresDisponiveis(codigoLivro, db))
             throw new EmprestimoException("Exemplares disponíveis já estão reservados");
     }

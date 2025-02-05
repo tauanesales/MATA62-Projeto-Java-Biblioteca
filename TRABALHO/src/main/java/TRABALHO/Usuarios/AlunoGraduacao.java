@@ -8,10 +8,10 @@ public class AlunoGraduacao extends Usuario {
     }
 
     public int maxEmprestimos() {
-        return 3;
+        return 2;
     }
 
     public long tempoDeEmprestimoMaximo() {
-        return 3 * 24 * 60 * 60 * 1000; // 3 dias em milissegundos;
+        return 4 * 24 * 60 * 60 * 1000; // 4 dias em milissegundos;
     }
 }

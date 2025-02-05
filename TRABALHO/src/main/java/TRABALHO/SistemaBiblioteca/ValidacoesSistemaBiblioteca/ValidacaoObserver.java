@@ -10,8 +10,8 @@ public class ValidacaoObserver extends ValidacaoBase {
     }
 
     public static void validarPodeSeTornarObservador(int codigoObservador, int codigoLivro, IBancoDeDados db) throws SistemaBibliotecaException {
-        validarUsuario(codigoObservador, db);
-        validarLivro(codigoLivro, db);
+        validarUsuarioExiste(codigoObservador, db);
+        validarLivroExiste(codigoLivro, db);
         validarUsuarioPodeObservar(codigoObservador, db);
         validarUsuarioJaEhObservador(codigoObservador, codigoLivro, db);
     }

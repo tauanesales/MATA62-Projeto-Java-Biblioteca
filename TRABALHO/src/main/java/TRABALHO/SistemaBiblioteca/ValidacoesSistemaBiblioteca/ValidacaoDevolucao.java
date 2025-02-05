@@ -11,8 +11,8 @@ public class ValidacaoDevolucao extends ValidacaoBase {
 
     public static void validarPodeDevolverExemplar(int codigoUsuario, int codigoLivro, IBancoDeDados db)
             throws SistemaBibliotecaException {
-        validarUsuario(codigoUsuario, db);
-        validarLivro(codigoLivro, db);
+        validarUsuarioExiste(codigoUsuario, db);
+        validarLivroExiste(codigoLivro, db);
         validarUsuarioTemEmprestimoDoLivro(codigoUsuario, codigoLivro, db);
     }
 

@@ -85,42 +85,37 @@ public class EmprestimoCommandTest extends BaseTest {
         Assert.assertEquals(1, alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertFalse(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
 
-        // Segundo emprestimo bem sucedido do aluno de graduação;
-        biblioteca.executeCommand("emp", codigoAlunoGrad, "300");
-        Assert.assertEquals(2, alunoGrad.quantidadeDeEmprestimosEmAberto());
-        Assert.assertFalse(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
-
         // Esse livro não tem exemplares disponíveis;
         biblioteca.executeCommand("emp", codigoAlunoGrad, "301");
-        Assert.assertEquals(2, alunoGrad.quantidadeDeEmprestimosEmAberto());
+        Assert.assertEquals(1, alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertFalse(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
 
-        // Terceiro emprestimo bem sucedido do aluno de graduação;
+        // Segundo emprestimo bem sucedido do aluno de graduação;
         // Chegou ao limite maximo de emprestimos do aluno de graduaçao (Limite
-        // Graduação = 3);
+        // Graduação = 2);
         biblioteca.executeCommand("emp", codigoAlunoGrad, "400");
-        Assert.assertEquals(3, alunoGrad.quantidadeDeEmprestimosEmAberto());
+        Assert.assertEquals(2, alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertTrue(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
 
         // A partir daqui, o aluno de graduação não pode mais fazer empréstimos;
         biblioteca.executeCommand("emp", codigoAlunoGrad, "401");
-        Assert.assertEquals(3, alunoGrad.quantidadeDeEmprestimosEmAberto());
+        Assert.assertEquals(2, alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertTrue(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
 
         biblioteca.executeCommand("emp", codigoAlunoGrad, "400");
-        Assert.assertEquals(3, alunoGrad.quantidadeDeEmprestimosEmAberto());
+        Assert.assertEquals(2, alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertTrue(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
 
         biblioteca.executeCommand("emp", codigoAlunoGrad, "500");
-        Assert.assertEquals(3, alunoGrad.quantidadeDeEmprestimosEmAberto());
+        Assert.assertEquals(2, alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertTrue(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
 
         biblioteca.executeCommand("emp", codigoAlunoGrad, "501");
-        Assert.assertEquals(3, alunoGrad.quantidadeDeEmprestimosEmAberto());
+        Assert.assertEquals(2, alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertTrue(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
 
         biblioteca.executeCommand("emp", codigoAlunoGrad, "600");
-        Assert.assertEquals(3, alunoGrad.quantidadeDeEmprestimosEmAberto());
+        Assert.assertEquals(2, alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertTrue(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
 
         biblioteca.executeCommand("emp", codigoAlunoGrad, "100");
@@ -128,7 +123,7 @@ public class EmprestimoCommandTest extends BaseTest {
         biblioteca.executeCommand("emp", codigoAlunoGrad, "100");
         biblioteca.executeCommand("emp", codigoAlunoGrad, "100");
 
-        Assert.assertEquals(3, alunoGrad.quantidadeDeEmprestimosEmAberto());
+        Assert.assertEquals(2, alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertTrue(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
     }
 }
