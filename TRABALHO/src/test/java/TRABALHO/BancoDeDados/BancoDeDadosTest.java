@@ -165,7 +165,7 @@ public class BancoDeDadosTest extends BaseTest {
                 String.valueOf(exemplar2.getCodigoLivro()));
         biblioteca.executeCommand("emp", String.valueOf(alunoGrad.getCodigo()), "200");
 
-        Assert.assertEquals(3, alunoGrad.quantidadeDeEmprestimosEmAberto());
+        Assert.assertEquals(2, alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertEquals(alunoGrad.maxEmprestimos(), alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertTrue(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
 
@@ -174,7 +174,7 @@ public class BancoDeDadosTest extends BaseTest {
 
         biblioteca.executeCommand("dev", String.valueOf(alunoGrad.getCodigo()),
                 String.valueOf(exemplar1.getCodigoLivro()));
-        Assert.assertEquals(2, alunoGrad.quantidadeDeEmprestimosEmAberto());
+        Assert.assertEquals(1, alunoGrad.quantidadeDeEmprestimosEmAberto());
         Assert.assertFalse(alunoGrad.atingiuLimiteMaximoDeEmprestimos());
 
         Assert.assertEquals(db.getEmprestimos(true, alunoGrad.getCodigo()).size(),
@@ -184,6 +184,6 @@ public class BancoDeDadosTest extends BaseTest {
             Assert.assertEquals(alunoGrad, emprestimo.getUsuario());
         });
 
-        Assert.assertEquals(3, db.getAll(Emprestimo.class).size());
+        Assert.assertEquals(2, db.getAll(Emprestimo.class).size());
     }
 }

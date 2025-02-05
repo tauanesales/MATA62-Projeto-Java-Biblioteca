@@ -13,7 +13,7 @@ public class ProfessorTest extends BaseTest {
 
     @Test
     public void tempoDeEmprestimoMaximoTest() {
-        Assert.assertEquals(7 * 24 * 60 * 60 * 1000, professor.tempoDeEmprestimoMaximo());
+        Assert.assertEquals(8 * 24 * 60 * 60 * 1000, professor.tempoDeEmprestimoMaximo());
     }
 
     @Test

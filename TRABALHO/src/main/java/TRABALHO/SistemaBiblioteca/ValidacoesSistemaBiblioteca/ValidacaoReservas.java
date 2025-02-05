@@ -12,8 +12,8 @@ public class ValidacaoReservas extends ValidacaoBase {
 
     public static void validarPodeReservarExemplar(int codigoUsuario, int codigoLivro, IBancoDeDados db)
             throws SistemaBibliotecaException {
-        validarUsuario(codigoUsuario, db);
-        validarLivro(codigoLivro, db);
+        validarUsuarioExiste(codigoUsuario, db);
+        validarLivroExiste(codigoLivro, db);
 
         IUsuario usuario = db.getUsuario(codigoUsuario);
         validarUsuarioNaoTemEmprestimoDoLivro(usuario, codigoLivro);

@@ -12,7 +12,7 @@ public class Professor extends Usuario {
     }
 
     public long tempoDeEmprestimoMaximo() {
-        return 7 * 24 * 60 * 60 * 1000; // 7 dias em milissegundos;
+        return 8 * 24 * 60 * 60 * 1000; // 8 dias em milissegundos;
     }
 
     public Boolean podeSerObservador() {
